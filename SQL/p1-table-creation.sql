@@ -78,3 +78,35 @@ CREATE TABLE ers_reimbursement(
 	FOREIGN KEY (reimb_type_id)
 	REFERENCES ers_reimbursement_type(reimb_type_id)
 );
+
+CREATE SEQUENCE user_id_seq
+MINVALUE 1
+MAXVALUE 99999999999999999
+INCREMENT BY 1
+START WITH 1;
+
+CREATE SEQUENCE reimb_id_seq
+MINVALUE 1
+MAXVALUE 99999999999999999
+INCREMENT BY 1
+START WITH 1;
+
+CREATE OR REPLACE TRIGGER user_id_trigger
+BEFORE INSERT ON ers_users
+FOR EACH row
+BEGIN
+    SELECT user_id_seq.nextval
+    INTO :new.ers_user_id
+    FROM dual;
+END;
+/
+
+CREATE OR REPLACE TRIGGER reimb_id_trigger
+BEFORE INSERT ON ers_reimbursement
+FOR EACH row
+BEGIN
+    SELECT reimb_id_seq.nextval
+    INTO :new.reimb_id
+    FROM dual;
+END;
+/
