@@ -7,6 +7,7 @@ import com.revature.models.User;
 public class UserDAO implements DAO<User>{
 
 	public List<User> getByCredetials(String username, String password){
+		
 		return null;
 	}
 	
