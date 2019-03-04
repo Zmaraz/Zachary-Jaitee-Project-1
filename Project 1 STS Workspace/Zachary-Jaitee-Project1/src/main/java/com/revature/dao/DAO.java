@@ -1,10 +1,10 @@
 package com.revature.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface DAO<T> {
 	
-	List<T> getAll();
+	ArrayList<T> getAll();
 	T getById(int id);
 	T add(T obj);
 	T update(T updatedObj);
