@@ -148,8 +148,8 @@ public class TicketDAO implements DAO<Ticket>{
 	}
 
 	@Override
-	public Ticket update(Ticket updatedObj) {
-		// TODO Auto-generated method stub
+	public ArrayList<Ticket> update(Ticket updatedObj) {
+		
 		return null;
 	}
 
