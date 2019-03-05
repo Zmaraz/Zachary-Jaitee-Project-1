@@ -61,8 +61,9 @@ CREATE OR REPLACE PROCEDURE get_reimbursement_by_id
 IS
 BEGIN
     OPEN this_cursor FOR
-        SELECT reimb_id, reimb_amount, reimb_submitted, reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
-        u.user_first_name as author_fn, u.user_last_name as author_ln
+        SELECT reimb_id, reimb_amount, reimb_submitted, reimb_resolved , reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
+        u.user_first_name as author_fn, u.user_last_name as author_ln, u.ers_user_id as author_id,
+        ad.user_first_name as resolver_fn, ad.user_last_name as resolver_ln, ad.ers_user_id as resolver_id
             FROM ers_reimbursement reimb
             JOIN ers_reimbursement_type t
                 ON reimb.reimb_type_id = t.reimb_type_id
@@ -70,7 +71,9 @@ BEGIN
                 ON reimb.reimb_status_id = s.reimb_status_id
             JOIN ers_users u
             ON reimb.reimb_author = u.ers_user_id
-        WHERE u.ers_user_id = user_id;
+            LEFT OUTER JOIN ers_users ad
+            ON reimb.reimb_resolver = ad.ers_user_id
+        WHERE u.ers_user_id = 32;
 END;
 /
 
