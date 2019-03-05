@@ -16,9 +16,33 @@ import util.ConnectionFactory;
 
 public class UserDAO implements DAO<User>{
 
-	public List<User> getByCredetials(String username, String password){
+	public User getByCredetials(String username, String password){
+		User user = new User();
 		
-		return null;
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users u JOIN ers_user_roles r ON u.user_role_id = r.ers_user_role_id WHERE ers_username = ? AND ers_password = ?");
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				user.setUserId(rs.getInt("ers_user_id"));
+				user.setUsername(rs.getString("ers_username"));
+				user.setPassword(rs.getString("ers_password"));
+				user.setFirstName(rs.getString("user_first_name"));
+				user.setLastName(rs.getString("user_last_name"));
+				user.setEmail(rs.getString("user_email"));
+				user.setRole(UserRole.valueOf(rs.getString("user_role")));
+			}
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return user;
 	}
 	
 	// Basic CRUD methods from DAO -----------------------------------------------------------
@@ -29,6 +53,7 @@ public class UserDAO implements DAO<User>{
 		ArrayList<User> users = new ArrayList<>();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			System.out.println("connection made!");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM ers_users u JOIN ers_user_roles r ON u.user_role_id = r.ers_user_role_id");
 			
@@ -41,6 +66,8 @@ public class UserDAO implements DAO<User>{
 				temp.setLastName(rs.getString("user_last_name"));
 				temp.setEmail(rs.getString("user_email"));
 				temp.setRole(UserRole.valueOf(rs.getString("user_role")));
+				
+				users.add(temp);
 			}
 			
 		}catch(SQLException e) {
@@ -56,7 +83,19 @@ public class UserDAO implements DAO<User>{
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			
-			PreparedStatement pstmt = conn.prepareCall("SELECT * FROM ers_users u JOIN ers_user_roles r ON u.user_role_id = r.ers_user_role_id WHERE ers_user_id = ?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users u JOIN ers_user_roles r ON u.user_role_id = r.ers_user_role_id WHERE ers_user_id = ?");
+			pstmt.setInt(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				user.setUserId(rs.getInt("ers_user_id"));
+				user.setUsername(rs.getString("ers_username"));
+				user.setPassword(rs.getString("ers_password"));
+				user.setFirstName(rs.getString("user_first_name"));
+				user.setLastName(rs.getString("user_last_name"));
+				user.setEmail(rs.getString("user_email"));
+				user.setRole(UserRole.valueOf(rs.getString("user_role")));
+			}
 			
 			
 		}catch(SQLException e) {
@@ -67,19 +106,22 @@ public class UserDAO implements DAO<User>{
 		return user;
 	}
 
+	
 	@Override
 	public User add(User newUser) {
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			conn.setAutoCommit(false);
 			
 			String[] keys = new String[1];
-			keys[0] = "user_id";
+			keys[0] = "ers_user_id";
 			
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (0, ?, ?, ?, ?, 'CLIENT')", keys);
+			//the value for the Role_id is set to 1, for employee, as manager users must be created on the DB side
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (0, ?, ?, ?, ?, ?, 1)", keys);
 			pstmt.setString(1, newUser.getUsername());
 			pstmt.setString(2, newUser.getPassword());
 			pstmt.setString(3, newUser.getFirstName());
 			pstmt.setString(4, newUser.getLastName());
+			pstmt.setString(5, newUser.getEmail());
 			
 			int rowsInserted = pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -88,6 +130,7 @@ public class UserDAO implements DAO<User>{
 				while(rs.next()) {
 					newUser.setUserId(rs.getInt(1));
 				}
+				
 				conn.commit();
 			}
 			
@@ -100,18 +143,17 @@ public class UserDAO implements DAO<User>{
 		if(newUser.getUserId() == 0) {
 			return null;
 		}
+		
 		return newUser;
 	}
 
 	@Override
 	public User update(User updatedObj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
