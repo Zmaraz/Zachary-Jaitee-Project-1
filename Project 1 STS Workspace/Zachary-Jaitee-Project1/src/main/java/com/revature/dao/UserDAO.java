@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.revature.models.User;
 import com.revature.models.enums.UserRole;
