@@ -1,4 +1,5 @@
 --stuff
+
 INSERT INTO ers_reimbursement_status VALUES (0, 'PENDING');
 INSERT INTO ers_reimbursement_status VALUES (1, 'APPROVED');
 INSERT INTO ers_reimbursement_status VALUES (2, 'DENIED');
