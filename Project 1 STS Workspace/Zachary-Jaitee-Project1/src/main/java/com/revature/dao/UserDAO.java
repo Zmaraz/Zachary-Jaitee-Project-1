@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +68,39 @@ public class UserDAO implements DAO<User>{
 	}
 
 	@Override
-	public User add(User obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public User add(User newUser) {
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			conn.setAutoCommit(false);
+			
+			String[] keys = new String[1];
+			keys[0] = "user_id";
+			
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (0, ?, ?, ?, ?, 'CLIENT')", keys);
+			pstmt.setString(1, newUser.getUsername());
+			pstmt.setString(2, newUser.getPassword());
+			pstmt.setString(3, newUser.getFirstName());
+			pstmt.setString(4, newUser.getLastName());
+			
+			int rowsInserted = pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if(rowsInserted != 0) {
+				while(rs.next()) {
+					newUser.setUserId(rs.getInt(1));
+				}
+				conn.commit();
+			}
+			
+		}catch(SQLIntegrityConstraintViolationException sie){
+			System.out.println("ERROR - Username already taken!");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(newUser.getUserId() == 0) {
+			return null;
+		}
+		return newUser;
 	}
 
 	@Override
