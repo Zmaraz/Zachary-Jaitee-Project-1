@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import com.revature.models.Ticket;
 import com.revature.models.enums.ReimbursementStatus;
 import com.revature.models.enums.ReimbursementType;
+import com.revature.models.enums.UserRole;
 
 import oracle.jdbc.OracleTypes;
 import util.ConnectionFactory;
 
 public class TicketDAO implements DAO<Ticket>{
+	
 	
 	public ArrayList<Ticket> ticketMaker(ResultSet results) throws SQLException{
 		ArrayList<Ticket> ticketList = new ArrayList<>();
@@ -46,6 +48,25 @@ public class TicketDAO implements DAO<Ticket>{
 		}
 		return ticketList;
 	}
+	
+	public ArrayList<Ticket> getByAuthorId(int authorId){
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			
+			CallableStatement cstmt = conn.prepareCall("{CALL get_reimbursement_by_id(?, ?)}");
+			cstmt.setInt(1, authorId);
+			cstmt.registerOutParameter(2, OracleTypes.CURSOR);
+			if(!cstmt.execute()) {
+				return ticketMaker((ResultSet)cstmt.getObject(2));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
 
 	@Override
 	public ArrayList<Ticket> getAll() {
@@ -73,8 +94,7 @@ public class TicketDAO implements DAO<Ticket>{
 	}
 
 	@Override
-	public Ticket getById(int id) {
-		// TODO Auto-generated method stub
+	public Ticket getById(int ticketId) {
 		return null;
 	}
 

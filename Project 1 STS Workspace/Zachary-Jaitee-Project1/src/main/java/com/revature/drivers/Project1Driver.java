@@ -11,12 +11,6 @@ public class Project1Driver {
 		
 		TicketDAO ticketDao = new TicketDAO();
 		
-		ArrayList<Ticket> ticketList = ticketDao.getAll();
-		if(ticketList == null) {
-			System.out.println("is null");
-		}
-		for(Ticket t : ticketList) {
-			System.out.println(t);
-		}
+		
 	}
 }
