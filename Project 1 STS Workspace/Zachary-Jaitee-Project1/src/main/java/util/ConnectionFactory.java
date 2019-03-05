@@ -26,13 +26,13 @@ public class ConnectionFactory {
 	
 	public Connection getConnection() {
 		Connection conn = null;
-		
+		System.out.println("in connection factory getConnection");
 		Properties prop = new Properties();
 		
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			
-			prop.load(new FileReader("src/main/resources/application.properties"));
+			prop.load(new FileReader("C:\\Users\\maraz\\Documents\\Revature\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
 			
 			conn = DriverManager.getConnection(
 					prop.getProperty("url"),
@@ -44,6 +44,9 @@ public class ConnectionFactory {
 			fnfe.printStackTrace();
 		} catch (IOException ioe) {
 			log.error(ioe.getMessage());
+		}
+		if(conn == null) {
+			System.out.println("conn is null");
 		}
 		return conn;
 	}
