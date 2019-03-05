@@ -16,19 +16,13 @@ COMMIT;
 --USER------------------VALUES (id, username, password, fname, lname, email, role
 INSERT INTO ers_users VALUES (0, 'asdf','asdf','asdf','asdf','asdf@asdf.com',2);
 INSERT INTO ers_users VALUES (0, 'jpitts','12345','Jaitee','Pitts','jpitts@asdf.com',2);
+INSERT INTO ers_users VALUES (0, 'zmaraz','5678','Zachary','Marazita','zmaraz@asdf.com',1);
 
 -- TICKET --VALUES(id, amount, time submitted, time resolved, descr, recipt, author, resolver, status id, type id)
-INSERT INTO ers_reimbursement 
-    VALUES (0, 
-        9.99,
-        null,
-        null,
-        'here is a description',
-        null,
-        1,
-        null, 
-        0,
-        1);
+INSERT INTO ers_reimbursement VALUES (
+    1, 9.99, NULL, NULL,'here is a description',NULL,1,NULL,0,2);
+    INSERT INTO ers_reimbursement VALUES (
+    0, 39.99, NULL, NULL,'hahaha',NULL,1,21,2,4);
 
 --get all info from users
 SELECT *
@@ -62,6 +56,60 @@ SELECT reimb_id, reimb_amount, reimb_submitted, reimb_description, reimb_receipt
         ON reimb.reimb_status_id = s.reimb_status_id
     JOIN ers_users u
     ON reimb.reimb_author = u.ers_user_id;
+    
+SELECT reimb_id, reimb_amount, reimb_submitted, reimb_resolved , reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
+        u.user_first_name as author_fn, u.user_last_name as author_ln, 
+        ad.user_first_name as resolver_fn, ad.user_last_name as resolver_ln
+    FROM ers_reimbursement reimb
+    JOIN ers_reimbursement_type t
+        ON reimb.reimb_type_id = t.reimb_type_id
+    JOIN ers_reimbursement_status s
+        ON reimb.reimb_status_id = s.reimb_status_id
+    JOIN ers_users u
+    ON reimb.reimb_author = u.ers_user_id
+    LEFT OUTER JOIN ers_users ad
+    ON reimb.reimb_resolver = ad.ers_user_id;
+    
+CREATE OR REPLACE PROCEDURE get_reimbursement_by_id
+                            (user_id IN NUMBER,
+                            this_cursor OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN this_cursor FOR
+        SELECT reimb_id, reimb_amount, reimb_submitted, reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
+        u.user_first_name as author_fn, u.user_last_name as author_ln
+            FROM ers_reimbursement reimb
+            JOIN ers_reimbursement_type t
+                ON reimb.reimb_type_id = t.reimb_type_id
+            JOIN ers_reimbursement_status s
+                ON reimb.reimb_status_id = s.reimb_status_id
+            JOIN ers_users u
+            ON reimb.reimb_author = u.ers_user_id
+        WHERE u.ers_user_id = user_id;
+END;
+/
+
+--get all reimbursements
+
+CREATE OR REPLACE PROCEDURE get_all_reimbursements
+                    (this_cursor OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN this_cursor FOR
+    SELECT reimb_id, reimb_amount, reimb_submitted, reimb_resolved , reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
+        u.user_first_name as author_fn, u.user_last_name as author_ln, 
+        ad.user_first_name as resolver_fn, ad.user_last_name as resolver_ln
+    FROM ers_reimbursement reimb
+    JOIN ers_reimbursement_type t
+        ON reimb.reimb_type_id = t.reimb_type_id
+    JOIN ers_reimbursement_status s
+        ON reimb.reimb_status_id = s.reimb_status_id
+    JOIN ers_users u
+    ON reimb.reimb_author = u.ers_user_id
+    LEFT OUTER JOIN ers_users ad
+    ON reimb.reimb_resolver = ad.ers_user_id;
+END;
+/
     
 ----
 SELECT reimb_id, reimb_amount, reimb_submitted, reimb_description, reimb_receipt, s.reimb_status, t.reimb_type,
