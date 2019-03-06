@@ -75,6 +75,36 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE get_by_reimb_id (
+    ticket_id     IN            NUMBER,
+    this_cursor   OUT           SYS_REFCURSOR
+) IS
+BEGIN
+    OPEN this_cursor FOR SELECT
+                             reimb_id,
+                             reimb_amount,
+                             reimb_submitted,
+                             reimb_resolved,
+                             reimb_description,
+                             reimb_receipt,
+                             s.reimb_status,
+                             t.reimb_type,
+                             u.user_first_name    AS author_fn,
+                             u.user_last_name     AS author_ln,
+                             ad.user_first_name   AS resolver_fn,
+                             ad.user_last_name    AS resolver_ln
+                         FROM
+                             ers_reimbursement          reimb
+                             JOIN ers_reimbursement_type     t ON reimb.reimb_type_id = t.reimb_type_id
+                             JOIN ers_reimbursement_status   s ON reimb.reimb_status_id = s.reimb_status_id
+                             JOIN ers_users                  u ON reimb.reimb_author = u.ers_user_id
+                             LEFT OUTER JOIN ers_users                  ad ON reimb.reimb_resolver = ad.ers_user_id
+                         WHERE
+                             u.ers_user_id = user_id;
+
+END;
+/
+
 --get all reimbursements
 
 CREATE OR REPLACE PROCEDURE get_all_reimbursements
