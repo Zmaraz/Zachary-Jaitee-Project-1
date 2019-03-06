@@ -72,6 +72,20 @@ public class Ticket {
 	}
 
 	
+	public int getStatusId() {
+		switch(this.getStatus()) {
+		case PENDING:
+			return 0;
+		case APPROVED:
+			return 1;
+		case DENIED:
+			return 2;
+		}
+		
+		return 0;
+	}
+	
+	
 	// Getters and Setters --------------------------------------------------------------------------------------
 	
 	public int getReimbId() {

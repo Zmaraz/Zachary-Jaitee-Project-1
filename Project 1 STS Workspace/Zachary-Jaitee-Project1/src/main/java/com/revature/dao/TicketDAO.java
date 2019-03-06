@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import com.revature.models.Ticket;
 import com.revature.models.enums.ReimbursementStatus;
 import com.revature.models.enums.ReimbursementType;
-import com.revature.models.enums.UserRole;
 
 import oracle.jdbc.OracleTypes;
 import util.ConnectionFactory;
@@ -96,7 +95,58 @@ public class TicketDAO implements DAO<Ticket>{
 
 	@Override
 	public Ticket getById(int ticketId) {
-		return null;
+		
+		Ticket ticket = new Ticket();
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_id = ?");
+			pstmt.setInt(1, ticketId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ticket.setReimbId(rs.getInt("reimb_id"));
+				ticket.setAmount(rs.getDouble("reimb_amount"));
+				ticket.setTimeSubmitted(rs.getString("reimb_submitted"));
+				ticket.setTimeResolved(rs.getString("reimb_resolved"));
+				ticket.setTicketDescription(rs.getString("reimb_description"));
+				ticket.setAuthorId(rs.getInt("reimb_author"));
+				ticket.setResolverId(rs.getInt("reimb_resolver"));
+				
+				switch(rs.getInt("reimb_status_id")) {
+				case 0:
+					ticket.setStatus(ReimbursementStatus.PENDING);
+					break;
+				case 1:
+					ticket.setStatus(ReimbursementStatus.APPROVED);
+					break;
+				case 2:
+					ticket.setStatus(ReimbursementStatus.DENIED);
+					break;
+				}
+				
+				switch(rs.getInt("reimb_type_id")) {
+				case 1:
+					ticket.setType(ReimbursementType.LODGING);
+					break;
+				case 2:
+					ticket.setType(ReimbursementType.TRAVEL);
+					break;
+				case 3:
+					ticket.setType(ReimbursementType.FOOD);
+					break;
+				case 4:
+					ticket.setType(ReimbursementType.OTHER);
+					break;
+				}
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ticket;
 	}
 
 	@Override
@@ -148,7 +198,32 @@ public class TicketDAO implements DAO<Ticket>{
 	}
 
 //	@Override
-	public ArrayList<Ticket> update(Ticket updatedObj) {
+	public ArrayList<Ticket> update(ArrayList<Ticket> updatedTickets) {
+		ArrayList<Ticket> newTicketList = new ArrayList<>();
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+			conn.setAutoCommit(false);
+			
+			String sql = "UPDATE ers_reimbursement SET reimb_status_id = ?, reimb_resolver = ? WHERE reimb_id = ?";
+			
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			for(Ticket t : updatedTickets) {
+				pstmt.setInt(1, t.getStatusId());
+				pstmt.setInt(2, t.getResolverId());
+				pstmt.setInt(3, t.getReimbId());
+				
+				if(pstmt.executeUpdate() == 0) {
+					return null;
+				}
+				newTicketList.add(t);
+			}
+			conn.commit();
+			return newTicketList;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return null;
 	}
