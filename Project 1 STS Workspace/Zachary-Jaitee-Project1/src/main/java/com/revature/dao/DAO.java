@@ -7,6 +7,6 @@ public interface DAO<T> {
 	ArrayList<T> getAll();
 	T getById(int id);
 	T add(T obj);
-	T update(T updatedObj);
+//	ArrayList<T> update(T updatedObj);
 	boolean delete(int id);
 }

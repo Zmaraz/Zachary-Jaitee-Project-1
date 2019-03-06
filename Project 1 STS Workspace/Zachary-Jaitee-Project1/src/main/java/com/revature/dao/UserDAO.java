@@ -146,8 +146,8 @@ public class UserDAO implements DAO<User>{
 		return newUser;
 	}
 
-	@Override
-	public User update(User updatedObj) {
+//	@Override
+	public ArrayList<User> update(User updatedObj) {
 		return null;
 	}
 
