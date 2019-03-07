@@ -28,6 +28,7 @@ INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'timestamp test',NULL
 UPDATE ers_reimbursement 
 SET reimb_status_id = 1, reimb_resolver = 2
 WHERE reimb_id = 1;
+--1
 
 --get all info from users
 SELECT ers_user_id, ers_username, ers_password, user_first_name, user_last_name, user_email, r.user_role
