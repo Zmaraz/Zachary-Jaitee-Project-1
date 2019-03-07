@@ -1,8 +1,11 @@
+DROP TABLE ERS_REIMBURSEMENT;
+DROP TABLE ERS_USERS;
 DROP TABLE ERS_USER_ROLES;
 DROP TABLE ERS_REIMBURSEMENT_STATUS;
 DROP TABLE ERS_REIMBURSEMENT_TYPE;
-DROP TABLE ERS_USERS;
-DROP TABLE ERS_REIMBURSEMENT;
+
+DROP SEQUENCE user_id_seq;
+DROP SEQUENCE reimb_id_seq;
 
 CREATE TABLE ers_user_roles(
 	ers_user_role_id	NUMBER,
@@ -44,8 +47,8 @@ CREATE TABLE ers_users(
 	CONSTRAINT user_roles_fk
 	FOREIGN KEY (user_role_id)
 	REFERENCES ers_user_roles(ers_user_role_id)
+    ON DELETE CASCADE
 );
-
 
 CREATE TABLE ers_reimbursement(
 	reimb_id			NUMBER,
@@ -64,26 +67,32 @@ CREATE TABLE ers_reimbursement(
 	
 	CONSTRAINT ers_user_fk_auth
 	FOREIGN KEY (reimb_author)
-	REFERENCES ERS_USERS(ers_user_id),
+	REFERENCES ERS_USERS(ers_user_id)
+    ON DELETE CASCADE,
 	
 	CONSTRAINT ers_users_fk_reslvr
 	FOREIGN KEY (reimb_resolver)
-	REFERENCES ers_users(ers_user_id),
+	REFERENCES ers_users(ers_user_id)
+    ON DELETE CASCADE,
 	
 	CONSTRAINT ers_reimbursement_status_fk
 	FOREIGN KEY (reimb_status_id)
-	REFERENCES ers_reimbursement_status(reimb_status_id),
+	REFERENCES ers_reimbursement_status(reimb_status_id)
+    ON DELETE CASCADE,
 	
 	CONSTRAINT ers_reimbursement_type_fk
 	FOREIGN KEY (reimb_type_id)
 	REFERENCES ers_reimbursement_type(reimb_type_id)
+    ON DELETE CASCADE
 );
+
 
 CREATE SEQUENCE user_id_seq
 MINVALUE 1
 MAXVALUE 99999999999999999
 INCREMENT BY 1
 START WITH 1;
+
 
 CREATE SEQUENCE reimb_id_seq
 MINVALUE 1
@@ -114,16 +123,12 @@ BEGIN
 END;
 /
 
---CREATE OR REPLACE TRIGGER transaction_trigger
---BEFORE INSERT ON transactions
---FOR EACH ROW
---BEGIN
---    SELECT transaction_pk_seq.NEXTVAL
---    INTO :new.transaction_id
---    FROM dual;
---    SELECT 
---        sysdate
---    INTO :new.time_added
---    FROM dual;
---END;
---/
+CREATE OR REPLACE TRIGGER reimb_resolved_trigger
+BEFORE UPDATE ON ers_reimbursement
+FOR EACH row
+BEGIN
+    SELECT sysdate
+    INTO :new.reimb_resolved
+    FROM dual;
+END;
+/
