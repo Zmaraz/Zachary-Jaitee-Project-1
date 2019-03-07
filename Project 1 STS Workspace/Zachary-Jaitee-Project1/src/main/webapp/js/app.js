@@ -1,5 +1,10 @@
-const appbody = document.getElementById('appbody');
-document.getElementById('log-in').addEventListener('click', loadLogin);
+window.onload = () =>{
+    console.log("in window.onload()");
+    const appbody = document.getElementById('appbody');
+    document.getElementById('log-in').addEventListener('click', loadLogin);
+}
+
+
 
 //get request to view servlet
 async function loadLogin(){
@@ -20,9 +25,10 @@ function configureLogin(){
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
+    console.log("in fetchView()");
     let response = await fetch(uri, {
         method: 'GET',
-        mode: 'CORS',
+        mode: 'cors',
         headers: {
             'headers': 'for later'
         }
