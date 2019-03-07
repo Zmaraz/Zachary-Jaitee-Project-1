@@ -18,13 +18,17 @@ public class TicketService {
 	}
 	
 	public Ticket getById(int ticketId) {
+		if(ticketId <= 0)
+			return null;
 		return ticketDao.getById(ticketId);
 	}
 	
+	//work in progress
 	public Ticket add(Ticket newTicket) {
 		return ticketDao.add(newTicket);
 	}
 	
+	//work in progress
 	public ArrayList<Ticket> update(ArrayList<Ticket> updatedTickets){
 		return ticketDao.update(updatedTickets);
 	}
