@@ -40,7 +40,8 @@ public class UserDAO implements DAO<User>{
 			e.printStackTrace();
 		}
 		
-		
+		if(user.getUserId() == 0)
+			return null;
 		return user;
 	}
 	
@@ -101,7 +102,8 @@ public class UserDAO implements DAO<User>{
 			e.printStackTrace();
 		}
 		
-		
+		if(user.getUserId() == 0)
+			return null;
 		return user;
 	}
 
@@ -142,7 +144,6 @@ public class UserDAO implements DAO<User>{
 		if(newUser.getUserId() == 0) {
 			return null;
 		}
-		
 		return newUser;
 	}
 
