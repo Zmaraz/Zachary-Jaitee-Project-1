@@ -25,8 +25,10 @@ public class ConnectionFactory {
 	}
 	
 	public Connection getConnection() {
+		log.info("in ConnectionFactory.getConnection()");
+		
 		Connection conn = null;
-		System.out.println("in connection factory getConnection");
+		
 		Properties prop = new Properties();
 		
 		try {
@@ -46,7 +48,8 @@ public class ConnectionFactory {
 			log.error(ioe.getMessage());
 		}
 		if(conn == null) {
-			System.out.println("conn is null");
+			log.warn("conn is null");
+			
 		}
 		return conn;
 	}
