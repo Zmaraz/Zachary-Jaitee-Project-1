@@ -8,14 +8,19 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.revature.models.User;
 import com.revature.models.enums.UserRole;
 
 import util.ConnectionFactory;
 
 public class UserDAO implements DAO<User>{
-
+	private static Logger log = Logger.getLogger(UserDAO.class);
+	
 	public User getByCredetials(String username, String password){
+		log.info("in UserDAO.getByCredentials()");
+		
 		User user = new User();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -37,6 +42,7 @@ public class UserDAO implements DAO<User>{
 			
 			
 		}catch(SQLException e) {
+			log.warn("SQLException caught in UserDAO.getByCredentials()");
 			e.printStackTrace();
 		}
 		
@@ -49,6 +55,7 @@ public class UserDAO implements DAO<User>{
 	
 	@Override
 	public ArrayList<User> getAll() {
+		log.info("in UserDAO.getAll()");
 		
 		ArrayList<User> users = new ArrayList<>();
 		
@@ -71,6 +78,7 @@ public class UserDAO implements DAO<User>{
 			}
 			
 		}catch(SQLException e) {
+			log.warn("SQLException caught in UserDAO.getAll()");
 			e.printStackTrace();
 		}
 		
@@ -79,6 +87,8 @@ public class UserDAO implements DAO<User>{
 
 	@Override
 	public User getById(int userId) {
+		log.info("in UserDAO.getById()");
+		
 		User user = new User();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -99,6 +109,7 @@ public class UserDAO implements DAO<User>{
 			
 			
 		}catch(SQLException e) {
+			log.warn("SQLException caught in UserDAO.getById()");
 			e.printStackTrace();
 		}
 		
@@ -110,6 +121,8 @@ public class UserDAO implements DAO<User>{
 	
 	@Override
 	public User add(User newUser) {
+		log.info("in UserDAO.add()");
+		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			conn.setAutoCommit(false);
 			
@@ -136,8 +149,9 @@ public class UserDAO implements DAO<User>{
 			}
 			
 		}catch(SQLIntegrityConstraintViolationException sie){
-			System.out.println("ERROR - Username already taken!");
+			log.warn("SQLIntegrityConstraintViolationException caught in UserDAO.add()");
 		}catch(SQLException e) {
+			log.warn("SQLException caught in UserDAO.add()");
 			e.printStackTrace();
 		}
 		
@@ -149,11 +163,15 @@ public class UserDAO implements DAO<User>{
 
 //	@Override
 	public ArrayList<User> update(User updatedObj) {
+		log.info("in UserDAO.update()");
+		
 		return null;
 	}
 
 	@Override
 	public boolean delete(int id) {
+		log.info("in UserDAO.delete()");
+		
 		return false;
 	}
 }
