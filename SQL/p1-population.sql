@@ -25,6 +25,11 @@ delete from ers_reimbursement WHERE reimb_id = 3;
 INSERT INTO ers_reimbursement VALUES (0, 39.99, NULL, NULL,'hahaha',NULL,37,23,2,4);
 INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'timestamp test',NULL,32,null,0,2);
 
+-- checking that update trigger works to add resolved timestamp when updating the status of the ticket
+UPDATE ers_reimbursement 
+SET reimb_status_id = 1
+WHERE reimb_id = 61;
+
 --get all info from users
 SELECT ers_user_id, ers_username, ers_password, user_first_name, user_last_name, user_email, r.user_role
 FROM ers_users u

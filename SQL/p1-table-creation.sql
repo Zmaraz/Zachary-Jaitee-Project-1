@@ -114,6 +114,15 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER reimb_resolved_trigger
+BEFORE UPDATE ON ers_reimbursement
+FOR EACH row
+BEGIN
+    SELECT sysdate
+    INTO :new.reimb_resolved
+    FROM dual;
+END;
+/
 --CREATE OR REPLACE TRIGGER transaction_trigger
 --BEFORE INSERT ON transactions
 --FOR EACH ROW
