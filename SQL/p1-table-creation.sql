@@ -49,19 +49,6 @@ CREATE TABLE ers_users(
 	REFERENCES ers_user_roles(ers_user_role_id)
     ON DELETE CASCADE
 );
---ALTER TABLE ers_users
---DROP constraint user_roles_fk;
---
---ALTER TABLE ers_users
---    ADD	CONSTRAINT user_roles_fk
---	FOREIGN KEY (user_role_id)
---	REFERENCES ers_user_roles(ers_user_role_id)
---    ON DELETE CASCADE;
---ALTER TABLE child_table_name 
---  ADD CONSTRAINT fk_name 
---  FOREIGN KEY (child_column_name) 
---  REFERENCES parent_table_name(parent_column_name) 
---  ON DELETE CASCADE;
 
 CREATE TABLE ers_reimbursement(
 	reimb_id			NUMBER,
@@ -98,35 +85,6 @@ CREATE TABLE ers_reimbursement(
 	REFERENCES ers_reimbursement_type(reimb_type_id)
     ON DELETE CASCADE
 );
---ALTER TABLE ers_reimbursement
---DROP constraint ers_user_fk_auth;
---ALTER TABLE ers_reimbursement
---DROP constraint ers_users_fk_reslvr;
---ALTER TABLE ers_reimbursement
---DROP constraint ers_reimbursement_status_fk;
---ALTER TABLE ers_reimbursement
---DROP constraint ers_reimbursement_type_fk;
---
---ALTER TABLE ers_reimbursement
---    ADD	CONSTRAINT ers_user_fk_auth
---	FOREIGN KEY (reimb_author)
---	REFERENCES ERS_USERS(ers_user_id)
---    ON DELETE CASCADE;
---ALTER TABLE ers_reimbursement
---    ADD	CONSTRAINT ers_users_fk_reslvr
---	FOREIGN KEY (reimb_resolver)
---	REFERENCES ers_users(ers_user_id)
---    ON DELETE CASCADE;
---ALTER TABLE ers_reimbursement
---    ADD	CONSTRAINT ers_reimbursement_status_fk
---	FOREIGN KEY (reimb_status_id)
---	REFERENCES ers_reimbursement_status(reimb_status_id)
---    ON DELETE CASCADE;
---ALTER TABLE ers_reimbursement
---    ADD	CONSTRAINT ers_reimbursement_type_fk
---	FOREIGN KEY (reimb_type_id)
---	REFERENCES ers_reimbursement_type(reimb_type_id)
---    ON DELETE CASCADE;
 
 
 CREATE SEQUENCE user_id_seq
@@ -174,16 +132,3 @@ BEGIN
     FROM dual;
 END;
 /
---CREATE OR REPLACE TRIGGER transaction_trigger
---BEFORE INSERT ON transactions
---FOR EACH ROW
---BEGIN
---    SELECT transaction_pk_seq.NEXTVAL
---    INTO :new.transaction_id
---    FROM dual;
---    SELECT 
---        sysdate
---    INTO :new.time_added
---    FROM dual;
---END;
---/
