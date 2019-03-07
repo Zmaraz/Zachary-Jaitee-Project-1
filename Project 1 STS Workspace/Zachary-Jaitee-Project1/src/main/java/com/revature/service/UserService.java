@@ -29,6 +29,8 @@ public class UserService {
 		return userDao.getById(userId);
 	}
 	
+	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique
+	// in order to not have to make seprate DAO calls and make seperate connections
 	public User add(User newUser) throws ConflictingUserException{
 		ArrayList<User> userList = userDao.getAll();
 		
@@ -49,5 +51,4 @@ public class UserService {
 	public boolean delete(int userId) {
 		return userDao.delete(userId); // will currently always return false
 	}
-
 }
