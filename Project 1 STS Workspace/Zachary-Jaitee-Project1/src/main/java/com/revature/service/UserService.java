@@ -3,9 +3,8 @@ package com.revature.service;
 import java.util.ArrayList;
 
 import com.revature.dao.UserDAO;
+import com.revature.exceptions.ConflictingUserException;
 import com.revature.models.User;
-
-import exceptions.ConflictingUserException;
 
 public class UserService {
 	

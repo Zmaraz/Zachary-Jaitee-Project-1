@@ -1,4 +1,4 @@
-package exceptions;
+package com.revature.exceptions;
 
 public class ConflictingUserException extends Exception{
 
