@@ -40,6 +40,7 @@ public class UserService {
 		ArrayList<User> userList = userDao.getAll();
 		
 		for(User u : userList) {
+			// potential change: turn || into &&, depending on if the username and email are supposed to be individually unique or compositely unique
 			if(newUser.getUsername().equals(u.getUsername()) || newUser.getEmail().equals(u.getEmail())) {
 				log.warn("ConflictingUserException thrown in UserService.add()");
 				throw new ConflictingUserException("Username or Email already taken");

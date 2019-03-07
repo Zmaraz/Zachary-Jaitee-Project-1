@@ -14,8 +14,8 @@ async function loadLogin(){
     configureLogin();
 }
 
-function login (){
-    
+async function login (){
+
 }
 
 function configureLogin(){
