@@ -1,4 +1,4 @@
-package util;
+package com.revature.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,14 +25,17 @@ public class ConnectionFactory {
 	}
 	
 	public Connection getConnection() {
+		log.info("in ConnectionFactory.getConnection()");
+		
 		Connection conn = null;
-		System.out.println("in connection factory getConnection");
+		
 		Properties prop = new Properties();
 		
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			
-			prop.load(new FileReader("C:\\Users\\maraz\\Documents\\Revature\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
+//			prop.load(new FileReader("C:\\Users\\maraz\\Documents\\Revature\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
+			prop.load(new FileReader("C:\\Users\\Jaitee\\Rrepos\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
 			
 			conn = DriverManager.getConnection(
 					prop.getProperty("url"),
@@ -46,7 +49,8 @@ public class ConnectionFactory {
 			log.error(ioe.getMessage());
 		}
 		if(conn == null) {
-			System.out.println("conn is null");
+			log.warn("conn is null");
+			
 		}
 		return conn;
 	}

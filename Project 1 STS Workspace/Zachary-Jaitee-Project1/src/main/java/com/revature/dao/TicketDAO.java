@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import com.revature.models.Ticket;
 import com.revature.models.enums.ReimbursementStatus;
 import com.revature.models.enums.ReimbursementType;
+import com.revature.util.ConnectionFactory;
 
 import oracle.jdbc.OracleTypes;
-import util.ConnectionFactory;
 
 public class TicketDAO implements DAO<Ticket>{
 	
