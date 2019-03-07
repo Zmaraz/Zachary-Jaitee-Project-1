@@ -12,8 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.models.User;
 import com.revature.models.enums.UserRole;
-
-import util.ConnectionFactory;
+import com.revature.util.ConnectionFactory;
 
 public class UserDAO implements DAO<User>{
 	private static Logger log = Logger.getLogger(UserDAO.class);

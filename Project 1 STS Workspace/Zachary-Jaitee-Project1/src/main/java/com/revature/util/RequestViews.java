@@ -1,4 +1,4 @@
-package util;
+package com.revature.util;
 
 import javax.servlet.http.HttpServletRequest;
 

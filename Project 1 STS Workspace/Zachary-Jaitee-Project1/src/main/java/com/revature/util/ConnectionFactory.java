@@ -1,4 +1,4 @@
-package util;
+package com.revature.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
