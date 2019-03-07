@@ -33,11 +33,20 @@ public class UserService {
 		return userDao.getById(userId);
 	}
 	
+	private boolean isValid(String value) {
+		if(value.length() < 2) {
+			return false;
+		}
+		return false;
+	}
+	
 	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique
 	// in order to not have to make seprate DAO calls and make seperate connections
 	public User add(User newUser) throws ConflictingUserException{
 		log.info("in UserService.add()");
 		ArrayList<User> userList = userDao.getAll();
+		isValid(newUser.getUsername().trim());
+		
 		
 		for(User u : userList) {
 			// potential change: turn || into &&, depending on if the username and email are supposed to be individually unique or compositely unique
