@@ -108,5 +108,22 @@ BEGIN
     SELECT reimb_id_seq.nextval
     INTO :new.reimb_id
     FROM dual;
+    SELECT sysdate
+    INTO :new.reimb_submitted
+    FROM dual;
 END;
 /
+
+--CREATE OR REPLACE TRIGGER transaction_trigger
+--BEFORE INSERT ON transactions
+--FOR EACH ROW
+--BEGIN
+--    SELECT transaction_pk_seq.NEXTVAL
+--    INTO :new.transaction_id
+--    FROM dual;
+--    SELECT 
+--        sysdate
+--    INTO :new.time_added
+--    FROM dual;
+--END;
+--/

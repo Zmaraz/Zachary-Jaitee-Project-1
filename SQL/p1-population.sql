@@ -23,6 +23,7 @@ INSERT INTO ers_users VALUES (0, 'zmaraz','5678','Zachary','Marazita','zmaraz@as
 INSERT INTO ers_reimbursement VALUES (1, 9.99, NULL, NULL,'here is a description',NULL,32,null,0,2);
 delete from ers_reimbursement WHERE reimb_id = 3;
 INSERT INTO ers_reimbursement VALUES (0, 39.99, NULL, NULL,'hahaha',NULL,37,23,2,4);
+INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'timestamp test',NULL,32,null,0,2);
 
 --get all info from users
 SELECT ers_user_id, ers_username, ers_password, user_first_name, user_last_name, user_email, r.user_role
