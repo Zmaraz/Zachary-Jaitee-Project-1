@@ -14,13 +14,13 @@ async function loadLogin(){
     configureLogin();
 }
 
-function login (){
-    
+async function login (){
+
 }
 
 function configureLogin(){
     console.log('configuring login...');
-    document.getElementsByName('log-in').addEventListener('click', login);
+    document.getElementById('sign-in-button').addEventListener('click', login);
 }
 
 //helper method that gets the view for all the methods
