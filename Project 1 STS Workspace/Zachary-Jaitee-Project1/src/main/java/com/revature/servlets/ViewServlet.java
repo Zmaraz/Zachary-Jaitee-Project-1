@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import util.RequestViews;
+import com.revature.util.RequestViews;
 
 public class ViewServlet extends HttpServlet {
 	private static Logger log = Logger.getLogger(ViewServlet.class);
