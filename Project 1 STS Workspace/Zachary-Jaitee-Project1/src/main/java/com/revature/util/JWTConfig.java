@@ -10,9 +10,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JWTConfig {
 	public static final String URI = "/**";
 	public static final String HEADER = "Authorization";
-	public static final String PREFIX = "Bearer ";
+	public static final String PREFIX = "CoolKids ";
 	public static final int EXPIRATION = 24 * 60 * 60;
-	public static final String SECRET = "JwtSecretKey";
+	public static final String SECRET = "Zubadank";
 	public static final Key signingKey;
 	
 	static {

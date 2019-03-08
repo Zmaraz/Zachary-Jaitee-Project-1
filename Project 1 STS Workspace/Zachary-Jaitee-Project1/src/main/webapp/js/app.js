@@ -15,6 +15,8 @@ async function loadLogin(){
 }
 
 async function login (){
+    //need to get jwt from response somehow???
+    loadDashboard();
 
 }
 
@@ -46,6 +48,11 @@ function configureRegister(){
     document.getElementById('log-in').addEventListener('click',loadLogin);
     DYNAMIC_CSS.href = 'register.css';
     //Thanks Bootstrap!
+}
+
+async function loadDashboard(){
+    appbody.innerHTML = await fetchView('dashboard.view');
+    configureRegister();
 }
 
 function configureDashboard(){

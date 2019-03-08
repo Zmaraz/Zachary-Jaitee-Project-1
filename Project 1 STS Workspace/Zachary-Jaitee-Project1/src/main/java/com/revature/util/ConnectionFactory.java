@@ -34,7 +34,7 @@ public class ConnectionFactory {
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			
-			prop.load(new FileReader("application.properties"));
+			prop.load(new FileReader("./application.properties"));
 			
 			conn = DriverManager.getConnection(
 					prop.getProperty("url"),

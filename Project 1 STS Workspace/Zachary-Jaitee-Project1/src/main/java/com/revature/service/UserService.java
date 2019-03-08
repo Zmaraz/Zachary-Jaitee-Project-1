@@ -7,20 +7,21 @@ import org.apache.log4j.Logger;
 import com.revature.dao.UserDAO;
 import com.revature.exceptions.ConflictingUserException;
 import com.revature.exceptions.InvalidInputException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 
 public class UserService {
 	private static Logger log = Logger.getLogger(UserService.class);
 	private UserDAO userDao = new UserDAO();
 	
-	public User getByCredentials(String username, String password) {
+	public User getByCredentials(String username, String password) throws UserNotFoundException, InvalidInputException{
 		log.info("in UserService.getByCredentials()");
-		if(username == null || password == null) return null;
+		if(username == null || password == null) throw new InvalidInputException("Empty credentials");
 		if(!username.equals("") && !password.equals("")) {
 			return userDao.getByCredetials(username, password);
 		}
 		else
-			return null;
+			throw new UserNotFoundException("No user with those credentials");
 	}
 	
 	public ArrayList<User> getAllUsers(){
