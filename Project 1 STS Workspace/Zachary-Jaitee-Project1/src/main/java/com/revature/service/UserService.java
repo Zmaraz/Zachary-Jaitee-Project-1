@@ -18,10 +18,11 @@ public class UserService {
 		log.info("in UserService.getByCredentials()");
 		if(username == null || password == null) throw new InvalidInputException("Empty credentials");
 		if(!isValid(username) && !isValid(password)) {
-			return userDao.getByCredetials(username, password);
+			 userDao.getByCredetials(username, password);
 		}
 		else
-			throw new UserNotFoundException("No user with those credentials");
+			throw new InvalidInputException("Empty credentials");
+		throw new UserNotFoundException("No user with those credentials");
 	}
 	
 	public ArrayList<User> getAllUsers(){
