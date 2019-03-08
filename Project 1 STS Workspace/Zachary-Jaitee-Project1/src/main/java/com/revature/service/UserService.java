@@ -15,6 +15,7 @@ public class UserService {
 	
 	public User getByCredentials(String username, String password) {
 		log.info("in UserService.getByCredentials()");
+		if(username == null || password == null) return null;
 		if(!username.equals("") && !password.equals("")) {
 			return userDao.getByCredetials(username, password);
 		}
