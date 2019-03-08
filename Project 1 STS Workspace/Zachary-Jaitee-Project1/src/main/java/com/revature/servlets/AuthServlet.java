@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.exceptions.ConflictingUserException;
 import com.revature.exceptions.InvalidInputException;
 import com.revature.exceptions.UserNotFoundException;
@@ -21,7 +25,7 @@ import com.revature.util.JWTGenerator;
 public class AuthServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	
+	private static Logger log = Logger.getLogger(AuthServlet.class);
 	private UserService service = new UserService();
 	private User user = new User();
 	
@@ -31,11 +35,13 @@ public class AuthServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
+		ObjectMapper mapper = new ObjectMapper();
+		String[] credentials = null;
 		
 		try {
-			user = service.getByCredentials(username, password);
+			credentials = mapper.readValue(req.getInputStream(), String[].class);
+			System.out.println(credentials[0]);
+			user = service.getByCredentials(credentials[0], credentials[1]);
 			
 			resp.setStatus(200);
 			resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
@@ -46,7 +52,15 @@ public class AuthServlet extends HttpServlet {
 			resp.setStatus(401);
 		} catch(InvalidInputException e) {
 			e.printStackTrace();
-			resp.setStatus(401);
+			resp.setStatus(400);
+		}catch (MismatchedInputException mie) {
+			log.error(mie.getMessage());
+			resp.setStatus(400);
+			return;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
+			return;
 		}
 	}
 	

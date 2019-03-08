@@ -17,7 +17,7 @@ public class UserService {
 	public User getByCredentials(String username, String password) throws UserNotFoundException, InvalidInputException{
 		log.info("in UserService.getByCredentials()");
 		if(username == null || password == null) throw new InvalidInputException("Empty credentials");
-		if(!isValid(username) && !isValid(password)) {
+		if(isValid(username) && isValid(password)) {
 			 userDao.getByCredetials(username, password);
 		}
 		else
