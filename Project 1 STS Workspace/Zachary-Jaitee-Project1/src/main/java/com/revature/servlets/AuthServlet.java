@@ -57,13 +57,13 @@ public class AuthServlet extends HttpServlet {
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
 				
-			} else {
+			} else if(credentials[0].equals("register")){
 			log.info("in registration");
-			user.setFirstName(req.getParameter("firstname"));
-			user.setLastName(req.getParameter("lastname"));
-			user.setUsername(req.getParameter("username"));
-			user.setPassword(req.getParameter("inputPassword"));
-			user.setEmail(req.getParameter("inputEmail"));
+			user.setFirstName(credentials[1]);
+			user.setLastName(credentials[2]);
+			user.setUsername(credentials[3]);
+			user.setPassword(credentials[4]);
+			user.setEmail(credentials[5]);
 		
 		
 				user = service.add(user);
@@ -87,6 +87,7 @@ public class AuthServlet extends HttpServlet {
 				resp.setStatus(400);
 				return;
 			} catch (Exception e) {
+				e.printStackTrace();
 				log.error(e.getMessage());
 				resp.setStatus(500);
 				return;

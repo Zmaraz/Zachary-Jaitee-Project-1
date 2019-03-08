@@ -41,6 +41,7 @@ public class UserService {
 	}
 	
 	private boolean isValid(String value) {
+		if(value == null) return false;
 		return (value.trim().length() > 1);
 	}
 	

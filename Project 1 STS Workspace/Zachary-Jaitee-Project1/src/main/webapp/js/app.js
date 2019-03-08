@@ -90,15 +90,41 @@ async function loadRegister(){
 }
 
 function configureRegister(){
-    document.getElementById('log-in').addEventListener('click',loadLogin);
+    document.getElementById('register-button').addEventListener('click',register);
     DYNAMIC_CSS.href = 'register.css';
     //Thanks Bootstrap!
 }
 
-async function loadDashboard(){
-    appbody.innerHTML = await fetchView('dashboard.view');
-    // configureRegister();
+async function register(){
+    let credentials = [];
+    credentials.push('register');
+    credentials.push(document.getElementById('firstname').value);
+    credentials.push(document.getElementById('lastname').value);
+    credentials.push(document.getElementById('username').value);
+    credentials.push(document.getElementById('password').value);
+    credentials.push(document.getElementById('email').value);
+    
+    console.log(credentials[0] + " " + credentials[1]);
+    let response = await fetch('auth', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    });
+    console.log(JSON.stringify(credentials));
+    console.log(response)
+    if (response.status == 200) {
+        console.log(response);
+        loadDashboard();
+    }
+    else {
+        console.log("failed");
+        console.log(response);
+    }
 }
+
 //------------------------------------------------------------------------------------------------------------------
 
 
@@ -106,5 +132,9 @@ async function loadDashboard(){
 //-------------------------------------------------------------------------------------------------------------------
 function configureDashboard(){
     SOURCE.src = 'dashboard.js';
+}
+async function loadDashboard(){
+    appbody.innerHTML = await fetchView('dashboard.view');
+    // configureRegister();
 }
 //-------------------------------------------------------------------------------------------------------------------
