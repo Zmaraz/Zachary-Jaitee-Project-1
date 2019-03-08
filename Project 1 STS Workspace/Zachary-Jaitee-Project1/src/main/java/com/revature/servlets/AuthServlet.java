@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.revature.exceptions.ConflictingUserException;
 import com.revature.exceptions.InvalidInputException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
@@ -20,9 +25,9 @@ import com.revature.util.JWTGenerator;
 public class AuthServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	
-	UserService service = new UserService();
-	public static User user = new User();
+	private static Logger log = Logger.getLogger(AuthServlet.class);
+	private UserService service = new UserService();
+	private User user = new User();
 	
 	/**
 	 * The doGet method handles login verification
@@ -30,50 +35,71 @@ public class AuthServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
+		ObjectMapper mapper = new ObjectMapper();
+		String[] credentials = null;
 		
 		try {
-			user = service.getByCredentials(username, password);
+			credentials = mapper.readValue(req.getInputStream(), String[].class);
+			System.out.println(credentials[0]);
+			user = service.getByCredentials(credentials[0], credentials[1]);
+			
 			resp.setStatus(200);
 			resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
 			
 		} catch (UserNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			resp.setStatus(401);
 		} catch(InvalidInputException e) {
 			e.printStackTrace();
+			resp.setStatus(400);
+		}catch (MismatchedInputException mie) {
+			log.error(mie.getMessage());
+			resp.setStatus(400);
+			return;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			resp.setStatus(500);
+			return;
 		}
 	}
+	
+	/**
+	 * The doPut method handles registration verification
+	 */
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-//		newUser.setEmail(req.getParameter("inputEmail"));
+		/****might not need this loop through the params here but maybe later??**/
+		Map<String, String[]> params = req.getParameterMap();
+        for (Map.Entry<String,String[]> entry : params.entrySet()) {
+        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()[0]); 
+        }
+       
+		
+			user.setFirstName(req.getParameter("firstname"));
+			user.setLastName(req.getParameter("lastname"));
+			user.setUsername(req.getParameter("username"));
+			user.setPassword(req.getParameter("inputPassword"));
+			user.setEmail(req.getParameter("inputEmail"));
 		
 		
-//			newUser = service.add(newUser);
-			System.out.println("Parameters: ");
-			System.out.println(req.getParameter("username"));
-			System.out.println(req);
-			
-			Map<String, String[]> params = req.getParameterMap();
-	        for (Map.Entry<String,String[]> entry : params.entrySet()) {
-	        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()[0]); 
-	        }
-	        try {
-				if(service.getByCredentials(req.getParameter("username"), req.getParameter("inputPassword")) == null) {
-					System.out.println("is null");
-				}
-				else
-					System.out.println("not null");
-			} catch (UserNotFoundException e) {
+			try {
+				user = service.add(user);
+				resp.setStatus(200);
+				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
+			} catch (ConflictingUserException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidInputException e) {
+				e1.printStackTrace();
+				resp.setStatus(400);
+			} catch (InvalidInputException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
+				resp.setStatus(400);
 			}
+			
+			
 	        
 	}
 
