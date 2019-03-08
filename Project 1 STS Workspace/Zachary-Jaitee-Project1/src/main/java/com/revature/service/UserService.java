@@ -17,7 +17,7 @@ public class UserService {
 	public User getByCredentials(String username, String password) throws UserNotFoundException, InvalidInputException{
 		log.info("in UserService.getByCredentials()");
 		if(username == null || password == null) throw new InvalidInputException("Empty credentials");
-		if(!username.equals("") && !password.equals("")) {
+		if(!isValid(username) && !isValid(password)) {
 			return userDao.getByCredetials(username, password);
 		}
 		else
@@ -37,7 +37,7 @@ public class UserService {
 	}
 	
 	private boolean isValid(String value) {
-		return (value.trim().length() < 3);
+		return (value.trim().length() > 1);
 	}
 	
 	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique

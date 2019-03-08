@@ -1,5 +1,6 @@
 package com.revature.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -30,11 +31,13 @@ public class ConnectionFactory {
 		Connection conn = null;
 		
 		Properties prop = new Properties();
+//		String filePath = new File("src/main/webapp/resources/application.properties").getAbsolutePath();
+//		log.debug(filePath);
 		
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			
-			prop.load(new FileReader("./application.properties"));
+			prop.load(new FileReader("C:\\Users\\Jaitee\\Rrepos\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\webapp\\resources\\application.properties"));
 			
 			conn = DriverManager.getConnection(
 					prop.getProperty("url"),
@@ -43,6 +46,7 @@ public class ConnectionFactory {
 		} catch (SQLException sqle) {
 			log.error(sqle.getMessage());
 		} catch (FileNotFoundException fnfe) {
+			log.error(fnfe.getMessage());
 			fnfe.printStackTrace();
 		} catch (IOException ioe) {
 			log.error(ioe.getMessage());
