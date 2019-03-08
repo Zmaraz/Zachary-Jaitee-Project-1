@@ -55,6 +55,7 @@ async function login (){
     //     }
     // }
     let credentials = [];
+    credentials.push('login'); 
    credentials.push(document.getElementById('username').value);
    credentials.push(document.getElementById('password').value);
    console.log(credentials[0] +" "+credentials[1]);
@@ -68,6 +69,13 @@ async function login (){
     });
     console.log(JSON.stringify(credentials));
     console.log(response)
+    if(response.status == 200){
+        loadDashboard();
+    }
+    else{
+        console.log(response);
+    }
+    
 }
 
 
@@ -89,7 +97,7 @@ function configureRegister(){
 
 async function loadDashboard(){
     appbody.innerHTML = await fetchView('dashboard.view');
-    configureRegister();
+    // configureRegister();
 }
 //------------------------------------------------------------------------------------------------------------------
 

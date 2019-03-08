@@ -35,33 +35,7 @@ public class AuthServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		String[] credentials = null;
 		
-		try {
-			credentials = mapper.readValue(req.getInputStream(), String[].class);
-			System.out.println(credentials[0]);
-			user = service.getByCredentials(credentials[0], credentials[1]);
-			
-			resp.setStatus(200);
-			resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
-			
-		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			resp.setStatus(401);
-		} catch(InvalidInputException e) {
-			e.printStackTrace();
-			resp.setStatus(400);
-		}catch (MismatchedInputException mie) {
-			log.error(mie.getMessage());
-			resp.setStatus(400);
-			return;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			resp.setStatus(500);
-			return;
-		}
 	}
 	
 	/**
@@ -70,14 +44,21 @@ public class AuthServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String[] credentials = null;
 		
-		/****might not need this loop through the params here but maybe later??**/
-		Map<String, String[]> params = req.getParameterMap();
-        for (Map.Entry<String,String[]> entry : params.entrySet()) {
-        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()[0]); 
-        }
-       
-		
+		try {
+			credentials = mapper.readValue(req.getInputStream(), String[].class);
+			System.out.println(credentials[0]);
+			if(credentials[0].equals("login")) {
+				log.info("logging in");
+				user = service.getByCredentials(credentials[1], credentials[2]);
+				
+				resp.setStatus(200);
+				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
+				
+			} else {
+			log.info("in registration");
 			user.setFirstName(req.getParameter("firstname"));
 			user.setLastName(req.getParameter("lastname"));
 			user.setUsername(req.getParameter("username"));
@@ -85,11 +66,11 @@ public class AuthServlet extends HttpServlet {
 			user.setEmail(req.getParameter("inputEmail"));
 		
 		
-			try {
 				user = service.add(user);
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
-			} catch (ConflictingUserException e1) {
+			}
+		}catch (ConflictingUserException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				resp.setStatus(400);
@@ -97,8 +78,27 @@ public class AuthServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				resp.setStatus(400);
+			} catch (UserNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				resp.setStatus(401);
+			} catch (MismatchedInputException mie) {
+				log.error(mie.getMessage());
+				resp.setStatus(400);
+				return;
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				resp.setStatus(500);
+				return;
 			}
 			
+			
+			/****might not need this loop through the params here but maybe later??**/
+//			Map<String, String[]> params = req.getParameterMap();
+//	        for (Map.Entry<String,String[]> entry : params.entrySet()) {
+//	        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()[0]); 
+//	        }
+//			
 			
 	        
 	}
