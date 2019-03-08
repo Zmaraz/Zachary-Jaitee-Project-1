@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.dao.UserDAO;
 import com.revature.exceptions.ConflictingUserException;
+import com.revature.exceptions.InvalidInputException;
 import com.revature.models.User;
 
 public class UserService {
@@ -34,20 +35,25 @@ public class UserService {
 	}
 	
 	private boolean isValid(String value) {
-		if(value.length() < 2) {
-			return false;
-		}
-		return false;
+		return (value.trim().length() < 3);
 	}
 	
 	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique
 	// in order to not have to make seprate DAO calls and make seperate connections
-	public User add(User newUser) throws ConflictingUserException{
+	public User add(User newUser) throws ConflictingUserException, InvalidInputException{
 		log.info("in UserService.add()");
+		
+		if(isValid(newUser.getUsername()) && 
+				isValid(newUser.getEmail()) && 
+				isValid(newUser.getFirstName()) &&
+				isValid(newUser.getLastName()) &&
+				isValid(newUser.getPassword())){
+		}else {
+			log.warn("InvalidInputException thrown in UserService.add()");
+			throw new InvalidInputException("Input is invalid");
+		}
+		
 		ArrayList<User> userList = userDao.getAll();
-		isValid(newUser.getUsername().trim());
-		
-		
 		for(User u : userList) {
 			// potential change: turn || into &&, depending on if the username and email are supposed to be individually unique or compositely unique
 			if(newUser.getUsername().equals(u.getUsername()) || newUser.getEmail().equals(u.getEmail())) {
