@@ -33,11 +33,11 @@ private static Logger log = Logger.getLogger(RequestViews.class);
 			
 			if(principal == null) {
 				log.warn("No principal attribute found on request object");
-				return null;
+//				return null;
 			}
 			
 			log.info("Fetching dashboard.html");
-			return "partials/dashboard.html";
+			return "partials/userDashboard.html";
 		
 		default: 
 			log.info("Invalid view requested");

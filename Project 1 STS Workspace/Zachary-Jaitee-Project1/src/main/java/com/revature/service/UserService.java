@@ -6,19 +6,26 @@ import org.apache.log4j.Logger;
 
 import com.revature.dao.UserDAO;
 import com.revature.exceptions.ConflictingUserException;
+import com.revature.exceptions.InvalidInputException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 
 public class UserService {
 	private static Logger log = Logger.getLogger(UserService.class);
 	private UserDAO userDao = new UserDAO();
 	
-	public User getByCredentials(String username, String password) {
+	public User getByCredentials(String username, String password) throws UserNotFoundException, InvalidInputException{
 		log.info("in UserService.getByCredentials()");
-		if(!username.equals("") && !password.equals("")) {
-			return userDao.getByCredetials(username, password);
+		if(username == null || password == null) throw new InvalidInputException("Empty credentials");
+		if(isValid(username) && isValid(password)) {
+			 User gottenUser = userDao.getByCredetials(username, password);
+			 if(gottenUser == null) {
+				 throw new UserNotFoundException("No user with those credentials");
+			 }
+			 return gottenUser;
+		} else {
+			throw new InvalidInputException("Empty credentials");
 		}
-		else
-			return null;
 	}
 	
 	public ArrayList<User> getAllUsers(){
@@ -33,12 +40,27 @@ public class UserService {
 		return userDao.getById(userId);
 	}
 	
+	private boolean isValid(String value) {
+		if(value == null) return false;
+		return (value.trim().length() > 1);
+	}
+	
 	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique
 	// in order to not have to make seprate DAO calls and make seperate connections
-	public User add(User newUser) throws ConflictingUserException{
+	public User add(User newUser) throws ConflictingUserException, InvalidInputException{
 		log.info("in UserService.add()");
-		ArrayList<User> userList = userDao.getAll();
 		
+		if(isValid(newUser.getUsername()) && 
+				isValid(newUser.getEmail()) && 
+				isValid(newUser.getFirstName()) &&
+				isValid(newUser.getLastName()) &&
+				isValid(newUser.getPassword())){
+		}else {
+			log.warn("InvalidInputException thrown in UserService.add()");
+			throw new InvalidInputException("Input is invalid");
+		}
+		
+		ArrayList<User> userList = userDao.getAll();
 		for(User u : userList) {
 			// potential change: turn || into &&, depending on if the username and email are supposed to be individually unique or compositely unique
 			if(newUser.getUsername().equals(u.getUsername()) || newUser.getEmail().equals(u.getEmail())) {

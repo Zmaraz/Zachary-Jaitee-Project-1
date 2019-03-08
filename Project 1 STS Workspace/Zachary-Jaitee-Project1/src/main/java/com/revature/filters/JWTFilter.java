@@ -24,7 +24,7 @@ public class JWTFilter extends HttpFilter{
 
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		log.info("Inside of JwtAuthFilter.doFilter()");
+		log.info("Inside of JWTFilter.doFilter()");
 		
 		// 1. Get the HTTP header named "Authorization"
 		String header = req.getHeader(JWTConfig.HEADER);

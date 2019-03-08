@@ -59,8 +59,9 @@ public class UserDAO implements DAO<User>{
 		ArrayList<User> users = new ArrayList<>();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-			System.out.println("connection made!");
+			
 			Statement stmt = conn.createStatement();
+			System.out.println("connection made!");
 			ResultSet rs = stmt.executeQuery("SELECT * FROM ers_users u JOIN ers_user_roles r ON u.user_role_id = r.ers_user_role_id");
 			
 			while(rs.next()) {
