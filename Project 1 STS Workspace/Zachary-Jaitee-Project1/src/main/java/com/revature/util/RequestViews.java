@@ -36,7 +36,7 @@ private static Logger log = Logger.getLogger(RequestViews.class);
 				return "partials/login.html";
 			}
 			if(principal.getRole().equalsIgnoreCase("manager")) {
-				log.info("principal role is admin");
+				log.info("principal role is manager");
 				return "partials/managerDashboard.html";
 			}
 			if(principal.getRole().equalsIgnoreCase("employee")) {
