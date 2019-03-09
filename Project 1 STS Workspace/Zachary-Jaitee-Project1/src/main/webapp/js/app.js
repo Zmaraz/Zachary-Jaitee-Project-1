@@ -152,11 +152,11 @@ async function getTickets(){
             
         }
     });
-    console.log(response);
-    console.log(response.body);
+    console.log("Reader: " + response.body.getReader);
+    
     
     let body = await response.json();
-    console.log("Text: " + body);
+    console.log(body);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
