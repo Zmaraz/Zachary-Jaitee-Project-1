@@ -151,10 +151,7 @@ async function getTickets(){
             'Authorization': localStorage.getItem('jwt')
             
         }
-    });
-    console.log("Reader: " + response.body.getReader);
-    
-    
+    });    
     let body = await response.json();
     console.log(body);
 }
