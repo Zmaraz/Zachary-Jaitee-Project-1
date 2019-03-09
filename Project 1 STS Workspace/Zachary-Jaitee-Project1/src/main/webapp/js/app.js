@@ -134,12 +134,25 @@ async function register(){
 //-------------------------------------------------------------------------------------------------------------------
 async function loadDashboard(){
     appbody.innerHTML = await fetchView('dashboard.view');
-    // configureRegister();
+    // configureDashboard();
+    getTickets();
 }
 
 function configureDashboard(){
-    SOURCE.src = 'dashboard.js';
+    // SOURCE.src = 'dashboard.js';
+    // getTickets();
 }
-
+async function getTickets(){
+    let response = await fetch('ticket', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Authorization': localStorage.getItem('jwt')
+            
+        }
+    });
+    console.log(response);
+    console.log(response.body);
+}
 
 //-------------------------------------------------------------------------------------------------------------------
