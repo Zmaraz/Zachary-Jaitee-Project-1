@@ -17,6 +17,7 @@ import com.revature.exceptions.ConflictingUserException;
 import com.revature.exceptions.InvalidInputException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
+import com.revature.models.enums.UserRole;
 import com.revature.service.UserService;
 import com.revature.util.JWTConfig;
 import com.revature.util.JWTGenerator;
@@ -64,6 +65,7 @@ public class AuthServlet extends HttpServlet {
 			user.setUsername(credentials[3]);
 			user.setPassword(credentials[4]);
 			user.setEmail(credentials[5]);
+			user.setRole(UserRole.EMPLOYEE);
 		
 		
 				user = service.add(user);

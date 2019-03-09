@@ -130,7 +130,7 @@ public class UserDAO implements DAO<User>{
 			keys[0] = "ers_user_id";
 			
 			//the value for the Role_id is set to 1, for employee, as manager users must be created on the DB side
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (0, ?, ?, ?, ?, ?, 1)", keys);
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (0, ?, ?, ?, ?, ?, 2)", keys);
 			pstmt.setString(1, newUser.getUsername());
 			pstmt.setString(2, newUser.getPassword());
 			pstmt.setString(3, newUser.getFirstName());

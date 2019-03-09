@@ -33,11 +33,19 @@ private static Logger log = Logger.getLogger(RequestViews.class);
 			
 			if(principal == null) {
 				log.warn("No principal attribute found on request object");
-//				return null;
+				return "partials/login.html";
 			}
+			if(principal.getRole().equalsIgnoreCase("manager")) {
+				log.info("principal role is manager");
+				return "partials/managerDashboard.html";
+			}
+			if(principal.getRole().equalsIgnoreCase("employee")) {
+				log.info("principal role is employee");
+				return "partials/userDashboard.html";
+			}			
 			
-			log.info("Fetching dashboard.html");
-			return "partials/userDashboard.html";
+//			log.info("Fetching dashboard.html");
+//			return "partials/userDashboard.html";
 		
 		default: 
 			log.info("Invalid view requested");

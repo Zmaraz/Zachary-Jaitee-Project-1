@@ -13,7 +13,7 @@ async function fetchView(uri) {
         method: 'GET',
         mode: 'cors',
         headers: {
-            'headers': 'for later'
+            'Authorization': localStorage.getItem('jwt')
         }
     });
     return await response.text();
@@ -70,10 +70,12 @@ async function login (){
     console.log(JSON.stringify(credentials));
     console.log(response)
     if(response.status == 200){
+        localStorage.setItem('jwt', response.headers.get('Authorization'));
         loadDashboard();
+        console.log('200 response: ' + response);
     }
     else{
-        console.log(response);
+        console.log('not 200 response: ' + response);
     }
     
 }
@@ -130,11 +132,14 @@ async function register(){
 
 // DASHBOARD
 //-------------------------------------------------------------------------------------------------------------------
-function configureDashboard(){
-    SOURCE.src = 'dashboard.js';
-}
 async function loadDashboard(){
     appbody.innerHTML = await fetchView('dashboard.view');
     // configureRegister();
 }
+
+function configureDashboard(){
+    SOURCE.src = 'dashboard.js';
+}
+
+
 //-------------------------------------------------------------------------------------------------------------------
