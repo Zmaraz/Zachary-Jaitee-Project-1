@@ -28,6 +28,7 @@ public class JWTFilter extends HttpFilter{
 		
 		// 1. Get the HTTP header named "Authorization"
 		String header = req.getHeader(JWTConfig.HEADER);
+		log.info(header);
 		
 		// 2. Validate the header values and check the prefix
 		if(header == null || !header.startsWith(JWTConfig.PREFIX)) {
