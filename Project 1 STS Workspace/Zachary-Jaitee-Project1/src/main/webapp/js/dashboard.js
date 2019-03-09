@@ -2,6 +2,7 @@
 
 // getTickets();
 
+
 // async function getTickets(){
 //     let response = await fetch('ticket', {
 //         method: 'GET',
@@ -12,5 +13,5 @@
 //         }
 //     });
 //     console.log(response);
-//     console.log(responsetext);
+//     console.log(response.text());
 // }

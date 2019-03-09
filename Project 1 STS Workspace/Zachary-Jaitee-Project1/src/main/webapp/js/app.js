@@ -134,13 +134,14 @@ async function register(){
 //-------------------------------------------------------------------------------------------------------------------
 async function loadDashboard(){
     appbody.innerHTML = await fetchView('dashboard.view');
-    // configureDashboard();
-    getTickets();
+    configureDashboard();
+    
 }
 
 function configureDashboard(){
+    
     // SOURCE.src = 'dashboard.js';
-    // getTickets();
+    getTickets();
 }
 async function getTickets(){
     let response = await fetch('ticket', {
@@ -153,6 +154,9 @@ async function getTickets(){
     });
     console.log(response);
     console.log(response.body);
+    
+    let body = await response.json();
+    console.log("Text: " + body);
 }
 
 //-------------------------------------------------------------------------------------------------------------------

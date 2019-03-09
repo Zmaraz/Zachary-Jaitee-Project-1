@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.revature.models.Principal;
@@ -30,7 +31,7 @@ public class TicketServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
-		String[] credentials = null;
+		
 		
 		try {
 			PrintWriter pw = resp.getWriter();
@@ -47,7 +48,10 @@ public class TicketServlet extends HttpServlet{
 				
 				String temp = "";
 				JSONPObject myObject = new JSONPObject("tickets", tickets);
-				pw.write(mapper.writeValueAsString(myObject));
+				resp.setHeader("Content-Type", "application/json");
+				mapper.writeValue(pw, tickets);
+//				pw.write(mapper.writeValueAsString(myObject));
+				log.info("tickets have been sent");
 //				pw.write("<h1>TESTING</<h1>");
 //				for(Ticket t : tickets) {
 //					temp += t;
@@ -61,6 +65,8 @@ public class TicketServlet extends HttpServlet{
 				ArrayList<Ticket> tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
 				
 			}
+		}catch(JsonProcessingException jpe) {
+			jpe.printStackTrace();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
