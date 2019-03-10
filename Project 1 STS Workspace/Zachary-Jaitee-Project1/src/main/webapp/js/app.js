@@ -24,7 +24,7 @@ async function fetchView(uri) {
 //get request to view servlet
 async function loadLogin(){
     console.log('loading login...')
-
+    window.localStorage.setItem('jwt',null);
     appbody.innerHTML = await fetchView('login.view');
     configureLogin();
 }
@@ -118,6 +118,7 @@ async function register(){
     console.log(JSON.stringify(credentials));
     console.log(response)
     if (response.status == 200) {
+        localStorage.setItem('jwt', response.headers.get('Authorization'));
         console.log(response);
         loadDashboard();
     }
