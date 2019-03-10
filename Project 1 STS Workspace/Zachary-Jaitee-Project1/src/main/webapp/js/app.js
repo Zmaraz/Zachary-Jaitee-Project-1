@@ -24,7 +24,7 @@ async function fetchView(uri) {
 //get request to view servlet
 async function loadLogin(){
     console.log('loading login...')
-
+    window.localStorage.setItem('jwt',null);
     appbody.innerHTML = await fetchView('login.view');
     configureLogin();
 }
@@ -118,6 +118,7 @@ async function register(){
     console.log(JSON.stringify(credentials));
     console.log(response)
     if (response.status == 200) {
+        localStorage.setItem('jwt', response.headers.get('Authorization'));
         console.log(response);
         loadDashboard();
     }
@@ -134,12 +135,26 @@ async function register(){
 //-------------------------------------------------------------------------------------------------------------------
 async function loadDashboard(){
     appbody.innerHTML = await fetchView('dashboard.view');
-    // configureRegister();
+    configureDashboard();
+    
 }
 
 function configureDashboard(){
-    SOURCE.src = 'dashboard.js';
+    
+    // SOURCE.src = 'dashboard.js';
+    getTickets();
 }
-
+async function getTickets(){
+    let response = await fetch('ticket', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Authorization': localStorage.getItem('jwt')
+            
+        }
+    });    
+    let body = await response.json();
+    console.log(body);
+}
 
 //-------------------------------------------------------------------------------------------------------------------

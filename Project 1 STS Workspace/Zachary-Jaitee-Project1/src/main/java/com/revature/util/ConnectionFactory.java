@@ -54,6 +54,8 @@ public class ConnectionFactory {
 			log.error(ioe.getMessage());
 		}
 		if(conn == null) {
+			
+			
 			log.warn("conn is null");
 			
 		}

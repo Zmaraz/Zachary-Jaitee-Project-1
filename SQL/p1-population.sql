@@ -23,7 +23,6 @@ INSERT INTO ers_users VALUES (0, 'zmaraz','5678','Zachary','Marazita','zmaraz@as
 INSERT INTO ers_reimbursement VALUES (1, 9.99, NULL, NULL,'here is a description',NULL,1,NULL,0,2);
 INSERT INTO ers_reimbursement VALUES (0, 39.99, NULL, NULL,'hahaha',NULL,2,3,2,4);
 INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'timestamp test',NULL,1,null,0,2);
-
 -- checking that update trigger works to add resolved timestamp when updating the status of the ticket
 UPDATE ers_reimbursement 
 SET reimb_status_id = 1, reimb_resolver = 2
@@ -78,7 +77,7 @@ BEGIN
             ON reimb.reimb_author = u.ers_user_id
             LEFT OUTER JOIN ers_users ad
             ON reimb.reimb_resolver = ad.ers_user_id
-        WHERE u.ers_user_id = 32;
+        WHERE u.ers_user_id = user_id;
 END;
 /
 
