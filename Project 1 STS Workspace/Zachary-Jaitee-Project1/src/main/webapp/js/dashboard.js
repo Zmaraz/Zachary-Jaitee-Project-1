@@ -1,5 +1,26 @@
 // Dashboard functionality, loading of dashboard is done in app.ja
+
+function configureDashboard(){
+    getTickets();
+    document.getElementById('dynamic-css').href = './css/dashboard.css';
+    // let tableHidden = true;
+    document.getElementById('ticketTable').hidden = true;
+    //method to make ticket visible when btn clicked
+    document.getElementById('tickets').addEventListener('click', toggleTable);
+    document.getElementById('add').addEventListener('click',createTicket);
+    
+}
+
+function toggleTable(e){
+    document.getElementById('ticketTable').hidden = false;
+}
+
+function createTicket(){
+    console.log('in createTicket()');
+}
+
 async function getTickets(){
+    // tableHidden = false;
     console.log('in getTickets()');
     let response = await fetch('ticket', {
         method: 'GET',
@@ -10,12 +31,9 @@ async function getTickets(){
         }
     });    
     console.log(response.headers);
-    console.log('Headers has role'+ response.headers.has('UserRole'));
+    console.log('Headers has role: '+ response.headers.has('UserRole'));
     let role = response.headers.get('UserRole');
     let body = await response.json();
-    // console.log(body);
-    // console.log(body.headers);
-    // console.log(response.getResponseHeader());
     loadTable(body, role);
    
 }
@@ -46,12 +64,7 @@ function loadTable(response, role){
             
             }
         }
-        // if(response[i].status == 'PENDING'){
-        //     newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
-        //                         <td><button id="DenyButton${i}">Deny</button></td>`;
         
-
-        // }
         document.getElementById('tablebody').appendChild(newRow);
     }
     for(let i=0; i < response.length; i++){

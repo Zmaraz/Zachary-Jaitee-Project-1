@@ -24,36 +24,24 @@ async function fetchView(uri) {
 //get request to view servlet
 async function loadLogin(){
     console.log('loading login...')
-    window.localStorage.setItem('jwt',null);
+    window.localStorage.setItem('jwt',null);//to disable later
     appbody.innerHTML = await fetchView('login.view');
     configureLogin();
 }
 
 function configureLogin(){
     console.log('configuring login...');
+    document.getElementById('password').addEventListener('keyup', function(event) {
+        //pressing enter works
+           if (event.keyCode === 13) { login();} 
+    });
     document.getElementById('login-button').addEventListener('click', login);
     document.getElementById('register').addEventListener('click', loadRegister);
 }
 
 async function login (){
-    //need to get jwt from response somehow???
-    // loadDashboard();
+    document.getElementById('login-button').disabled = true;
     console.log('inLogin');
-    // let xhr = new XMLHttpRequest;
-    // xhr.open('POST', 'auth', true);
-    // xhr.send({
-    //     username: document.getElementById('username'),
-    //     password: document.getElementById('password')
-    // });
-    // console.log('sent');
-    // xhr.onreadystatechange = () => {
-    //     console.log('readystate: '+ xhr.readyState +' statuscode: '+ xhr.status);
-    //     if (xhr.readyState == 4 && xhr.status == 200) {
-    //         let userDetails = JSON.parse(xhr.responseText);
-    //         console.log(userDetails);
-    //         // checkLogin(userDetails);
-    //     }
-    // }
     let credentials = [];
     credentials.push('login'); 
    credentials.push(document.getElementById('username').value);
@@ -72,10 +60,11 @@ async function login (){
     if(response.status == 200){
         localStorage.setItem('jwt', response.headers.get('Authorization'));
         loadDashboard();
-        console.log('200 response: ' + response);
+        console.log('200 response: ' + response.body);
     }
     else{
-        console.log('not 200 response: ' + response);
+        document.getElementById('login-button').disabled = false;
+        console.log('not 200 response: ' + response.body);
     }
     
 }
@@ -139,11 +128,7 @@ async function loadDashboard(){
     
 }
 
-function configureDashboard(){
-    
-    // SOURCE.src = 'dashboard.js';
-    getTickets();
-}
+
 
 
 
