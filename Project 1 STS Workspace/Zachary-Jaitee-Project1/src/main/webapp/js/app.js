@@ -155,6 +155,36 @@ async function getTickets(){
     });    
     let body = await response.json();
     console.log(body);
+    loadTable(body);
+}
+
+function loadTable(response){
+    console.log('in loadtable');
+    console.log(response);
+
+    while (document.getElementById('tablebody').firstChild) {
+        document.getElementById('tablebody').removeChild(document.getElementById('tablebody').firstChild);
+    }
+
+    for(let i=0; i < response.length; i++){
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <td>${response[i].reimbId}</td>
+        <td>${response[i].authorId}</td>
+        <td>${response[i].amount}</td>
+        <td>${response[i].type}</td>
+        <td>${response[i].timeSubmitted}</td>
+        <td>${response[i].timeResolved}</td>
+        <td>${response[i].status}</td>`;
+
+        if(response[i].status == 'PENDING'){
+            newRow.innerHTML += `<td>Aprove</td><td>Deny</td>`;
+        }
+
+
+
+        document.getElementById('tablebody').appendChild(newRow);
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
