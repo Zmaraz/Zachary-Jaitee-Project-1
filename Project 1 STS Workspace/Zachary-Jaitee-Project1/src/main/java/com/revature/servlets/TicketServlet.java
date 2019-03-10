@@ -39,10 +39,9 @@ public class TicketServlet extends HttpServlet{
 			
 			if(principal.getRole().equalsIgnoreCase("manager")) {
 				
-				System.out.println("in ticket try");
+				System.out.println("in manager ticket try for id: " + principal.getId());
 				ArrayList<Ticket> tickets = service.getAll();
 				for(Ticket t : tickets) {
-//					System.out.println("in ticket try for loop");
 					System.out.println(t);
 				}
 				
@@ -50,19 +49,24 @@ public class TicketServlet extends HttpServlet{
 				JSONPObject myObject = new JSONPObject("tickets", tickets);
 				resp.setHeader("Content-Type", "application/json");
 				mapper.writeValue(pw, tickets);
-//				pw.write(mapper.writeValueAsString(myObject));
 				log.info("tickets have been sent");
-//				pw.write("<h1>TESTING</<h1>");
-//				for(Ticket t : tickets) {
-//					temp += t;
-//					pw.write(temp);
-//				}
-//				pw.write(s);(tickets);
+
 				
 				
 			}else if(principal.getRole().equalsIgnoreCase("employee")) {
 				
+				System.out.println("in employee ticket try for id: " + principal.getId());
+//				Integer.parseInt(principal.getId()
 				ArrayList<Ticket> tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
+				for(Ticket t : tickets) {
+					System.out.println(t);
+				}
+				
+				String temp = "";
+				JSONPObject myObject = new JSONPObject("tickets", tickets);
+				resp.setHeader("Content-Type", "application/json");
+				mapper.writeValue(pw, tickets);
+				log.info("tickets have been sent");
 				
 			}
 		}catch(JsonProcessingException jpe) {

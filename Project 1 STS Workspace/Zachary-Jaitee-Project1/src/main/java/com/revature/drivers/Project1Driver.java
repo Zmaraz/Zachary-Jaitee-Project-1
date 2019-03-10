@@ -14,7 +14,7 @@ public class Project1Driver {
 //		ObjectMapper mapper = new ObjectMapper();
 //		
 //		
-		ArrayList<Ticket> tickets = service.getAll();
+		ArrayList<Ticket> tickets = service.getByAuthorId(2);
 ////		objectMapper.writeValue(new File("target/car.json"), car);
 //		try {
 //			String ticketsString = "";
@@ -29,6 +29,8 @@ public class Project1Driver {
 //			e.printStackTrace();
 //		}
 		
+		System.out.println(tickets);
+		System.out.println(tickets.size());
 		for(Ticket t : tickets) {
 			System.out.println(t);
 		}
