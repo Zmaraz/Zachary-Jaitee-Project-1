@@ -181,12 +181,20 @@ function loadTable(response){
         <td>${response[i].timeResolved}</td>
         <td>${response[i].status}</td>`;
 
-        if(response[i].status == 'PENDING'){
-            newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
-                                <td><button id="DenyButton${i}">Deny</button></td>`;
+        if(document.getElementById('pageTitle').innerText == 'Manager Dashboard'){
+            if(response[i].status == 'PENDING'){
+                newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
+                                    <td><button id="DenyButton${i}">Deny</button></td>`;
+            
+    
+            }
+        }
+        // if(response[i].status == 'PENDING'){
+        //     newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
+        //                         <td><button id="DenyButton${i}">Deny</button></td>`;
         
 
-        }
+        // }
         document.getElementById('tablebody').appendChild(newRow);
     }
     for(let i=0; i < response.length; i++){
