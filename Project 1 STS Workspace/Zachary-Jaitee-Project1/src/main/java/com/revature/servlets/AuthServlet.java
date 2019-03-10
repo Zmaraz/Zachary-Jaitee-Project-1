@@ -48,7 +48,7 @@ public class AuthServlet extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		String[] credentials = null;
 		
-		try {
+		try {	
 			credentials = mapper.readValue(req.getInputStream(), String[].class);
 			System.out.println(credentials[0]);
 			if(credentials[0].equals("login")) {
@@ -67,7 +67,7 @@ public class AuthServlet extends HttpServlet {
 			user.setEmail(credentials[5]);
 			user.setRole(UserRole.EMPLOYEE);
 		
-		
+			
 				user = service.add(user);
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));

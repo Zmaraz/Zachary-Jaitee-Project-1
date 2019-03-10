@@ -48,6 +48,7 @@ public class TicketServlet extends HttpServlet{
 				String temp = "";
 				JSONPObject myObject = new JSONPObject("tickets", tickets);
 				resp.setHeader("Content-Type", "application/json");
+				resp.setHeader("UserRole", "manager");
 				mapper.writeValue(pw, tickets);
 				log.info("tickets have been sent");
 
@@ -65,7 +66,10 @@ public class TicketServlet extends HttpServlet{
 				String temp = "";
 				JSONPObject myObject = new JSONPObject("tickets", tickets);
 				resp.setHeader("Content-Type", "application/json");
+				resp.setHeader("UserRole", "employee");
 				mapper.writeValue(pw, tickets);
+//				String role = "employee";
+//				mapper.writeValue(pw,role);
 				log.info("tickets have been sent");
 				
 			}

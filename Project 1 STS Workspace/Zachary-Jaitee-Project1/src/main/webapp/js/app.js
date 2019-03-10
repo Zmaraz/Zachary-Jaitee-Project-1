@@ -154,9 +154,13 @@ async function getTickets(){
         }
     });    
     let body = await response.json();
-    console.log(body);
+    // console.log(body);
+    // console.log(body.headers);
+    // console.log(response.getResponseHeader());
     loadTable(body);
+   
 }
+
 
 function loadTable(response){
     console.log('in loadtable');
