@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.revature.models.Principal;
 import com.revature.models.Ticket;
 import com.revature.service.TicketService;
@@ -45,8 +44,6 @@ public class TicketServlet extends HttpServlet{
 					System.out.println(t);
 				}
 				
-				String temp = "";
-				JSONPObject myObject = new JSONPObject("tickets", tickets);
 				resp.setHeader("Content-Type", "application/json");
 				resp.setHeader("UserRole", "manager");
 				mapper.writeValue(pw, tickets);
@@ -57,19 +54,14 @@ public class TicketServlet extends HttpServlet{
 			}else if(principal.getRole().equalsIgnoreCase("employee")) {
 				
 				System.out.println("in employee ticket try for id: " + principal.getId());
-//				Integer.parseInt(principal.getId()
 				ArrayList<Ticket> tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
 				for(Ticket t : tickets) {
 					System.out.println(t);
 				}
 				
-				String temp = "";
-				JSONPObject myObject = new JSONPObject("tickets", tickets);
 				resp.setHeader("Content-Type", "application/json");
 				resp.setHeader("UserRole", "employee");
 				mapper.writeValue(pw, tickets);
-//				String role = "employee";
-//				mapper.writeValue(pw,role);
 				log.info("tickets have been sent");
 				
 			}

@@ -24,6 +24,16 @@ function logout() {
     window.localStorage.setItem('jwt', null);
     loadLogin();
 }
+//helper method that returns false if any elements are falsey
+function check() {
+    let inputArray = document.getElementsByClassName('form-control');
+    for (let i; i < inputArray.length; i++) {
+        if (inputArray[i] == false) {
+            return false;
+        }
+    }
+    return true;
+}
 
 // LOGIN
 //----------------------------------------------------------------------------------------------------------
@@ -93,16 +103,6 @@ function configureRegister() {
     document.getElementById('log-in').addEventListener('click', loadLogin);
 }
 
-function check() {
-    let inputArray = document.getElementsByClassName('form-control');
-    for (let i; i < inputArray.length; i++) {
-        if (inputArray[i] == false) {
-            return false;
-        }
-    }
-    return true;
-}
-
 async function register() {
     if (check()) {
         console.log('somethins empty');
@@ -151,11 +151,5 @@ async function loadDashboard() {
     configureDashboard();
 
 }
-
-
-
-
-
-
 
 //-------------------------------------------------------------------------------------------------------------------

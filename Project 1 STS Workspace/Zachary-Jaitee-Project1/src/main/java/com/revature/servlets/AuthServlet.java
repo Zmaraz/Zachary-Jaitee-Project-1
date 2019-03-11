@@ -73,7 +73,7 @@ public class AuthServlet extends HttpServlet {
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
 			}
 		}catch (ConflictingUserException e1) {
-				// TODO Auto-generated catch block
+				// TODO Set header to specify why?
 				e1.printStackTrace();
 				resp.setStatus(400);
 			} catch (InvalidInputException e1) {
