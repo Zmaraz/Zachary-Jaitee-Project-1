@@ -29,10 +29,10 @@ function check() {
     let inputArray = document.getElementsByClassName('form-control');
     for (let i; i < inputArray.length; i++) {
         if (inputArray[i] == false) {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 // LOGIN
