@@ -60,21 +60,10 @@ function loadTable(response, role, id){
         <td>${response[i].status}</td>`;
 
         if(role === 'manager'){
+            
             //checks that the response is pending and the logged in user did not make the ticket
+            document.getElementById('tableHead').appendChild(document.createElement('th'));
             if(response[i].status == 'PENDING' && response[i].authorId != id){
-                // let td = [];
-                // let buttons = [
-                //     [0,1]
-                //     [0,1]
-                // ];
-                // td[i] = document.createElement('td');
-                // buttons[0][i] = document.createElement('button');
-                // buttons[0][i].setAttribute('id', `approveButton${response[i].reimbId}`);
-                // buttons[0][i].setAttribute('class','btn btn-sm btn-outline-secondary')
-                // buttons[1][i] = document.createElement('button');
-                // buttons[1][i].setAttribute('id', `denyButton${response[i].reimbId}`);
-                // buttons[1][i].setAttribute('class','btn btn-sm btn-outline-secondary')
-
                 newRow.innerHTML += `<td><button id="ApproveButton${response[i].reimbId}">Approve</button></td>
                                     <td><button id="DenyButton${response[i].reimbId}">Deny</button></td>`;
             
@@ -83,6 +72,7 @@ function loadTable(response, role, id){
         
         document.getElementById('tablebody').appendChild(newRow);
     }
+    //add event listener and style class to buttons
     for(let i=0; i < response.length; i++){
         if(document.getElementById(`ApproveButton${response[i].reimbId}`)){
             document.getElementById(`ApproveButton${response[i].reimbId}`).addEventListener('click', selectApprove);
