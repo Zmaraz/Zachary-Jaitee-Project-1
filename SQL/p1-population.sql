@@ -81,7 +81,6 @@ BEGIN
         WHERE u.ers_user_id = user_id;
 END;
 /
-
 --get all reimbursements
 
 CREATE OR REPLACE PROCEDURE get_all_reimbursements

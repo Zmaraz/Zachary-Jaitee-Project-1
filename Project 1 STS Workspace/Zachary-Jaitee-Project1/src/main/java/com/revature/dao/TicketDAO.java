@@ -30,6 +30,7 @@ public class TicketDAO implements DAO<Ticket>{
 			temp.setStatus(ReimbursementStatus.valueOf(results.getString("reimb_status")));
 			temp.setType(ReimbursementType.valueOf(results.getString("reimb_type")));
 			temp.setResolverId(results.getInt("resolver_id"));
+			temp.setTicketDescription(results.getString("reimb_description"));
 			
 			
 			if(results.getString("reimb_resolved") == null) {
