@@ -1,22 +1,19 @@
 // Dashboard functionality, loading of dashboard is done in app.ja
 
 function configureDashboard(){
-    getTickets();
+    // getTickets();
     document.getElementById('dynamic-css').href = './css/dashboard.css';    
-    document.getElementById('ticketTable').hidden = true;
+    
     //method to make ticket visible when btn clicked
-    document.getElementById('tickets').addEventListener('click', toggleTable);
+    document.getElementById('tickets').addEventListener('click', getTickets);
     document.getElementById('add').addEventListener('click',createTicket);    
 }
 
-function toggleTable(){
-    console.log('toggletable');
-    document.getElementById('ticketTable').hidden = false;
-}
 
 function createTicket(){
     console.log('in createTicket()');
-    document.getElementById('ticketTable').hidden = true;
+    clearBody();
+    
 }
 
 async function getTickets(){
@@ -30,7 +27,7 @@ async function getTickets(){
             
         }
     });    
-    console.log(response.headers);
+
     console.log('Headers has role: '+ response.headers.has('UserRole'));
     console.log('Headers has id: '+ response.headers.has('UserId'));
     let role = response.headers.get('UserRole');
@@ -39,13 +36,37 @@ async function getTickets(){
     loadTable(body, role, id);   
 }
 
+function clearBody(){
+    while (document.getElementById('dashboardBody').firstChild) {
+        document.getElementById('dashboardBody').removeChild(document.getElementById('dashboardBody').firstChild);
+    }
+}
+
 function loadTable(response, role, id){
     console.log('in loadtable');
     console.log(response);
+    clearBody();    
 
-    while (document.getElementById('tablebody').firstChild) {
-        document.getElementById('tablebody').removeChild(document.getElementById('tablebody').firstChild);
-    }
+    //creates the table
+    document.getElementById('dashboardBody').innerHTML=
+    `<div class="table-responsive" id = "ticketTable">
+    <h2>All Tickets</h2>
+     <table class="table table-striped table-sm">
+       <thead>
+         <tr id = "tableHead">
+           <th>ID</th>
+           <th>Author</th>
+           <th>Amount</th>
+           <th>Type</th>
+           <th>Description</th>
+           <th>Submission Time</th>
+           <th>Resolution Time</th>
+           <th>Status</th>
+         </tr>
+       </thead>
+       <tbody id="tablebody"></tbody>
+     </table>
+   </div>`;
 
     for(let i=0; i < response.length; i++){
         let newRow = document.createElement('tr');
@@ -62,10 +83,10 @@ function loadTable(response, role, id){
         if(role === 'manager'){
             
             //checks that the response is pending and the logged in user did not make the ticket
-            document.getElementById('tableHead').appendChild(document.createElement('th'));
+            
             if(response[i].status == 'PENDING' && response[i].authorId != id){
                 newRow.innerHTML += `<td><button id="ApproveButton${response[i].reimbId}">Approve</button></td>
-                                    <td><button id="DenyButton${response[i].reimbId}">Deny</button></td>`;
+                <td><button id="DenyButton${response[i].reimbId}">Deny</button></td>`;
             
             }
         }
@@ -85,9 +106,11 @@ function loadTable(response, role, id){
     }
 }
 
-function selectApprove(){
+function selectApprove(e){
     console.log('in selectApprove');
+    console.log(e.target);
 }
-function selectDeny(){
+function selectDeny(e){
     console.log('in selectDeny');
+    console.log(e.target);
 }
