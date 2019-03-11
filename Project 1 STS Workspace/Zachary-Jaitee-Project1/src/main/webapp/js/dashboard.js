@@ -2,21 +2,21 @@
 
 function configureDashboard(){
     getTickets();
-    document.getElementById('dynamic-css').href = './css/dashboard.css';
-    // let tableHidden = true;
+    document.getElementById('dynamic-css').href = './css/dashboard.css';    
     document.getElementById('ticketTable').hidden = true;
     //method to make ticket visible when btn clicked
     document.getElementById('tickets').addEventListener('click', toggleTable);
-    document.getElementById('add').addEventListener('click',createTicket);
-    
+    document.getElementById('add').addEventListener('click',createTicket);    
 }
 
-function toggleTable(e){
+function toggleTable(){
+    console.log('toggletable');
     document.getElementById('ticketTable').hidden = false;
 }
 
 function createTicket(){
     console.log('in createTicket()');
+    document.getElementById('ticketTable').hidden = true;
 }
 
 async function getTickets(){
@@ -34,8 +34,7 @@ async function getTickets(){
     console.log('Headers has role: '+ response.headers.has('UserRole'));
     let role = response.headers.get('UserRole');
     let body = await response.json();
-    loadTable(body, role);
-   
+    loadTable(body, role);   
 }
 
 function loadTable(response, role){

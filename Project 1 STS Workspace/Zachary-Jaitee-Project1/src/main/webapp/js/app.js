@@ -1,10 +1,12 @@
 window.onload = () =>{
     console.log("in window.onload()");
-    const appbody = document.getElementById('appbody');
-    const SOURCE = document.getElementById('source');
-    const DYNAMIC_CSS = document.getElementById('dynamic-css');
+    
+    document.getElementById('signout').addEventListener('click', logout);
     loadLogin();
 }
+const appbody = document.getElementById('appbody');
+const SOURCE = document.getElementById('source');
+document.getElementById('dynamic-css').href = './css/register.css';
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
@@ -18,13 +20,16 @@ async function fetchView(uri) {
     });
     return await response.text();
 }
+function logout(){
+    window.localStorage.setItem('jwt',null);
+    loadLogin();
+}
 
 // LOGIN
 //----------------------------------------------------------------------------------------------------------
 //get request to view servlet
 async function loadLogin(){
     console.log('loading login...')
-    window.localStorage.setItem('jwt',null);//to disable later
     appbody.innerHTML = await fetchView('login.view');
     configureLogin();
 }
@@ -82,8 +87,7 @@ async function loadRegister(){
 
 function configureRegister(){
     document.getElementById('register-button').addEventListener('click',register);
-    DYNAMIC_CSS.href = 'register.css';
-    //Thanks Bootstrap!
+    document.getElementById('log-in').addEventListener('click', loadLogin);
 }
 
 async function register(){
