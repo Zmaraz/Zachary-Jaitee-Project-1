@@ -21,6 +21,7 @@ private static Logger log = Logger.getLogger(RequestViews.class);
 		
 		case "/Zachary-Jaitee-Project1/login.view":
 			log.info("Fetching login.html");
+			
 			return "partials/login.html";
 		
 		case "/Zachary-Jaitee-Project1/register.view":

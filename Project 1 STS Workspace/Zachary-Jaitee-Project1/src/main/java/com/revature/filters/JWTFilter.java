@@ -41,6 +41,7 @@ public class JWTFilter extends HttpFilter{
 		
 		// 3. Get the token
 		String token = header.replaceAll(JWTConfig.PREFIX, "");
+		
 		log.info("Request is authenteticated");
 		try {
 			

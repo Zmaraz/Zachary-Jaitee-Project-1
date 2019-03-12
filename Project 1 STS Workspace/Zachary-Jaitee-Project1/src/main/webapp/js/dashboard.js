@@ -2,7 +2,7 @@
 let userId = '';
 
 function configureDashboard(){
-    // getTickets();
+    
     document.getElementById('dynamic-css').href = './css/dashboard.css';    
     
     document.getElementById('nav-dash-btn').addEventListener('click', mainDash);
@@ -85,6 +85,7 @@ async function submitTicket(ticket){
 
 async function getTickets(){
     console.log('in getTickets()');
+    clearBody();  
     let response = await fetch('ticket', {
         method: 'GET',
         mode: 'cors',
@@ -105,7 +106,7 @@ async function getTickets(){
 function loadTable(response, role, id){
     console.log('in loadtable');
     // console.log(response);
-    clearBody();    
+      
 
     //creates the table
     document.getElementById('dashboardBody').innerHTML=
