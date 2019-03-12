@@ -8,3 +8,10 @@
 h1{
     text-align: center;
 }
+.alert-msg{
+    /* margin: 0px 400px; */
+    /*top/bottom left/right*/
+    background: #ffb3b3;
+    border: 1px;
+    border-radius: 3px;
+}

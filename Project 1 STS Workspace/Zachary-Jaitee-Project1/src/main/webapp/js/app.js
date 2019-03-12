@@ -27,12 +27,16 @@ function logout() {
 //helper method that returns false if any elements are falsey
 function check() {
     let inputArray = document.getElementsByClassName('form-control');
-    for (let i; i < inputArray.length; i++) {
-        if (inputArray[i] == false) {
+    for (let i = 0; i < inputArray.length; i++) {
+        if (inputArray[i].value == false) {
+
             return true;
         }
     }
     return false;
+}
+function badInput(){
+    document.getElementsByClassName('alert-msg').item(0).hidden = false;
 }
 
 // LOGIN
@@ -46,6 +50,7 @@ async function loadLogin() {
 
 function configureLogin() {
     console.log('configuring login...');
+    document.getElementsByClassName('alert-msg').item(0).hidden = true;
     document.getElementById('dynamic-css').href = './css/register.css';
     document.getElementById('password').addEventListener('keyup', function (event) {
         //pressing enter works
@@ -56,10 +61,13 @@ function configureLogin() {
 }
 
 async function login() {
+    
     if (check()) {
         console.log('somethins empty');
+        badInput();
     } else {
         document.getElementById('login-button').disabled = true;
+        document.getElementsByClassName('alert-msg').item(0).hidden = true;
         console.log('inLogin');
         let credentials = [];
         credentials.push('login');
@@ -83,6 +91,7 @@ async function login() {
         }
         else {
             document.getElementById('login-button').disabled = false;
+            badInput();
             console.log('not 200 response: ' + response.body);
         }
     }
@@ -102,13 +111,16 @@ async function loadRegister() {
 function configureRegister() {
     document.getElementById('register-button').addEventListener('click', register);
     document.getElementById('log-in').addEventListener('click', loadLogin);
+    document.getElementsByClassName('alert-msg').item(0).hidden = true;
 }
 
 async function register() {
     if (check()) {
         console.log('somethins empty');
+        badInput();
     } else {
         document.getElementById('register-button').disabled = true;
+        document.getElementsByClassName('alert-msg').item(0).hidden = true;
         let credentials = [];
         credentials.push('register');
         credentials.push(document.getElementById('firstname').value);
@@ -135,6 +147,8 @@ async function register() {
         }
         else {
             document.getElementById('register-button').disabled = false;
+            document.getElementsByClassName('alert-msg').item(0).hidden = false;
+            badInput();
             console.log("failed");
             console.log(response);
         }
