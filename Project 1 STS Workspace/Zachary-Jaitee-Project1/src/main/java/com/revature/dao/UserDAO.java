@@ -17,6 +17,27 @@ import com.revature.util.ConnectionFactory;
 public class UserDAO implements DAO<User>{
 	private static Logger log = Logger.getLogger(UserDAO.class);
 	
+	public boolean checkForUsername(String username) {
+		log.info("in UserDAO.checkForUsername");
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ers_users WHERE ers_username = ?");
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (!rs.next()) {
+				return true;
+			}
+			
+		}catch(SQLException e) {
+			log.warn("SQLException caught in userDAO.checkForUsername()");
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public User getByCredetials(String username, String password){
 		log.info("in UserDAO.getByCredentials()");
 		
