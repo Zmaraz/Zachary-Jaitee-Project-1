@@ -13,18 +13,24 @@ function configureDashboard(){
 function createTicket(){
     console.log('in createTicket()');
     clearBody();
+    let create = document.createElement('div');
+    create.innerHTML = '<input placeholder = "test" />'
+    document.getElementById('dashboardBody').appendChild(create);
+    submitTicket();
+}
+
+function submitTicket(){
+    console.log('in submitTicket')
     
 }
 
 async function getTickets(){
-    // tableHidden = false;
     console.log('in getTickets()');
     let response = await fetch('ticket', {
         method: 'GET',
         mode: 'cors',
         headers: {
-            'Authorization': localStorage.getItem('jwt')
-            
+            'Authorization': localStorage.getItem('jwt')            
         }
     });    
 

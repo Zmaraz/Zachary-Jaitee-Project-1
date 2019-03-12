@@ -1,12 +1,12 @@
 window.onload = () => {
     console.log("in window.onload()");
-
+    
     document.getElementById('signout').addEventListener('click', logout);
     loadLogin();
 }
 const appbody = document.getElementById('appbody');
 const SOURCE = document.getElementById('source');
-document.getElementById('dynamic-css').href = './css/register.css';
+
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
@@ -46,6 +46,7 @@ async function loadLogin() {
 
 function configureLogin() {
     console.log('configuring login...');
+    document.getElementById('dynamic-css').href = './css/register.css';
     document.getElementById('password').addEventListener('keyup', function (event) {
         //pressing enter works
         if (event.keyCode === 13) { login(); }
