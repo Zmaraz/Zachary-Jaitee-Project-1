@@ -22,21 +22,6 @@ function createTicket(){
 
     let createTicketArea = document.createElement('div');
     createTicketArea.setAttribute('id','createTicketArea');
-    
-    // createTicketArea.innerHTML = `<label>Ticket Amount: </label>
-    //                                 <input type="text" id="ticketAmount">
-    //                                 <br>
-    //                                 <label>Ticket Description: </label>
-    //                                 <br>
-    //                                 <textarea id="ticketDescription" placeholder="enter destription here..."></textarea>
-    //                                 <br>
-                                    // <label>Reimbursement Type:<label>
-                                    // <select>
-                                    //     <option value="food">FOOD</option>
-                                    //     <option value="lodging">LODGING</option>
-                                    //     <option value="travel">TRAVEL</option>
-                                    //     <option value="other">OTHER</option>
-                                    // </select> `;
 
     createTicketArea.innerHTML = `  
         <div class="ticket-zone" id="ticket-zone">
@@ -60,48 +45,7 @@ function createTicket(){
 
     document.getElementById('dashboardBody').appendChild(createTicketArea);
     document.getElementById('create-ticket-btn').addEventListener('click',onSubmitClick);
-    // // clearBody();
-    // let create = document.createElement('div');
 
-    
-    // // let optionTable = document.createElement('table')
-    // // optionTable.setAttribute('class','table-responsive');
-    // // optionTable.innerHTML = `<thead>
-    // // <tr>
-    // //   <th>Amount</th>
-    // //   <th>Type</th>
-    // //   <th>Description</th>
-    // //   </thead>`;
-    // // let row = document.createElement('tr');
-    // // optionTable.appendChild(row);
-    // // //AMOUNT
-    // // row.innerHTML = '<td><input maxlength="5" placeholder = "5.00" /></td>';
-    
-    // //TYPE
-    // let enums = ['LODGING', 'TRAVEL', 'FOOD', 'OTHER'];
-    // //create a select box
-    // let selectbox = document.createElement('select');
-    // selectbox.setAttribute('id','type');
-    // let optionArray = [];
-    // console.log('creating options');
-    // for(let i = 0; i < enums.length; i++){
-    //     optionArray[i] = document.createElement('option');
-    //     optionArray[i].setAttribute('value',enums[i]);
-    //     optionArray[i].innerText = enums[i];
-    //     selectbox.appendChild(optionArray[i]);
-    // }
-    // // row.appendChild(document.createElement('td').appendChild(selectbox));
-    // //DESCRIPTION
-    // // row.innerHTML += '<td><input placeholder = "Description" /></td>';
-    // //
-    // create.appendChild(selectbox);
-    // document.getElementById('dashboardBody').appendChild(create);
-    // console.log('adding table to body');
-    // let ticket = [];
-    // //add,AuthorId,Amount,Type,TicketDescription
-    // ticket.push('add');
-    // ticket.push(userId);
-    // // submitTicket(ticket);
 }
 
 function onSubmitClick(){
@@ -110,8 +54,8 @@ function onSubmitClick(){
     let ticketType = document.getElementById('type').value;
     
 
-    // if(ticketAmount.value == null || ticketDescription.value == null || ticketType.value == null){
-    //     document.getElementById.setAttribute('hidden', false);
+    // if(ticketAmount.value == "" || ticketDescription.value == "" || ticketType.value == ""){
+    //     document.getElementById(ticket-alert-msg).setAttribute('hidden', false);
     // }
     // else{
         let ticket= [];
@@ -127,7 +71,6 @@ function onSubmitClick(){
 }
 
 async function submitTicket(ticket){
-    // userId = response.headers.get('UserId');
     console.log('in submitTicket')
     let response = await fetch('ticket', {
         method: 'POST',
