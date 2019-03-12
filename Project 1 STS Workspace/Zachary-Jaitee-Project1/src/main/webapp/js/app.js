@@ -1,10 +1,12 @@
-window.onload = () =>{
+window.onload = () => {
     console.log("in window.onload()");
-    const appbody = document.getElementById('appbody');
-    const SOURCE = document.getElementById('source');
-    const DYNAMIC_CSS = document.getElementById('dynamic-css');
+    
+    document.getElementById('signout').addEventListener('click', logout);
     loadLogin();
 }
+const appbody = document.getElementById('appbody');
+const SOURCE = document.getElementById('source');
+
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
@@ -18,66 +20,72 @@ async function fetchView(uri) {
     });
     return await response.text();
 }
+function logout() {
+    window.localStorage.setItem('jwt', null);
+    loadLogin();
+}
+//helper method that returns false if any elements are falsey
+function check() {
+    let inputArray = document.getElementsByClassName('form-control');
+    for (let i; i < inputArray.length; i++) {
+        if (inputArray[i] == false) {
+            return true;
+        }
+    }
+    return false;
+}
 
 // LOGIN
 //----------------------------------------------------------------------------------------------------------
 //get request to view servlet
-async function loadLogin(){
+async function loadLogin() {
     console.log('loading login...')
-    window.localStorage.setItem('jwt',null);
     appbody.innerHTML = await fetchView('login.view');
     configureLogin();
 }
 
-function configureLogin(){
+function configureLogin() {
     console.log('configuring login...');
+    document.getElementById('dynamic-css').href = './css/register.css';
+    document.getElementById('password').addEventListener('keyup', function (event) {
+        //pressing enter works
+        if (event.keyCode === 13) { login(); }
+    });
     document.getElementById('login-button').addEventListener('click', login);
     document.getElementById('register').addEventListener('click', loadRegister);
 }
 
-async function login (){
-    //need to get jwt from response somehow???
-    // loadDashboard();
-    console.log('inLogin');
-    // let xhr = new XMLHttpRequest;
-    // xhr.open('POST', 'auth', true);
-    // xhr.send({
-    //     username: document.getElementById('username'),
-    //     password: document.getElementById('password')
-    // });
-    // console.log('sent');
-    // xhr.onreadystatechange = () => {
-    //     console.log('readystate: '+ xhr.readyState +' statuscode: '+ xhr.status);
-    //     if (xhr.readyState == 4 && xhr.status == 200) {
-    //         let userDetails = JSON.parse(xhr.responseText);
-    //         console.log(userDetails);
-    //         // checkLogin(userDetails);
-    //     }
-    // }
-    let credentials = [];
-    credentials.push('login'); 
-   credentials.push(document.getElementById('username').value);
-   credentials.push(document.getElementById('password').value);
-   console.log(credentials[0] +" "+credentials[1]);
-    let response = await fetch('auth', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    });
-    console.log(JSON.stringify(credentials));
-    console.log(response)
-    if(response.status == 200){
-        localStorage.setItem('jwt', response.headers.get('Authorization'));
-        loadDashboard();
-        console.log('200 response: ' + response);
+async function login() {
+    if (check()) {
+        console.log('somethins empty');
+    } else {
+        document.getElementById('login-button').disabled = true;
+        console.log('inLogin');
+        let credentials = [];
+        credentials.push('login');
+        credentials.push(document.getElementById('username').value);
+        credentials.push(document.getElementById('password').value);
+        console.log(credentials[0] + " " + credentials[1]);
+        let response = await fetch('auth', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        });
+        console.log('creds:' + JSON.stringify(credentials));
+        console.log(response)
+        if (response.status == 200) {
+            localStorage.setItem('jwt', response.headers.get('Authorization'));
+            loadDashboard();
+            console.log('200 response: ' + response.body);
+        }
+        else {
+            document.getElementById('login-button').disabled = false;
+            console.log('not 200 response: ' + response.body);
+        }
     }
-    else{
-        console.log('not 200 response: ' + response);
-    }
-    
 }
 
 
@@ -86,46 +94,52 @@ async function login (){
 
 // REGISTER
 //-----------------------------------------------------------------------------------------------------------------
-async function loadRegister(){
+async function loadRegister() {
     appbody.innerHTML = await fetchView('register.view');
     configureRegister();
 }
 
-function configureRegister(){
-    document.getElementById('register-button').addEventListener('click',register);
-    DYNAMIC_CSS.href = 'register.css';
-    //Thanks Bootstrap!
+function configureRegister() {
+    document.getElementById('register-button').addEventListener('click', register);
+    document.getElementById('log-in').addEventListener('click', loadLogin);
 }
 
-async function register(){
-    let credentials = [];
-    credentials.push('register');
-    credentials.push(document.getElementById('firstname').value);
-    credentials.push(document.getElementById('lastname').value);
-    credentials.push(document.getElementById('username').value);
-    credentials.push(document.getElementById('password').value);
-    credentials.push(document.getElementById('email').value);
-    
-    console.log(credentials[0] + " " + credentials[1]);
-    let response = await fetch('auth', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    });
-    console.log(JSON.stringify(credentials));
-    console.log(response)
-    if (response.status == 200) {
-        localStorage.setItem('jwt', response.headers.get('Authorization'));
-        console.log(response);
-        loadDashboard();
+async function register() {
+    if (check()) {
+        console.log('somethins empty');
+    } else {
+        document.getElementById('register-button').disabled = true;
+        let credentials = [];
+        credentials.push('register');
+        credentials.push(document.getElementById('firstname').value);
+        credentials.push(document.getElementById('lastname').value);
+        credentials.push(document.getElementById('username').value);
+        credentials.push(document.getElementById('password').value);
+        credentials.push(document.getElementById('email').value);
+
+        console.log(credentials[0] + " " + credentials[1]);
+        let response = await fetch('auth', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        });
+        console.log(JSON.stringify(credentials));
+        console.log(response)
+        if (response.status == 200) {
+            localStorage.setItem('jwt', response.headers.get('Authorization'));
+            console.log(response);
+            loadDashboard();
+        }
+        else {
+            document.getElementById('register-button').disabled = false;
+            console.log("failed");
+            console.log(response);
+        }
     }
-    else {
-        console.log("failed");
-        console.log(response);
-    }
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -133,83 +147,10 @@ async function register(){
 
 // DASHBOARD
 //-------------------------------------------------------------------------------------------------------------------
-async function loadDashboard(){
+async function loadDashboard() {
     appbody.innerHTML = await fetchView('dashboard.view');
     configureDashboard();
-    
-}
 
-function configureDashboard(){
-    
-    // SOURCE.src = 'dashboard.js';
-    getTickets();
-}
-async function getTickets(){
-    let response = await fetch('ticket', {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-            'Authorization': localStorage.getItem('jwt')
-            
-        }
-    });    
-    let body = await response.json();
-    // console.log(body);
-    // console.log(body.headers);
-    // console.log(response.getResponseHeader());
-    loadTable(body);
-   
-}
-
-
-function loadTable(response){
-    console.log('in loadtable');
-    console.log(response);
-
-    while (document.getElementById('tablebody').firstChild) {
-        document.getElementById('tablebody').removeChild(document.getElementById('tablebody').firstChild);
-    }
-
-    for(let i=0; i < response.length; i++){
-        let newRow = document.createElement('tr');
-        newRow.innerHTML = `
-        <td>${response[i].reimbId}</td>
-        <td>${response[i].authorId}</td>
-        <td>${response[i].amount}</td>
-        <td>${response[i].type}</td>
-        <td>${response[i].timeSubmitted}</td>
-        <td>${response[i].timeResolved}</td>
-        <td>${response[i].status}</td>`;
-
-        if(document.getElementById('pageTitle').innerText == 'Manager Dashboard'){
-            if(response[i].status == 'PENDING'){
-                newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
-                                    <td><button id="DenyButton${i}">Deny</button></td>`;
-            
-    
-            }
-        }
-        // if(response[i].status == 'PENDING'){
-        //     newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
-        //                         <td><button id="DenyButton${i}">Deny</button></td>`;
-        
-
-        // }
-        document.getElementById('tablebody').appendChild(newRow);
-    }
-    for(let i=0; i < response.length; i++){
-        if(document.getElementById(`ApproveButton${i}`))
-            document.getElementById(`ApproveButton${i}`).addEventListener('click', selectApprove);
-        if(document.getElementById(`DenyButton${i}`))
-            document.getElementById(`DenyButton${i}`).addEventListener('click', selectDeny);
-    }
-}
-
-function selectApprove(){
-    console.log('in selectApprove');
-}
-function selectDeny(){
-    console.log('in selectDeny');
 }
 
 //-------------------------------------------------------------------------------------------------------------------

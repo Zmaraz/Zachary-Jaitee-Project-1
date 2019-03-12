@@ -33,11 +33,6 @@ public class ViewServlet extends HttpServlet {
 		} else {
 			resp.setStatus(401);
 		}
-			
-//		if(uri.equalsIgnoreCase("/Zachary-Jaitee-Project1/login.view")) {
-//			req.getRequestDispatcher("partials/login.html").forward(req, resp);			
-//		}else {
-//			resp.setStatus(500);
-//		}	
+				
 	}
 }

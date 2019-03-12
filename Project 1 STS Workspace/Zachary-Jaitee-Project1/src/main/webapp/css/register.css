@@ -1,0 +1,10 @@
+.form-signin{
+    margin: auto;
+    padding: 1em;
+    width: 50%;
+    border-style: inset;
+    border-radius: 1em;
+}
+h1{
+    text-align: center;
+}

@@ -24,6 +24,7 @@ INSERT INTO ers_reimbursement VALUES (0, 9.99, NULL, NULL,'here is a description
 INSERT INTO ers_reimbursement VALUES (0, 39.99, NULL, NULL,'hahaha',NULL,2,3,2,4);
 INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'timestamp test',NULL,1,null,0,2);
 INSERT INTO ers_reimbursement VALUES (0, 54.99, NULL, NULL,'hahaha',NULL,2,NULL,0,3);
+INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'manager selfaprove test',NULL,3,null,0,2);
 -- checking that update trigger works to add resolved timestamp when updating the status of the ticket
 UPDATE ers_reimbursement 
 SET reimb_status_id = 1, reimb_resolver = 2
@@ -81,7 +82,6 @@ BEGIN
         WHERE u.ers_user_id = user_id;
 END;
 /
-
 --get all reimbursements
 
 CREATE OR REPLACE PROCEDURE get_all_reimbursements
