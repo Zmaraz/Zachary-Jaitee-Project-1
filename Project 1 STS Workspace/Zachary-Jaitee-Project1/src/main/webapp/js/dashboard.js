@@ -146,13 +146,13 @@ function loadTable(response, role, id){
     //add event listener and style class to buttons
     for(let i=0; i < response.length; i++){
         if(document.getElementById(`ApproveButton${i}`)){
-            document.getElementById(`ApproveButton${i}`).addEventListener('click', selectApprove);
+            document.getElementById(`ApproveButton${i}`).addEventListener('click', updateTicket);
             document.getElementById(`ApproveButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
             document.getElementById(`ApproveButton${i}`).setAttribute('value','APPROVED');
             document.getElementById(`ApproveButton${i}`).setAttribute('name',response[i].reimbId);
         }
         if(document.getElementById(`DenyButton${i}`)){
-            document.getElementById(`DenyButton${i}`).addEventListener('click', selectDeny);
+            document.getElementById(`DenyButton${i}`).addEventListener('click', updateTicket);
             document.getElementById(`DenyButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
             document.getElementById(`DenyButton${i}`).setAttribute('value','DENIED');
             document.getElementById(`DenyButton${i}`).setAttribute('name',response[i].reimbId);
@@ -160,8 +160,8 @@ function loadTable(response, role, id){
     }
 }
 
-function selectApprove(e){
-    console.log('in selectApprove');
+async function updateTicket(e){
+    console.log('in updateTicket');
     console.log(e.target);
     console.log(e.target.name);
     let ticketData = []
@@ -172,11 +172,21 @@ function selectApprove(e){
     ticketData.push(e.target.value); //status
     console.log(ticketData);
     //["update","2","3","42","APPROVED"]
+    
+    let response = await fetch('ticket', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Authorization': localStorage.getItem('jwt')            
+        },
+        body: JSON.stringify(ticketData)
+    });  
+    if(response.status == 200){
+        getTickets();
+    }
+    
 }
-function selectDeny(e){
-    console.log('in selectDeny');
-    console.log(e.target);
-}
+
 /*** HELPER FUNCTIONS */
 function clearBody(){
     while (document.getElementById('dashboardBody').firstChild) {

@@ -112,6 +112,7 @@ function configureRegister() {
     document.getElementById('register-button').addEventListener('click', register);
     document.getElementById('log-in').addEventListener('click', loadLogin);
     document.getElementsByClassName('alert-msg').item(0).hidden = true;
+    //create event listener that on blur from username checks to see if that username is taken
 }
 
 async function register() {
