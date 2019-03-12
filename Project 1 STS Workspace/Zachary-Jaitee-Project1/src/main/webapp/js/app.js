@@ -74,7 +74,7 @@ async function login() {
             },
             body: JSON.stringify(credentials)
         });
-        console.log(JSON.stringify(credentials));
+        console.log('creds:' + JSON.stringify(credentials));
         console.log(response)
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
