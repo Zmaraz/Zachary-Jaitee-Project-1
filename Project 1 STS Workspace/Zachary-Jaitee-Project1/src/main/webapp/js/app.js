@@ -26,8 +26,8 @@ async function fetchView(uri) {
     return await response.text();
 }
 function logout() {
-    window.localStorage.setItem('jwt', null);
-    window.localStorage.setItem('ui', null);
+    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('uid');
     loadLogin();
 }
 //helper method that returns false if any elements are falsey
@@ -93,8 +93,7 @@ async function login() {
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
             localStorage.setItem('uid',response.headers.get('userId'));
-            loadDashboard();
-            console.log('200 response');
+            loadDashboard();            
         }
         else {
             document.getElementById('login-button').disabled = false;
@@ -171,8 +170,7 @@ async function register() {
 //-------------------------------------------------------------------------------------------------------------------
 async function loadDashboard() {
     appbody.innerHTML = await fetchView('dashboard.view');
-    configureDashboard();
-
+    if(appbody.innerHTML){configureDashboard();}
 }
 
 //-------------------------------------------------------------------------------------------------------------------
