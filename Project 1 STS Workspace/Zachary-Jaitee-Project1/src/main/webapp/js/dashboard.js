@@ -94,7 +94,7 @@ async function getTickets(){
 
 function loadTable(response, role, id){
     console.log('in loadtable');
-    console.log(response);
+    // console.log(response);
     clearBody();    
 
     //creates the table
@@ -135,8 +135,8 @@ function loadTable(response, role, id){
             //checks that the response is pending and the logged in user did not make the ticket
             
             if(response[i].status == 'PENDING' && response[i].authorId != id){
-                newRow.innerHTML += `<td><button id="ApproveButton${response[i].reimbId}">Approve</button></td>
-                <td><button id="DenyButton${response[i].reimbId}">Deny</button></td>`;
+                newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
+                <td><button id="DenyButton${i}">Deny</button></td>`;
             
             }
         }
@@ -145,13 +145,17 @@ function loadTable(response, role, id){
     }
     //add event listener and style class to buttons
     for(let i=0; i < response.length; i++){
-        if(document.getElementById(`ApproveButton${response[i].reimbId}`)){
-            document.getElementById(`ApproveButton${response[i].reimbId}`).addEventListener('click', selectApprove);
-            document.getElementById(`ApproveButton${response[i].reimbId}`).setAttribute('class','btn btn-sm btn-outline-secondary');
+        if(document.getElementById(`ApproveButton${i}`)){
+            document.getElementById(`ApproveButton${i}`).addEventListener('click', selectApprove);
+            document.getElementById(`ApproveButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
+            document.getElementById(`ApproveButton${i}`).setAttribute('value','APPROVED');
+            document.getElementById(`ApproveButton${i}`).setAttribute('name',response[i].reimbId);
         }
-        if(document.getElementById(`DenyButton${response[i].reimbId}`)){
-            document.getElementById(`DenyButton${response[i].reimbId}`).addEventListener('click', selectDeny);
-            document.getElementById(`DenyButton${response[i].reimbId}`).setAttribute('class','btn btn-sm btn-outline-secondary');
+        if(document.getElementById(`DenyButton${i}`)){
+            document.getElementById(`DenyButton${i}`).addEventListener('click', selectDeny);
+            document.getElementById(`DenyButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
+            document.getElementById(`DenyButton${i}`).setAttribute('value','DENIED');
+            document.getElementById(`DenyButton${i}`).setAttribute('name',response[i].reimbId);
         }
     }
 }
@@ -159,6 +163,14 @@ function loadTable(response, role, id){
 function selectApprove(e){
     console.log('in selectApprove');
     console.log(e.target);
+    console.log(e.target.name);
+    let ticketData = []
+    ticketData.push('update');
+    ticketData.push('0') //author is
+    ticketData.push(userId);//resolver id
+    ticketData.push(e.target.name); //reimbId
+    ticketData.push(e.target.value); //status
+    console.log(ticketData);
     //["update","2","3","42","APPROVED"]
 }
 function selectDeny(e){
