@@ -144,7 +144,7 @@ function loadTable(response, role, id){
         document.getElementById('tablebody').appendChild(newRow);
     }
     //add event listener and style class to buttons
-    for(let i=0; i < response.length; i++){
+    for(let i = 0; i < response.length; i++){
         if(document.getElementById(`ApproveButton${i}`)){
             document.getElementById(`ApproveButton${i}`).addEventListener('click', updateTicket);
             document.getElementById(`ApproveButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
@@ -162,8 +162,11 @@ function loadTable(response, role, id){
 
 async function updateTicket(e){
     console.log('in updateTicket');
-    console.log(e.target);
-    console.log(e.target.name);
+    let btns = document.getElementsByName(e.target.name);
+    for(let i = 0; i < btns.length; i++){
+        btns[i].disabled = true;
+    }
+    
     let ticketData = []
     ticketData.push('update');
     ticketData.push('0') //author is
