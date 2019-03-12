@@ -27,8 +27,8 @@ INSERT INTO ers_reimbursement VALUES (0, 54.99, NULL, NULL,'hahaha',NULL,2,NULL,
 INSERT INTO ers_reimbursement VALUES (0, 99.57, NULL, NULL,'manager selfaprove test',NULL,3,null,0,2);
 -- checking that update trigger works to add resolved timestamp when updating the status of the ticket
 UPDATE ers_reimbursement 
-SET reimb_status_id = 1, reimb_resolver = 2
-WHERE reimb_id = 1;
+SET reimb_status_id = 1, reimb_resolver = 3
+WHERE reimb_id = 41;
 
 --get all info from users
 SELECT ers_user_id, ers_username, ers_password, user_first_name, user_last_name, user_email, r.user_role
