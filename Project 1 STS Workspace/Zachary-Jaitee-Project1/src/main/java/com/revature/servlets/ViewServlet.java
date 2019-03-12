@@ -1,6 +1,7 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.util.RequestViews;
 
 public class ViewServlet extends HttpServlet {
@@ -17,6 +19,7 @@ public class ViewServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
+		ObjectMapper mapper = new ObjectMapper();
 		
 		String uri = req.getRequestURI();
 		log.info(uri);
@@ -25,7 +28,12 @@ public class ViewServlet extends HttpServlet {
 		
 		if(nextView != null) {
 			try {
+				
+//				PrintWriter pw = resp.getWriter();
+//				mapper.writeValue(pw, usernames);
 				req.getRequestDispatcher(nextView).forward(req, resp);
+				
+				
 			} catch (Exception e) {
 				log.error(e.getMessage());
 				resp.setStatus(500);
