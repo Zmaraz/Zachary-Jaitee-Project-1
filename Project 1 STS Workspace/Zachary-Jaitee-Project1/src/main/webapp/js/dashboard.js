@@ -5,9 +5,13 @@ function configureDashboard(){
     // getTickets();
     document.getElementById('dynamic-css').href = './css/dashboard.css';    
     
-    //method to make ticket visible when btn clicked
+    document.getElementById('dash').addEventListener('click', mainDash);
     document.getElementById('tickets').addEventListener('click', getTickets);
     document.getElementById('add').addEventListener('click',createTicket);    
+}
+
+function mainDash(){
+
 }
 
 
@@ -15,25 +19,45 @@ function createTicket(){
     console.log('in createTicket()');
     clearBody();
     let create = document.createElement('div');
-    create.innerHTML = '<input placeholder = "test" />'
-    //add,AuthorId,Amount,Type,TicketDescription
+    
+    let optionTable = document.createElement('table')
+    optionTable.setAttribute('class','table-responsive');
+    optionTable.innerHTML = `<thead>
+    <tr>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Description</th>
+      </thead>`;
+    let row = document.createElement('tr');
+    optionTable.appendChild(row);
+    //AMOUNT
+    row.innerHTML = '<td><input maxlength="5" placeholder = "5.00" /></td>';
+    
+    //TYPE
     let enums = ['LODGING', 'TRAVEL', 'FOOD', 'OTHER'];
     //create a select box
     let selectbox = document.createElement('select');
     selectbox.setAttribute('id','type');
     let optionArray = [];
+    console.log('creating options');
     for(let i = 0; i < enums.length; i++){
         optionArray[i] = document.createElement('option');
         optionArray[i].setAttribute('value',enums[i]);
         optionArray[i].innerText = enums[i];
         selectbox.appendChild(optionArray[i]);
     }
-    create.appendChild(selectbox);
+    row.appendChild(document.createElement('td').appendChild(selectbox));
+    //DESCRIPTION
+    row.innerHTML += '<td><input placeholder = "Description" /></td>';
+    //
+    create.appendChild(optionTable);
     document.getElementById('dashboardBody').appendChild(create);
+    console.log('adding table to body');
     let ticket = [];
+    //add,AuthorId,Amount,Type,TicketDescription
     ticket.push('add');
     ticket.push(userId);
-    submitTicket(ticket);
+    // submitTicket(ticket);
 }
 
 async function submitTicket(ticket){
@@ -134,6 +158,7 @@ function loadTable(response, role, id){
 function selectApprove(e){
     console.log('in selectApprove');
     console.log(e.target);
+    //["update","2","3","42","APPROVED"]
 }
 function selectDeny(e){
     console.log('in selectDeny');
