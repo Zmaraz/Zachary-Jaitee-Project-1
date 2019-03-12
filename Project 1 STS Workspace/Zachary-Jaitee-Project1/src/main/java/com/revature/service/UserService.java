@@ -14,6 +14,10 @@ public class UserService {
 	private static Logger log = Logger.getLogger(UserService.class);
 	private UserDAO userDao = new UserDAO();
 	
+	public Boolean checkForUsername(String username) {
+		return userDao.checkForUsername(username);
+	}
+	
 	public User getByCredentials(String username, String password) throws UserNotFoundException, InvalidInputException{
 		log.info("in UserService.getByCredentials()");
 		if(username == null || password == null) throw new InvalidInputException("Empty credentials");

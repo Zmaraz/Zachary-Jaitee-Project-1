@@ -54,7 +54,7 @@ public class AuthServlet extends HttpServlet {
 			if(credentials[0].equals("login")) {
 				log.info("logging in");
 				user = service.getByCredentials(credentials[1], credentials[2]);
-				
+				resp.addHeader("status", "logged in");
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
 				
@@ -69,28 +69,31 @@ public class AuthServlet extends HttpServlet {
 		
 			
 				user = service.add(user);
+				resp.addHeader("status", "user created");
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
 			}
 		}catch (ConflictingUserException e1) {
-				// TODO Set header to specify why?
+				resp.addHeader("status", "username taken");
 				e1.printStackTrace();
 				resp.setStatus(400);
 			} catch (InvalidInputException e1) {
-				// TODO Auto-generated catch block
+				resp.addHeader("status", "invalid input");
 				e1.printStackTrace();
 				resp.setStatus(400);
 			} catch (UserNotFoundException e) {
-				// TODO Auto-generated catch block
+				resp.addHeader("status", "user not found");
 				e.printStackTrace();
 				resp.setStatus(401);
 			} catch (MismatchedInputException mie) {
 				log.error(mie.getMessage());
+				resp.addHeader("status", "mismatched input");
 				resp.setStatus(400);
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error(e.getMessage());
+				resp.addHeader("status", "server error");
 				resp.setStatus(500);
 				return;
 			}

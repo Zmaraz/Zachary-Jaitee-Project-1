@@ -37,37 +37,31 @@ public class TicketServlet extends HttpServlet{
 		try {
 			PrintWriter pw = resp.getWriter();
 			Principal principal = (Principal) req.getAttribute("principal");
+			ArrayList<Ticket> tickets = null;
 			
 			if(principal.getRole().equalsIgnoreCase("manager")) {
 				
 				System.out.println("in manager ticket try for id: " + principal.getId());
-				ArrayList<Ticket> tickets = service.getAll();
+				tickets = service.getAll();
 				for(Ticket t : tickets) {
 					System.out.println(t);
 				}
-				
-				resp.setHeader("Content-Type", "application/json");
-				resp.setHeader("UserRole", "manager");
-				resp.setHeader("UserId", principal.getId());
-				mapper.writeValue(pw, tickets);
-				log.info("tickets have been sent");
-
-				
-				
+								
 			}else if(principal.getRole().equalsIgnoreCase("employee")) {
 				
 				System.out.println("in employee ticket try for id: " + principal.getId());
-				ArrayList<Ticket> tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
+				tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
 				for(Ticket t : tickets) {
 					System.out.println(t);
-				}
-				
-				resp.setHeader("Content-Type", "application/json");
-				resp.setHeader("UserRole", "employee");
-				mapper.writeValue(pw, tickets);
-				log.info("tickets have been sent");
-				
+				}				
+		
 			}
+			resp.setHeader("Content-Type", "application/json");
+			resp.setHeader("UserRole", "manager");
+			resp.setHeader("UserId", principal.getId());
+			mapper.writeValue(pw, tickets);
+			log.info("tickets have been sent");
+			
 		}catch(JsonProcessingException jpe) {
 			jpe.printStackTrace();
 			
