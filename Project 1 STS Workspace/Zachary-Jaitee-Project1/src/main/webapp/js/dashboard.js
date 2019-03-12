@@ -2,7 +2,7 @@
 let userId = '';
 
 function configureDashboard(){
-    // getTickets();
+    
     document.getElementById('dynamic-css').href = './css/dashboard.css';    
     
     document.getElementById('nav-dash-btn').addEventListener('click', mainDash);

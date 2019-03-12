@@ -2,7 +2,12 @@ window.onload = () => {
     console.log("in window.onload()");
     
     document.getElementById('signout').addEventListener('click', logout);
-    loadLogin();
+    if(localStorage.getItem('jwt')){
+        loadDashboard();
+    } else{
+        loadLogin();
+    }
+    
 }
 const appbody = document.getElementById('appbody');
 const SOURCE = document.getElementById('source');
@@ -22,6 +27,7 @@ async function fetchView(uri) {
 }
 function logout() {
     window.localStorage.setItem('jwt', null);
+    window.localStorage.setItem('ui', null);
     loadLogin();
 }
 //helper method that returns false if any elements are falsey
@@ -88,7 +94,7 @@ async function login() {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
             localStorage.setItem('uid',response.headers.get('userId'));
             loadDashboard();
-            console.log('200 response: ' + response.body);
+            console.log('200 response');
         }
         else {
             document.getElementById('login-button').disabled = false;
