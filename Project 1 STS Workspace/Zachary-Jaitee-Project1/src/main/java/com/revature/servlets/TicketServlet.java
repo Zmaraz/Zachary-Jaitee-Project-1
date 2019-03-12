@@ -46,6 +46,7 @@ public class TicketServlet extends HttpServlet{
 				
 				resp.setHeader("Content-Type", "application/json");
 				resp.setHeader("UserRole", "manager");
+				resp.setHeader("UserId", principal.getId());
 				mapper.writeValue(pw, tickets);
 				log.info("tickets have been sent");
 
