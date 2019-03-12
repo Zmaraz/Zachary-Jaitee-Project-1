@@ -86,6 +86,7 @@ async function login() {
         console.log(response)
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
+            localStorage.setItem('uid',response.headers.get('userId'));
             loadDashboard();
             console.log('200 response: ' + response.body);
         }
