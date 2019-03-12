@@ -9,7 +9,7 @@ h1{
     text-align: center;
 }
 .alert-msg{
-    /* margin: 0px 400px; */
+    margin: 20px 0px;
     /*top/bottom left/right*/
     background: #ffb3b3;
     border: 1px;

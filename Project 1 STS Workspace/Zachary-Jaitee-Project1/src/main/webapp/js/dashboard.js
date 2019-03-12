@@ -17,21 +17,22 @@ function mainDash(){
 
 function createTicket(){
     console.log('in createTicket()');
-    clearBody();
+    // clearBody();
     let create = document.createElement('div');
+
     
-    let optionTable = document.createElement('table')
-    optionTable.setAttribute('class','table-responsive');
-    optionTable.innerHTML = `<thead>
-    <tr>
-      <th>Amount</th>
-      <th>Type</th>
-      <th>Description</th>
-      </thead>`;
-    let row = document.createElement('tr');
-    optionTable.appendChild(row);
-    //AMOUNT
-    row.innerHTML = '<td><input maxlength="5" placeholder = "5.00" /></td>';
+    // let optionTable = document.createElement('table')
+    // optionTable.setAttribute('class','table-responsive');
+    // optionTable.innerHTML = `<thead>
+    // <tr>
+    //   <th>Amount</th>
+    //   <th>Type</th>
+    //   <th>Description</th>
+    //   </thead>`;
+    // let row = document.createElement('tr');
+    // optionTable.appendChild(row);
+    // //AMOUNT
+    // row.innerHTML = '<td><input maxlength="5" placeholder = "5.00" /></td>';
     
     //TYPE
     let enums = ['LODGING', 'TRAVEL', 'FOOD', 'OTHER'];
@@ -46,11 +47,11 @@ function createTicket(){
         optionArray[i].innerText = enums[i];
         selectbox.appendChild(optionArray[i]);
     }
-    row.appendChild(document.createElement('td').appendChild(selectbox));
+    // row.appendChild(document.createElement('td').appendChild(selectbox));
     //DESCRIPTION
-    row.innerHTML += '<td><input placeholder = "Description" /></td>';
+    // row.innerHTML += '<td><input placeholder = "Description" /></td>';
     //
-    create.appendChild(optionTable);
+    create.appendChild(selectbox);
     document.getElementById('dashboardBody').appendChild(create);
     console.log('adding table to body');
     let ticket = [];
