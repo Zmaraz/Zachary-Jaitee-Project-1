@@ -77,6 +77,65 @@ public class TicketServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		log.info("in TicketServlet doPost()");
 		
+		ObjectMapper mapper = new ObjectMapper();
+		String[] ticketData = null;
+		
+		try {
+			ticketData = mapper.readValue(req.getInputStream(), String[].class);
+			for(String s : ticketData) {
+				log.info(s);
+			}
+			
+			ticket.setAuthorId(Integer.parseInt(ticketData[0]));
+			ticket.setAmount(Double.parseDouble(ticketData[1]));
+			
+			
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
