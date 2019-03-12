@@ -40,14 +40,15 @@ public class JWTFilter extends HttpFilter{
 		}
 		
 		// 3. Get the token
-		String token = header.replaceAll(JWTConfig.PREFIX, "");
+//		String token = header.replaceAll(JWTConfig.PREFIX, "");
+		
 		log.info("Request is authenteticated");
 		try {
 			
 			// 4. Validate the token
 			Claims claims = Jwts.parser()
 					.setSigningKey(JWTConfig.signingKey)
-					.parseClaimsJws(token)
+					.parseClaimsJws(header)
 					.getBody();
 			
 			// 5. Obtain the principal/subject stored in the JWT
