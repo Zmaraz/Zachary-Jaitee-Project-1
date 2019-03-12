@@ -1,4 +1,5 @@
 // Dashboard functionality, loading of dashboard is done in app.ja
+let userId = '';
 
 function configureDashboard(){
     // getTickets();
@@ -13,34 +14,58 @@ function configureDashboard(){
 function createTicket(){
     console.log('in createTicket()');
     clearBody();
-    
+    let create = document.createElement('div');
+    create.innerHTML = '<input placeholder = "test" />'
+    //add,AuthorId,Amount,Type,TicketDescription
+    let enums = ['LODGING', 'TRAVEL', 'FOOD', 'OTHER'];
+    //create a select box
+    let selectbox = document.createElement('select');
+    selectbox.setAttribute('id','type');
+    let optionArray = [];
+    for(let i = 0; i < enums.length; i++){
+        optionArray[i] = document.createElement('option');
+        optionArray[i].setAttribute('value',enums[i]);
+        optionArray[i].innerText = enums[i];
+        selectbox.appendChild(optionArray[i]);
+    }
+    create.appendChild(selectbox);
+    document.getElementById('dashboardBody').appendChild(create);
+    let ticket = [];
+    ticket.push('add');
+    ticket.push(userId);
+    submitTicket(ticket);
+}
+
+async function submitTicket(ticket){
+    console.log('in submitTicket')
+    let response = await fetch('auth', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ticket)
+    });
 }
 
 async function getTickets(){
-    // tableHidden = false;
     console.log('in getTickets()');
     let response = await fetch('ticket', {
         method: 'GET',
         mode: 'cors',
         headers: {
-            'Authorization': localStorage.getItem('jwt')
-            
+            'Authorization': localStorage.getItem('jwt')            
         }
     });    
 
     console.log('Headers has role: '+ response.headers.has('UserRole'));
     console.log('Headers has id: '+ response.headers.has('UserId'));
     let role = response.headers.get('UserRole');
-    let id = response.headers.get('UserId');
+    userId = response.headers.get('UserId');
     let body = await response.json();
-    loadTable(body, role, id);   
+    loadTable(body, role, userId);   
 }
 
-function clearBody(){
-    while (document.getElementById('dashboardBody').firstChild) {
-        document.getElementById('dashboardBody').removeChild(document.getElementById('dashboardBody').firstChild);
-    }
-}
 
 function loadTable(response, role, id){
     console.log('in loadtable');
@@ -113,4 +138,10 @@ function selectApprove(e){
 function selectDeny(e){
     console.log('in selectDeny');
     console.log(e.target);
+}
+/*** HELPER FUNCTIONS */
+function clearBody(){
+    while (document.getElementById('dashboardBody').firstChild) {
+        document.getElementById('dashboardBody').removeChild(document.getElementById('dashboardBody').firstChild);
+    }
 }
