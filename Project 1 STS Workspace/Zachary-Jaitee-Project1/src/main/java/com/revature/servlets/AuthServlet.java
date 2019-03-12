@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.exceptions.ConflictingUserException;
 import com.revature.exceptions.InvalidInputException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.models.Principal;
 import com.revature.models.User;
 import com.revature.models.enums.UserRole;
 import com.revature.service.UserService;
@@ -57,6 +58,7 @@ public class AuthServlet extends HttpServlet {
 				resp.addHeader("status", "logged in");
 				resp.setStatus(200);
 				resp.addHeader(JWTConfig.HEADER, JWTConfig.PREFIX + JWTGenerator.createJwt(user));
+				resp.addHeader("userId", String.valueOf(user.getUserId()));
 				
 			} else if(credentials[0].equals("register")){
 			log.info("in registration");

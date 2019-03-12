@@ -5,9 +5,9 @@ function configureDashboard(){
     // getTickets();
     document.getElementById('dynamic-css').href = './css/dashboard.css';    
     
-    document.getElementById('dash').addEventListener('click', mainDash);
-    document.getElementById('tickets').addEventListener('click', getTickets);
-    document.getElementById('add').addEventListener('click',createTicket);    
+    document.getElementById('nav-dash-btn').addEventListener('click', mainDash);
+    document.getElementById('nav-ticket-table-btn').addEventListener('click', getTickets);
+    document.getElementById('nav-add-btn').addEventListener('click',createTicket);    
 }
 
 function mainDash(){
@@ -17,57 +17,67 @@ function mainDash(){
 
 function createTicket(){
     console.log('in createTicket()');
-    // clearBody();
-    let create = document.createElement('div');
 
+    clearBody();
+
+    let createTicketArea = document.createElement('div');
+    createTicketArea.setAttribute('id','createTicketArea');
+
+    createTicketArea.innerHTML = `  
+        <div class="ticket-zone" id="ticket-zone">
+            <h1 class="h3 mb-3 font-weight-normal">Enter Your New Ticket's Information</h1>
+            <input type="text" id="amount" name="amount" class="form-control" placeholder="enter amount" required autofocus>
+            <input type="text" id="description" name="description" class="form-control" placeholder="enter a short description" required autofocus>
+            
+            <label>Reimbursement Type:<label>
+                <select id="type">
+                    <option value="FOOD">FOOD</option>
+                    <option value="LODGING">LODGING</option>
+                    <option value="TRAVEL">TRAVEL</option>
+                    <option value="OTHER">OTHER</option>
+                </select>
+
+            <div id = "ticket-alert-msg" hidden="true">
+                <p>Please fill out all fields with valid input</p>
+            </div>
+        <button class="btn btn-lg btn-primary btn-block" id="create-ticket-btn">Submit Ticket</button>
+    </div>`;
+
+    document.getElementById('dashboardBody').appendChild(createTicketArea);
+    document.getElementById('create-ticket-btn').addEventListener('click',onSubmitClick);
+
+}
+
+function onSubmitClick(){
+    let ticketAmount = document.getElementById('amount').value;
+    let ticketDescription = document.getElementById('description').value;
+    let ticketType = document.getElementById('type').value;
     
-    // let optionTable = document.createElement('table')
-    // optionTable.setAttribute('class','table-responsive');
-    // optionTable.innerHTML = `<thead>
-    // <tr>
-    //   <th>Amount</th>
-    //   <th>Type</th>
-    //   <th>Description</th>
-    //   </thead>`;
-    // let row = document.createElement('tr');
-    // optionTable.appendChild(row);
-    // //AMOUNT
-    // row.innerHTML = '<td><input maxlength="5" placeholder = "5.00" /></td>';
+
+    // if(ticketAmount.value == "" || ticketDescription.value == "" || ticketType.value == ""){
+    //     document.getElementById(ticket-alert-msg).setAttribute('hidden', false);
+    // }
+    // else{
+        let ticket= [];
+        ticket.push('add');
+        ticket.push(localStorage.getItem('uid'));
+        ticket.push(ticketAmount);
+        ticket.push(ticketType);
+        ticket.push(ticketDescription);
     
-    //TYPE
-    let enums = ['LODGING', 'TRAVEL', 'FOOD', 'OTHER'];
-    //create a select box
-    let selectbox = document.createElement('select');
-    selectbox.setAttribute('id','type');
-    let optionArray = [];
-    console.log('creating options');
-    for(let i = 0; i < enums.length; i++){
-        optionArray[i] = document.createElement('option');
-        optionArray[i].setAttribute('value',enums[i]);
-        optionArray[i].innerText = enums[i];
-        selectbox.appendChild(optionArray[i]);
-    }
-    // row.appendChild(document.createElement('td').appendChild(selectbox));
-    //DESCRIPTION
-    // row.innerHTML += '<td><input placeholder = "Description" /></td>';
-    //
-    create.appendChild(selectbox);
-    document.getElementById('dashboardBody').appendChild(create);
-    console.log('adding table to body');
-    let ticket = [];
-    //add,AuthorId,Amount,Type,TicketDescription
-    ticket.push('add');
-    ticket.push(userId);
-    // submitTicket(ticket);
+        submitTicket(ticket);
+    // }
+
 }
 
 async function submitTicket(ticket){
     console.log('in submitTicket')
-    let response = await fetch('auth', {
+    let response = await fetch('ticket', {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('jwt')
         },
         body: JSON.stringify(ticket)
     });
