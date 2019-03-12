@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Principal;
 import com.revature.models.Ticket;
+import com.revature.models.enums.ReimbursementType;
 import com.revature.service.TicketService;
 
 @WebServlet("/ticket")
@@ -78,6 +79,75 @@ public class TicketServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		log.info("in TicketServlet doPost()");
 		
+		ObjectMapper mapper = new ObjectMapper();
+		String[] ticketData = null;
+		
+		try {
+			ticketData = mapper.readValue(req.getInputStream(), String[].class);
+			for(String s : ticketData) {
+				log.info(s);
+			}
+			
+			ticket.setAuthorId(Integer.parseInt(ticketData[0]));
+			ticket.setAmount(Double.parseDouble(ticketData[1]));
+			ticket.setType(ReimbursementType.valueOf(ticketData[2]));
+			ticket.setTicketDescription(ticketData[3]);
+			
+			ticket = service.add(ticket);
+			if(ticket != null) {
+				resp.setStatus(200);
+			}else {
+				resp.setStatus(400);
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			resp.setStatus(500);
+			return;
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
