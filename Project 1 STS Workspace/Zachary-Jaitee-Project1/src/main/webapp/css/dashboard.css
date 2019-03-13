@@ -5,7 +5,7 @@ table{
     border: black 2px;
 }
 #news{
-    align-self: center;
+    padding-left: 10%;
     background-color: lightgrey;
     border-radius: 2em;
 }
