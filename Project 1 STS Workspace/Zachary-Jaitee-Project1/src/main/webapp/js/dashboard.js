@@ -11,7 +11,8 @@ function configureDashboard(){
 }
 
 function mainDash(){
-
+    console.log('in mainDash')
+    clearBody();
 }
 
 
@@ -24,26 +25,27 @@ function createTicket(){
     createTicketArea.setAttribute('id','createTicketArea');
 
     createTicketArea.innerHTML = `  
-        <div class="ticket-zone" id="ticket-zone">
-            <h1 class="h3 mb-3 font-weight-normal">Enter Your New Ticket's Information</h1>
-            <input type="text" id="amount" name="amount" class="form-control" placeholder="enter amount" required autofocus>
+    <h1 class="h3 mb-3 font-weight-normal">Enter Your Reimbusement Information</h1>
+        <div id="ticket-zone">           
+            <input type="text" id="amount" name="amount" class="form-control" placeholder="enter Amount" required autofocus>
             <input type="text" id="description" name="description" class="form-control" placeholder="enter a short description" required autofocus>
             
-            <label>Reimbursement Type:<label>
-                <select id="type">
+                <select class="form-control" id="type">
+                    <option value = "">Choose a Type</option>
                     <option value="FOOD">FOOD</option>
                     <option value="LODGING">LODGING</option>
                     <option value="TRAVEL">TRAVEL</option>
                     <option value="OTHER">OTHER</option>
                 </select>
 
-            <div id = "ticket-alert-msg" hidden="true">
-                <p>Please fill out all fields with valid input</p>
-            </div>
+            
         <button class="btn btn-lg btn-primary btn-block" id="create-ticket-btn">Submit Ticket</button>
-    </div>`;
+    </div><div id = "ticket-alert-msg">
+    <p>Please fill out all fields with valid input</p>
+</div>`;
 
     document.getElementById('dashboardBody').appendChild(createTicketArea);
+    document.getElementById('ticket-alert-msg').hidden = true;
     document.getElementById('create-ticket-btn').addEventListener('click',onSubmitClick);
 
 }
@@ -52,20 +54,22 @@ function onSubmitClick(){
     let ticketAmount = document.getElementById('amount').value;
     let ticketDescription = document.getElementById('description').value;
     let ticketType = document.getElementById('type').value;
+    console.log(ticketType);
     
-
-    // if(ticketAmount.value == "" || ticketDescription.value == "" || ticketType.value == ""){
-    //     document.getElementById(ticket-alert-msg).setAttribute('hidden', false);
-    // }
-    // else{
         let ticket= [];
         ticket.push('add');
         ticket.push(localStorage.getItem('uid'));
         ticket.push(ticketAmount);
         ticket.push(ticketType);
         ticket.push(ticketDescription);
-    
-        submitTicket(ticket);
+        console.log(check());
+        if(check()){
+            document.getElementById('ticket-alert-msg').hidden = false;
+        }else{
+            document.getElementById('ticket-alert-msg').hidden = true;
+            document.getElementById('create-ticket-btn').disabled = true;
+            submitTicket(ticket);
+        }            
     // }
 
 }
@@ -81,6 +85,12 @@ async function submitTicket(ticket){
         },
         body: JSON.stringify(ticket)
     });
+    if(response.status == 200){
+        console.log('ticket submitted sucessfully')
+    }
+    else{
+        console.log(response.status);
+    }
 }
 
 async function getTickets(){

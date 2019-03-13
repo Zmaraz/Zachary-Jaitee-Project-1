@@ -6,12 +6,10 @@ window.onload = () => {
         loadDashboard();
     } else{
         loadLogin();
-    }
-    
+    }    
 }
 const appbody = document.getElementById('appbody');
 const SOURCE = document.getElementById('source');
-
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
