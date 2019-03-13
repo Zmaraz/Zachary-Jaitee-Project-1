@@ -18,6 +18,7 @@ COMMIT;
 INSERT INTO ers_users VALUES (0, 'asdf','asdf','asdf','asdf','asdf@asdf.com',2);
 INSERT INTO ers_users VALUES (0, 'jpitts','12345','Jaitee','Pitts','jpitts@asdf.com',2);
 INSERT INTO ers_users VALUES (0, 'zmaraz','5678','Zachary','Marazita','zmaraz@asdf.com',1);
+INSERT INTO ers_users VALUES (0, 'gsimms','65bikee','Garry-Garth','Simmons','garth@asdf.com',1);
 
 -- TICKET --VALUES(id, amount, time submitted, time resolved, descr, recipt, author, resolver, status id, type id)
 INSERT INTO ers_reimbursement VALUES (0, 9.99, NULL, NULL,'here is a description',NULL,1,NULL,0,2);
