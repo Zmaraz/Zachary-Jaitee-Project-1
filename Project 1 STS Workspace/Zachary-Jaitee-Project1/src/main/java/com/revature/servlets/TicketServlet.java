@@ -123,7 +123,7 @@ public class TicketServlet extends HttpServlet{
 		}catch(Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
-			resp.setStatus(500);
+			resp.setStatus(400);
 			return;
 		}
 	}
