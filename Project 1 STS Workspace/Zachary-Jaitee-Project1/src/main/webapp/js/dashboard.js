@@ -15,7 +15,7 @@ function mainDash(){
     clearBody();
     
     document.getElementById('dashboardBody').innerHTML =
-    `<div id = "news"><h3>ASDF Updates</h3>
+    `<div id = "news"><span id ="newsheader"><h3>ASDF Updates</h3></span>
     <p>3-13-19<br/>We will no longer be approving reimbursements whose description is "hahaha".</p>
     <p>3-3-19<br/>Fixed the issue where no one could get approved because there were no managers.</p>
     <p>2-20-19<br/>Our company will now be giving you money for your time!</p></div>
@@ -96,6 +96,7 @@ async function submitTicket(ticket){
     });
     if(response.status == 200){
         console.log('ticket submitted sucessfully')
+        getTickets();
     }
     else{
         console.log(response.status);

@@ -5,10 +5,10 @@ table{
     border: black 2px;
 }
 #news{
-    margin: auto;
-    background-color: darkgray;
+    align-self: center;
+    background-color: lightgrey;
     border-radius: 2em;
 }
-#news h2{
+#newsheader{
     background-color: darkblue;
 }
