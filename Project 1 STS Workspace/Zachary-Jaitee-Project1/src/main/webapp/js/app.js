@@ -121,8 +121,8 @@ function configureRegister() {
 }
 
 async function register() {
-    if (check()) {
-        console.log('somethins empty');
+    if (check() || !validateEmail()) {
+        // console.log('somethins empty');
         badInput();
     } else {
         document.getElementById('register-button').disabled = true;
@@ -165,8 +165,12 @@ async function register() {
 function validateEmail(){
     let emailInput = document.getElementById('email').value;
 
-   if(emailInput.endsWith('.com') && emailInput.startsWith(!'@')){
-        console.log('valid');
+   if(emailInput.endsWith('.com') && emailInput.includes("@")){
+        console.log('valid email');
+        return true;
+   } else {
+       console.log('invalid email');
+       return false;
    }
 }
 
