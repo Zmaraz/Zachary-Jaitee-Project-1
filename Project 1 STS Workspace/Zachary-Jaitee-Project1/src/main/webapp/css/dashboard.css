@@ -4,3 +4,11 @@
 table{
     border: black 2px;
 }
+#news{
+    margin: auto;
+    background-color: darkgray;
+    border-radius: 2em;
+}
+#news h2{
+    background-color: darkblue;
+}
