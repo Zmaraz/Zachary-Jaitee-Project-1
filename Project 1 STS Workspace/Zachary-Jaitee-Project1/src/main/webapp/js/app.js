@@ -116,6 +116,7 @@ function configureRegister() {
     document.getElementById('register-button').addEventListener('click', register);
     document.getElementById('log-in').addEventListener('click', loadLogin);
     document.getElementsByClassName('alert-msg').item(0).hidden = true;
+    document.getElementById('email').addEventListener('blur',validateEmail);
     //create event listener that on blur from username checks to see if that username is taken
 }
 
@@ -159,6 +160,14 @@ async function register() {
         }
     }
 
+}
+
+function validateEmail(){
+    let emailInput = document.getElementById('email').value;
+
+   if(emailInput.endsWith('.com') && emailInput.startsWith(!'@')){
+        console.log('valid');
+   }
 }
 
 //------------------------------------------------------------------------------------------------------------------
