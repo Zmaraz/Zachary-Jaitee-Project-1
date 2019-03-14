@@ -30,8 +30,6 @@ public class ConnectionFactory {
 		Connection conn = null;
 		
 		Properties prop = new Properties();
-//		String filePath = new File("src/main/webapp/resources/application.properties").getAbsolutePath();
-//		log.debug(filePath);
 		
 		try {
 			DriverManager.registerDriver(new OracleDriver());
