@@ -6,7 +6,8 @@ window.onload = () => {
         loadDashboard();
     } else{
         loadLogin();
-    }    
+    }
+
 }
 const appbody = document.getElementById('appbody');
 const SOURCE = document.getElementById('source');
@@ -42,6 +43,8 @@ function check() {
 function badInput(){
     document.getElementsByClassName('alert-msg').item(0).hidden = false;
 }
+
+
 
 // LOGIN
 //----------------------------------------------------------------------------------------------------------
