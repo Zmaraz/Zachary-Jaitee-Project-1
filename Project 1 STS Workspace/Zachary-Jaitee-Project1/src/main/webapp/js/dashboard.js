@@ -8,6 +8,8 @@ function configureDashboard() {
     document.getElementById('nav-dash-btn').addEventListener('click', mainDash);
     document.getElementById('nav-ticket-table-btn').addEventListener('click', getTickets);
     document.getElementById('nav-add-btn').addEventListener('click', createTicket);
+
+    document.getElementById('pageTitle').innerText = `Welcome, ${localStorage.getItem('username')}`;
 }
 
 function mainDash() {
@@ -121,7 +123,7 @@ async function getTickets() {
 
 function loadTable(response, role, id) {
     console.log('in loadtable');
-    
+
     //creates the table
     document.getElementById('dashboardBody').innerHTML =
         `<div class="table-responsive" id = "ticketTable">
@@ -158,7 +160,13 @@ function loadTable(response, role, id) {
        </thead>
        <tbody id="tablebody"></tbody>
      </table>
+     <div id="noTicketMsg" hidden>No tickets to display</div>
    </div>`;
+
+    if(response.length == 0){
+        document.getElementById('noTicketMsg').hidden = false;
+        document.getElementById('noTicketMsg').style.backgroundColor = 'red';
+    }
 
     for (let i = 0; i < response.length; i++) {
         let newRow = document.createElement('tr');
@@ -178,8 +186,9 @@ function loadTable(response, role, id) {
         if (role === 'manager') {
 
             //checks that the response is pending and the logged in user did not make the ticket
-
-            if (response[i].status == 'PENDING' && response[i].authorId != id) {
+            if(response[i].authorId == id){
+                newRow.style.backgroundColor = '#ffffa6';
+            }else if (response[i].status == 'PENDING' && response[i].authorId != id) {
                 newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
                 <td><button id="DenyButton${i}">Deny</button></td>`;
 
