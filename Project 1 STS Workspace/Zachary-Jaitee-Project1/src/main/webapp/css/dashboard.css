@@ -12,7 +12,7 @@ table{
 #newsheader{
     background-color: darkblue;
 }
-.ticket-zone{
+#ticket-zone{
     width: 50%;
 }
 input{
