@@ -64,7 +64,6 @@ public class UserService {
 		
 		ArrayList<User> userList = userDao.getAll();
 		for(User u : userList) {
-			// potential change: turn || into &&, depending on if the username and email are supposed to be individually unique or compositely unique
 			if(newUser.getUsername().equals(u.getUsername()) || newUser.getEmail().equals(u.getEmail())) {
 				log.warn("ConflictingUserException thrown in UserService.add()");
 				throw new ConflictingUserException("Username or Email already taken");
@@ -73,15 +72,13 @@ public class UserService {
 		return userDao.add(newUser);
 	}
 	
-	// UserDAO.update() is unimplemented
 	public ArrayList<User> update(User UpdatedUser){
 		log.info("in UserService.update()");
-		return userDao.update(UpdatedUser); // will currently always return null
+		return userDao.update(UpdatedUser);
 	}
 	
-	// UserDAO.delete is unimplemented
 	public boolean delete(int userId) {
 		log.info("in UserService.delete()");
-		return userDao.delete(userId); // will currently always return false
+		return userDao.delete(userId);
 	}
 }

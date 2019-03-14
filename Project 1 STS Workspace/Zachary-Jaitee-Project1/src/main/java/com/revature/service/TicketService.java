@@ -49,7 +49,6 @@ public class TicketService {
 		return ticketDao.update(updatedTickets);
 	}
 	
-	// TicketDAO.delete() is not implemented
 	public boolean delete(int ticketId) {
 		log.info("in TicketService.delete()");
 		return ticketDao.delete(ticketId);
