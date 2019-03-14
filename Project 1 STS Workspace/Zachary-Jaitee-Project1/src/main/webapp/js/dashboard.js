@@ -68,7 +68,7 @@ function onSubmitClick() {
     ticket.push(ticketAmount);
     ticket.push(ticketType);
     ticket.push(ticketDescription);
-    console.log(check());
+    
     if (check()) {
         document.getElementById('ticket-alert-msg').hidden = false;
     } else {
@@ -76,10 +76,10 @@ function onSubmitClick() {
         document.getElementById('create-ticket-btn').disabled = true;
         submitTicket(ticket);
     }
-
 }
 
 async function submitTicket(ticket) {
+    document.getElementById('ticket-alert-msg').hidden = true;
     console.log('in submitTicket')
     let response = await fetch('ticket', {
         method: 'POST',
@@ -96,6 +96,8 @@ async function submitTicket(ticket) {
     }
     else {
         console.log(response.status);
+        document.getElementById('create-ticket-btn').disabled = false;
+        document.getElementById('ticket-alert-msg').hidden = false;
     }
 }
 
