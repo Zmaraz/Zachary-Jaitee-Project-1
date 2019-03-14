@@ -19,9 +19,7 @@ function mainDash(){
     <p>3-13-19<br/>We will no longer be approving reimbursements whose description is "hahaha".</p>
     <p>3-3-19<br/>Fixed the issue where no one could get approved because there were no managers.</p>
     <p>2-20-19<br/>Our company will now be giving you money for your time!</p></div>
-    `;
-    
-    
+    `;      
 }
 
 
@@ -36,7 +34,7 @@ function createTicket(){
     createTicketArea.innerHTML = `  
     <h1 class="h3 mb-3 font-weight-normal">Enter Your Reimbusement Information</h1>
         <div id="ticket-zone">           
-            <input type="text" id="amount" name="amount" class="form-control" placeholder="enter Amount" required autofocus>
+            <input type="number" maxlength="5" id="amount" name="amount" class="form-control" placeholder="enter Amount" required autofocus>
             <input type="text" id="description" name="description" class="form-control" placeholder="enter a short description" required autofocus>
             
                 <select class="form-control" id="type">
@@ -61,6 +59,9 @@ function createTicket(){
 
 function onSubmitClick(){
     let ticketAmount = document.getElementById('amount').value;
+    if(typeof(ticketAmount) !== 'number'){
+
+    }
     let ticketDescription = document.getElementById('description').value;
     let ticketType = document.getElementById('type').value;
     console.log(ticketType);
