@@ -15,17 +15,3 @@ GRANT create table TO project1;
 GRANT create view TO project1;
 
 conn project1/project1pass
-
-CREATE USER hibernateDemo
-IDENTIFIED BY hibernateDemopass
-DEFAULT TABLESPACE users
-TEMPORARY TABLESPACE temp
-QUOTA 10M ON users;
-
-GRANT connect to hibernateDemo;
-GRANT resource to hibernateDemo;
-GRANT create session TO hibernateDemo;
-GRANT create table TO hibernateDemo;
-GRANT create view TO hibernateDemo;
-
-conn hibernateDemo/hibernateDemopass
