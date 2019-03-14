@@ -7,11 +7,10 @@ window.onload = () => {
     } else{
         loadLogin();
     }
-    
+
 }
 const appbody = document.getElementById('appbody');
 const SOURCE = document.getElementById('source');
-
 
 //helper method that gets the view for all the methods
 async function fetchView(uri) {
@@ -44,6 +43,8 @@ function check() {
 function badInput(){
     document.getElementsByClassName('alert-msg').item(0).hidden = false;
 }
+
+
 
 // LOGIN
 //----------------------------------------------------------------------------------------------------------
@@ -92,6 +93,8 @@ async function login() {
         console.log(response)
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
+            localStorage.setItem('username', response.headers.get('username'));
+            console.log(response.headers.get('username'));
             localStorage.setItem('uid',response.headers.get('userId'));
             loadDashboard();            
         }
@@ -118,12 +121,13 @@ function configureRegister() {
     document.getElementById('register-button').addEventListener('click', register);
     document.getElementById('log-in').addEventListener('click', loadLogin);
     document.getElementsByClassName('alert-msg').item(0).hidden = true;
+    document.getElementById('email').addEventListener('blur',validateEmail);
     //create event listener that on blur from username checks to see if that username is taken
 }
 
 async function register() {
-    if (check()) {
-        console.log('somethins empty');
+    if (check() || !validateEmail()) {
+        // console.log('somethins empty');
         badInput();
     } else {
         document.getElementById('register-button').disabled = true;
@@ -155,12 +159,29 @@ async function register() {
         else {
             document.getElementById('register-button').disabled = false;
             document.getElementsByClassName('alert-msg').item(0).hidden = false;
+            console.log(response.headers.get('status'));
+            if(response.headers.get('status') == 'username taken'){
+                document.getElementsByClassName('alert-msg').item(0).innerText = "Sorry, that username is taken. Try another one."
+                document.getElementsByClassName('alert-msg').item(0).hidden = false;
+            }
             badInput();
             console.log("failed");
             console.log(response);
         }
     }
 
+}
+
+function validateEmail(){
+    let emailInput = document.getElementById('email').value;
+
+   if(emailInput.endsWith('.com') && emailInput.includes("@")){
+        console.log('valid email');
+        return true;
+   } else {
+       console.log('invalid email');
+       return false;
+   }
 }
 
 //------------------------------------------------------------------------------------------------------------------

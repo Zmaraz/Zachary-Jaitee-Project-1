@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.revature.dao.TicketDAO;
+import com.revature.exceptions.NegativeAmountException;
 import com.revature.exceptions.SelfResolverException;
 import com.revature.models.Ticket;
 
@@ -30,8 +31,11 @@ public class TicketService {
 	}
 	
 	//work in progress
-	public Ticket add(Ticket newTicket) {
+	public Ticket add(Ticket newTicket) throws NegativeAmountException{
 		log.info("in TicketService.add()");
+		if(newTicket.getAmount() <= 0 ) {
+			throw new NegativeAmountException("cannot make a ticket with a negative or 0 amount");
+		}
 		return ticketDao.add(newTicket);
 	}
 	
