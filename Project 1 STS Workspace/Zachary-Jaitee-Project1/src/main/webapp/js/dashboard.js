@@ -13,7 +13,7 @@ function configureDashboard() {
 }
 
 function mainDash() {
-    console.log('in mainDash')
+    // console.log('in mainDash')
     clearBody();
 
     document.getElementById('dashboardBody').innerHTML =
@@ -26,7 +26,7 @@ function mainDash() {
 
 
 function createTicket() {
-    console.log('in createTicket()');
+    // console.log('in createTicket()');
 
     clearBody();
 
@@ -80,7 +80,7 @@ function onSubmitClick() {
 
 async function submitTicket(ticket) {
     document.getElementById('ticket-alert-msg').hidden = true;
-    console.log('in submitTicket')
+    // console.log('in submitTicket')
     let response = await fetch('ticket', {
         method: 'POST',
         mode: 'cors',
@@ -91,18 +91,18 @@ async function submitTicket(ticket) {
         body: JSON.stringify(ticket)
     });
     if (response.status == 200) {
-        console.log('ticket submitted sucessfully')
+        // console.log('ticket submitted sucessfully')
         getTickets();
     }
     else {
-        console.log(response.status);
+        // console.log(response.status);
         document.getElementById('create-ticket-btn').disabled = false;
         document.getElementById('ticket-alert-msg').hidden = false;
     }
 }
 
 async function getTickets() {
-    console.log('in getTickets()');
+    // console.log('in getTickets()');
     clearBody();
     let response = await fetch('ticket', {
         method: 'GET',
@@ -112,8 +112,8 @@ async function getTickets() {
         }
     });
 
-    console.log('Headers has role: ' + response.headers.has('UserRole'));
-    console.log('Headers has id: ' + response.headers.has('UserId'));
+    // console.log('Headers has role: ' + response.headers.has('UserRole'));
+    // console.log('Headers has id: ' + response.headers.has('UserId'));
     let role = response.headers.get('UserRole');
     userId = response.headers.get('UserId');
     let body = await response.json();
@@ -122,7 +122,7 @@ async function getTickets() {
 
 
 function loadTable(response, role, id) {
-    console.log('in loadtable');
+    // console.log('in loadtable');
 
     //creates the table
     document.getElementById('dashboardBody').innerHTML =
@@ -238,7 +238,7 @@ function tableFilter() {
 }
 
 async function updateTicket(e) {
-    console.log('in updateTicket');
+    // console.log('in updateTicket');
     let btns = document.getElementsByName(e.target.name);
     for (let i = 0; i < btns.length; i++) {
         btns[i].disabled = true;
@@ -250,7 +250,7 @@ async function updateTicket(e) {
     ticketData.push(userId);//resolver id
     ticketData.push(e.target.name); //reimbId
     ticketData.push(e.target.value); //status
-    console.log(ticketData);
+    // console.log(ticketData);
 
     let response = await fetch('ticket', {
         method: 'POST',
