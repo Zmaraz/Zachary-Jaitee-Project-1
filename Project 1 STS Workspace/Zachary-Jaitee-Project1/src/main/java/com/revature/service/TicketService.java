@@ -30,7 +30,6 @@ public class TicketService {
 		return ticketDao.getById(ticketId);
 	}
 	
-	//work in progress
 	public Ticket add(Ticket newTicket) throws NegativeAmountException{
 		log.info("in TicketService.add()");
 		if(newTicket.getAmount() <= 0 ) {
@@ -39,7 +38,6 @@ public class TicketService {
 		return ticketDao.add(newTicket);
 	}
 	
-	//work in progress
 	public ArrayList<Ticket> update(ArrayList<Ticket> updatedTickets) throws SelfResolverException{
 		log.info("in TicketService.update()");
 		for(Ticket t : updatedTickets) {
@@ -51,7 +49,6 @@ public class TicketService {
 		return ticketDao.update(updatedTickets);
 	}
 	
-	// TicketDAO.delete() is not implemented
 	public boolean delete(int ticketId) {
 		log.info("in TicketService.delete()");
 		return ticketDao.delete(ticketId);

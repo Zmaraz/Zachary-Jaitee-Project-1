@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.revature.models.Ticket;
 import com.revature.models.enums.ReimbursementStatus;
 import com.revature.models.enums.ReimbursementType;
@@ -15,13 +17,14 @@ import com.revature.util.ConnectionFactory;
 import oracle.jdbc.OracleTypes;
 
 public class TicketDAO implements DAO<Ticket>{
-	
+	private static Logger log = Logger.getLogger(TicketDAO.class);
+
 	
 	public ArrayList<Ticket> ticketMaker(ResultSet results) throws SQLException{
+		log.info("in TicketDAO.ticketMaker()");
 		ArrayList<Ticket> ticketList = new ArrayList<>();
 		
 		while(results.next()) {
-			System.out.println("in ticketmaker");
 			
 			Ticket temp = new Ticket();
 			temp.setReimbId(results.getInt("reimb_id"));
@@ -51,6 +54,7 @@ public class TicketDAO implements DAO<Ticket>{
 	}
 	
 	public ArrayList<Ticket> getByAuthorId(int authorId){
+		log.info("in TicketDAO.getByAuthorId()");
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			
@@ -62,7 +66,7 @@ public class TicketDAO implements DAO<Ticket>{
 			}
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		
@@ -71,7 +75,7 @@ public class TicketDAO implements DAO<Ticket>{
 
 	@Override
 	public ArrayList<Ticket> getAll() {
-		System.out.println("in getall");
+		log.info("in TicketDAO.getAll()");
 		ArrayList<Ticket> tickets = new ArrayList<>();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -88,7 +92,7 @@ public class TicketDAO implements DAO<Ticket>{
 			}
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		return null;
@@ -96,6 +100,7 @@ public class TicketDAO implements DAO<Ticket>{
 
 	@Override
 	public Ticket getById(int ticketId) {
+		log.info("in TicketDAO.getBuId()");
 		
 		Ticket ticket = new Ticket();
 		
@@ -144,7 +149,7 @@ public class TicketDAO implements DAO<Ticket>{
 			}
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		return ticket;
@@ -152,13 +157,13 @@ public class TicketDAO implements DAO<Ticket>{
 
 	@Override
 	public Ticket add(Ticket obj) {
-	
+		log.info("in TicketDAO.add()");
+		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			conn.setAutoCommit(false);
 			
 			String [] keys = new String[1];
 			keys[0] = "reimb_id";
-			//(id, amount, time submitted, time resolved, descr, recipt, author, resolver, status id, type id)
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_reimbursement VALUES (0,?,null,null,?,null,?,null,0,?)", keys);
 			pstmt.setDouble(1, obj.getAmount());
 			pstmt.setString(2, obj.getTicketDescription());
@@ -189,7 +194,7 @@ public class TicketDAO implements DAO<Ticket>{
 				conn.commit();
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		if(obj.getReimbId() == 0) {
@@ -198,8 +203,8 @@ public class TicketDAO implements DAO<Ticket>{
 		return obj;
 	}
 
-//	@Override
 	public ArrayList<Ticket> update(ArrayList<Ticket> updatedTickets) {
+		log.info("in TicketDAO.update()");
 		ArrayList<Ticket> newTicketList = new ArrayList<>();
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
@@ -223,7 +228,7 @@ public class TicketDAO implements DAO<Ticket>{
 			return newTicketList;
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		return null;
@@ -231,7 +236,7 @@ public class TicketDAO implements DAO<Ticket>{
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
+		log.info("in TicketDAO.delete()");
 		return false;
 	}
 

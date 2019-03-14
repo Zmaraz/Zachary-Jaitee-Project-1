@@ -18,7 +18,7 @@ public class UserDAO implements DAO<User>{
 	private static Logger log = Logger.getLogger(UserDAO.class);
 	
 	public boolean checkForUsername(String username) {
-		log.info("in UserDAO.checkForUsername");
+		log.info("in UserDAO.checkForUsername()");
 		
 		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
 			
@@ -31,8 +31,7 @@ public class UserDAO implements DAO<User>{
 			}
 			
 		}catch(SQLException e) {
-			log.warn("SQLException caught in userDAO.checkForUsername()");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		return false;
@@ -62,8 +61,7 @@ public class UserDAO implements DAO<User>{
 			
 			
 		}catch(SQLException e) {
-			log.warn("SQLException caught in UserDAO.getByCredentials()");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		if(user.getUserId() == 0)
@@ -99,8 +97,7 @@ public class UserDAO implements DAO<User>{
 			}
 			
 		}catch(SQLException e) {
-			log.warn("SQLException caught in UserDAO.getAll()");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		return users;
@@ -130,8 +127,7 @@ public class UserDAO implements DAO<User>{
 			
 			
 		}catch(SQLException e) {
-			log.warn("SQLException caught in UserDAO.getById()");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		if(user.getUserId() == 0)
@@ -170,10 +166,9 @@ public class UserDAO implements DAO<User>{
 			}
 			
 		}catch(SQLIntegrityConstraintViolationException sie){
-			log.warn("SQLIntegrityConstraintViolationException caught in UserDAO.add()");
+			log.error(sie.getMessage());
 		}catch(SQLException e) {
-			log.warn("SQLException caught in UserDAO.add()");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 		if(newUser.getUserId() == 0) {
@@ -182,7 +177,6 @@ public class UserDAO implements DAO<User>{
 		return newUser;
 	}
 
-//	@Override
 	public ArrayList<User> update(User updatedObj) {
 		log.info("in UserDAO.update()");
 		

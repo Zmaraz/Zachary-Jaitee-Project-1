@@ -84,23 +84,10 @@ public class AuthServlet extends HttpServlet {
 			log.error(mie.getMessage());
 			resp.addHeader("status", "mismatched input");
 			resp.setStatus(400);
-			return;
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 			resp.addHeader("status", "server error");
 			resp.setStatus(500);
-			return;
 		}
-
-
-		/****might not need this loop through the params here but maybe later??**/
-		//			Map<String, String[]> params = req.getParameterMap();
-		//	        for (Map.Entry<String,String[]> entry : params.entrySet()) {
-		//	        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()[0]); 
-		//	        }
-		//			
-
-
 	}
 }

@@ -63,10 +63,10 @@ public class TicketServlet extends HttpServlet{
 			log.info("tickets have been sent");
 			
 		}catch(JsonProcessingException jpe) {
-			jpe.printStackTrace();
+			log.error(jpe.getMessage());
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 	}
@@ -121,14 +121,11 @@ public class TicketServlet extends HttpServlet{
 			
 			
 		} catch(NegativeAmountException nae) {
-			nae.printStackTrace();
 			log.error(nae.getMessage());
 			resp.setStatus(400);
 		} catch(Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 			resp.setStatus(400);
-			return;
 		}
 	}
 }
