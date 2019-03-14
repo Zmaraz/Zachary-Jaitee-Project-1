@@ -11,7 +11,7 @@ table{
 }
 #news p{
     /* padding-left: 10%; */
-    padding: 2% 10%;
+    padding: 1% 10%;
 }
 #newsheader{
     display: inline-block;
@@ -26,7 +26,7 @@ table{
     top: -4px;
     height: 1.8em;
     margin-right: .8em; */
-    border-radius: 1em 0 1em 0;
+    border-radius: 1em 1em 0 0;
 }
 #ticket-zone{
     width: 50%;
