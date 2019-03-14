@@ -48,7 +48,6 @@ public class ConnectionFactory {
 			log.error(sqle.getMessage());
 		} catch (FileNotFoundException fnfe) {
 			log.error(fnfe.getMessage());
-			fnfe.printStackTrace();
 		} catch (IOException ioe) {
 			log.error(ioe.getMessage());
 		}
