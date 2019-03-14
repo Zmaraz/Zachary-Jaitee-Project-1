@@ -49,8 +49,6 @@ public class UserService {
 		return (value.trim().length() > 1);
 	}
 	
-	// potentially create new DAO method OR alter DAO add method to make seperate query to validate username and email are unique
-	// in order to not have to make seprate DAO calls and make seperate connections
 	public User add(User newUser) throws ConflictingUserException, InvalidInputException{
 		log.info("in UserService.add()");
 		
