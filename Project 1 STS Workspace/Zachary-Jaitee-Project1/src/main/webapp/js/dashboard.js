@@ -34,8 +34,8 @@ function createTicket() {
     createTicketArea.innerHTML = `  
     <h1 class="h3 mb-3 font-weight-normal">Enter Your Reimbusement Information</h1>
         <div id="ticket-zone">           
-            <input type="number" maxlength="5" id="amount" name="amount" class="form-control" placeholder="enter Amount" required autofocus>
-            <input type="text" id="description" name="description" class="form-control" placeholder="enter a short description" required autofocus>
+            <input type="number" maxlength="5" id="amount" name="amount" class="form-control" placeholder="Enter Amount" required autofocus>
+            <input type="text" id="description" name="description" class="form-control" placeholder="Enter a Short Description" required autofocus>
             
                 <select class="form-control" id="type">
                     <option value = "">Choose a Type</option>
@@ -131,7 +131,7 @@ function loadTable(response, role, id) {
         `<div class="table-responsive" id = "ticketTable">
     <h2>All Tickets</h2>
     <span>Filter:
-    <select id="typeFilter">
+    <select id="typeFilter" class="btn btn-sm btn-outline-secondary dropdown-toggle">
         <option value = "">No Type Filter</option>
         <option value="FOOD">FOOD</option>
         <option value="LODGING">LODGING</option>
@@ -140,7 +140,7 @@ function loadTable(response, role, id) {
     </select>
     </span>
     <span>
-    <select id="statusFilter">
+    <select id="statusFilter" class="btn btn-sm btn-outline-secondary dropdown-toggle">
         <option value = "">No Status Filter</option>
         <option value="PENDING">PENDING</option>
         <option value="APPROVED">APPROVED</option>

@@ -12,3 +12,12 @@ table{
 #newsheader{
     background-color: darkblue;
 }
+.ticket-zone{
+    width: 50%;
+}
+input{
+    margin-bottom: 10px;
+}
+#create-ticket-btn{
+    margin-top: 10px;
+}
