@@ -134,11 +134,19 @@ function loadTable(response, role, id){
     <h2>All Tickets</h2>
     <span>Filter:
     <select id="typeFilter">
-        <option value = "">No Filter</option>
+        <option value = "">No Type Filter</option>
         <option value="FOOD">FOOD</option>
         <option value="LODGING">LODGING</option>
         <option value="TRAVEL">TRAVEL</option>
         <option value="OTHER">OTHER</option>
+    </select>
+    </span>
+    <span>
+    <select id="statusFilter">
+        <option value = "">No Status Filter</option>
+        <option value="PENDING">PENDING</option>
+        <option value="APPROVED">APPROVED</option>
+        <option value="DENIED">DENIED</option>
     </select>
     </span>
      <table class="table table-striped table-sm">
@@ -169,6 +177,7 @@ function loadTable(response, role, id){
         // newRow.setAttribute('id', `row${i}`);
         newRow.setAttribute('name',`${response[i].type}`);
         newRow.setAttribute('class', 'rows');
+        newRow.setAttribute('data-status', response[i].status);
         newRow.innerHTML = `
         <td>${response[i].reimbId}</td>
         <td>${response[i].authorId}</td>
@@ -208,20 +217,25 @@ function loadTable(response, role, id){
         }
     }
     document.getElementById('typeFilter').addEventListener('change', tableFilter);
+    document.getElementById('statusFilter').addEventListener('change', tableFilter);
 }
 
-function tableFilter(e){
+function tableFilter(){
 
-    let type = e.target.value;
+    let type = document.getElementById('typeFilter').value;
+    let status = document.getElementById('statusFilter').value;
 
 
     let rows = document.getElementsByClassName('rows');
-    // for(let i=0; i < rows.length; i++){
+    for(let i=0; i < rows.length; i++){
 
-    // }
+    }
     for(let i=0; i < rows.length; i++){
         rows[i].hidden = false;
         if(type && rows[i].getAttribute('name') != type){
+            rows[i].hidden = true;
+        }
+        if(status && rows[i].getAttribute('data-status') != status){
             rows[i].hidden = true;
         }
     }
