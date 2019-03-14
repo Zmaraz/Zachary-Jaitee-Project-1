@@ -173,12 +173,10 @@ async function register() {
             console.log(response);
         }
     }
-
 }
 
 function validateEmail(){
-    let emailInput = document.getElementById('email').value;
-
+   let emailInput = document.getElementById('email').value;
    if(emailInput.endsWith('.com') && emailInput.includes("@")){
         console.log('valid email');
         return true;

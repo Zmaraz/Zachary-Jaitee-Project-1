@@ -46,7 +46,6 @@ function createTicket() {
                     <option value="TRAVEL">TRAVEL</option>
                     <option value="OTHER">OTHER</option>
                 </select>
-
             
         <button class="btn btn-lg btn-primary btn-block" id="create-ticket-btn">Submit Ticket</button>
     </div><div id = "ticket-alert-msg">
@@ -56,7 +55,6 @@ function createTicket() {
     document.getElementById('dashboardBody').appendChild(createTicketArea);
     document.getElementById('ticket-alert-msg').hidden = true;
     document.getElementById('create-ticket-btn').addEventListener('click', onSubmitClick);
-
 }
 
 function onSubmitClick() {
@@ -125,10 +123,6 @@ async function getTickets() {
 
 function loadTable(response, role, id) {
     console.log('in loadtable');
-    // console.log(response);
-
-
-
 
     //creates the table
     document.getElementById('dashboardBody').innerHTML =
@@ -176,7 +170,6 @@ function loadTable(response, role, id) {
 
     for (let i = 0; i < response.length; i++) {
         let newRow = document.createElement('tr');
-        // newRow.setAttribute('id', `row${i}`);
         newRow.setAttribute('name', `${response[i].type}`);
         newRow.setAttribute('class', 'rows');
         newRow.setAttribute('data-status', response[i].status);
@@ -258,7 +251,6 @@ async function updateTicket(e) {
     ticketData.push(e.target.name); //reimbId
     ticketData.push(e.target.value); //status
     console.log(ticketData);
-    //["update","2","3","42","APPROVED"]
 
     let response = await fetch('ticket', {
         method: 'POST',
