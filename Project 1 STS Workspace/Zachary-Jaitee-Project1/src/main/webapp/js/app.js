@@ -90,6 +90,8 @@ async function login() {
         console.log(response)
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
+            localStorage.setItem('username', response.headers.get('username'));
+            console.log(response.headers.get('username'));
             localStorage.setItem('uid',response.headers.get('userId'));
             loadDashboard();            
         }
@@ -154,6 +156,11 @@ async function register() {
         else {
             document.getElementById('register-button').disabled = false;
             document.getElementsByClassName('alert-msg').item(0).hidden = false;
+            console.log(response.headers.get('status'));
+            if(response.headers.get('status') == 'username taken'){
+                document.getElementsByClassName('alert-msg').innerText = "Sorry, that username is taken. Try another one."
+                document.getElementsByClassName('alert-msg').item(0).hidden = false;
+            }
             badInput();
             console.log("failed");
             console.log(response);
