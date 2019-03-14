@@ -36,9 +36,9 @@ public class ConnectionFactory {
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			
-			prop.load(new FileReader("C:\\Users\\Jaitee\\Rrepos\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\webapp\\resources\\application.properties"));
+//			prop.load(new FileReader("C:\\Users\\Jaitee\\Rrepos\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\webapp\\resources\\application.properties"));
 
-//			prop.load(new FileReader("C:\\Users\\maraz\\Documents\\Revature\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
+			prop.load(new FileReader("C:\\Users\\maraz\\Documents\\Revature\\Zachary-Jaitee-Project-1\\Project 1 STS Workspace\\Zachary-Jaitee-Project1\\src\\main\\resources\\application.properties"));
 			
 			conn = DriverManager.getConnection(
 					prop.getProperty("url"),
