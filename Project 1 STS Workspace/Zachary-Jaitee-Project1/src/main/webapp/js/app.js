@@ -154,6 +154,9 @@ async function register() {
         console.log(response)
         if (response.status == 200) {
             localStorage.setItem('jwt', response.headers.get('Authorization'));
+            localStorage.setItem('username', response.headers.get('username'));
+            console.log(response.headers.get('username'));
+            localStorage.setItem('uid',response.headers.get('userId'));
             console.log(response);
             loadDashboard();
         }

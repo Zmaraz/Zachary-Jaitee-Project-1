@@ -47,7 +47,7 @@ public class TicketServlet extends HttpServlet{
 				for(Ticket t : tickets) {
 					System.out.println(t);
 				}
-								
+				
 			}else if(principal.getRole().equalsIgnoreCase("employee")) {
 				resp.setHeader("UserRole", "employee");
 				System.out.println("in employee ticket try for id: " + principal.getId());

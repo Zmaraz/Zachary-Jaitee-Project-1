@@ -128,6 +128,8 @@ function loadTable(response, role, id) {
     // console.log(response);
 
 
+
+
     //creates the table
     document.getElementById('dashboardBody').innerHTML =
         `<div class="table-responsive" id = "ticketTable">
@@ -164,7 +166,14 @@ function loadTable(response, role, id) {
        </thead>
        <tbody id="tablebody"></tbody>
      </table>
+     <div id="noTicketMsg" hidden>No tickets to display</div>
    </div>`;
+
+    if(response.length == 0){
+        document.getElementById('noTicketMsg').hidden = false;
+        document.getElementById('noTicketMsg').style.backgroundColor = 'red';
+    }
+
     for (let i = 0; i < response.length; i++) {
         let newRow = document.createElement('tr');
         // newRow.setAttribute('id', `row${i}`);
