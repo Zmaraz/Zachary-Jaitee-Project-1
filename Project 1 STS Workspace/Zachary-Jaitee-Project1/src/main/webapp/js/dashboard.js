@@ -1,35 +1,35 @@
 // Dashboard functionality, loading of dashboard is done in app.ja
 let userId = '';
 
-function configureDashboard(){
+function configureDashboard() {
     mainDash();
-    document.getElementById('dynamic-css').href = './css/dashboard.css';    
-    
+    document.getElementById('dynamic-css').href = './css/dashboard.css';
+
     document.getElementById('nav-dash-btn').addEventListener('click', mainDash);
     document.getElementById('nav-ticket-table-btn').addEventListener('click', getTickets);
-    document.getElementById('nav-add-btn').addEventListener('click',createTicket);    
+    document.getElementById('nav-add-btn').addEventListener('click', createTicket);
 }
 
-function mainDash(){
+function mainDash() {
     console.log('in mainDash')
     clearBody();
-    
+
     document.getElementById('dashboardBody').innerHTML =
-    `<div id = "news"><span id ="newsheader"><h3>ASDF Updates</h3></span>
+        `<div id = "news"><span id ="newsheader"><h3>ASDF Updates</h3></span>
     <p>3-13-19<br/>We will no longer be approving reimbursements whose description is "hahaha".</p>
     <p>3-3-19<br/>Fixed the issue where no one could get approved because there were no managers.</p>
     <p>2-20-19<br/>Our company will now be giving you money for your time!</p></div>
-    `;      
+    `;
 }
 
 
-function createTicket(){
+function createTicket() {
     console.log('in createTicket()');
 
     clearBody();
 
     let createTicketArea = document.createElement('div');
-    createTicketArea.setAttribute('id','createTicketArea');
+    createTicketArea.setAttribute('id', 'createTicketArea');
 
     createTicketArea.innerHTML = `  
     <h1 class="h3 mb-3 font-weight-normal">Enter Your Reimbusement Information</h1>
@@ -53,38 +53,33 @@ function createTicket(){
 
     document.getElementById('dashboardBody').appendChild(createTicketArea);
     document.getElementById('ticket-alert-msg').hidden = true;
-    document.getElementById('create-ticket-btn').addEventListener('click',onSubmitClick);
+    document.getElementById('create-ticket-btn').addEventListener('click', onSubmitClick);
 
 }
 
-function onSubmitClick(){
+function onSubmitClick() {
     let ticketAmount = document.getElementById('amount').value;
-    if(typeof(ticketAmount) !== 'number'){
-
-    }
     let ticketDescription = document.getElementById('description').value;
     let ticketType = document.getElementById('type').value;
-    console.log(ticketType);
-    
-        let ticket= [];
-        ticket.push('add');
-        ticket.push(localStorage.getItem('uid'));
-        ticket.push(ticketAmount);
-        ticket.push(ticketType);
-        ticket.push(ticketDescription);
-        console.log(check());
-        if(check()){
-            document.getElementById('ticket-alert-msg').hidden = false;
-        }else{
-            document.getElementById('ticket-alert-msg').hidden = true;
-            document.getElementById('create-ticket-btn').disabled = true;
-            submitTicket(ticket);
-        }            
-    // }
+
+    let ticket = [];
+    ticket.push('add');
+    ticket.push(localStorage.getItem('uid'));
+    ticket.push(ticketAmount);
+    ticket.push(ticketType);
+    ticket.push(ticketDescription);
+    console.log(check());
+    if (check()) {
+        document.getElementById('ticket-alert-msg').hidden = false;
+    } else {
+        document.getElementById('ticket-alert-msg').hidden = true;
+        document.getElementById('create-ticket-btn').disabled = true;
+        submitTicket(ticket);
+    }
 
 }
 
-async function submitTicket(ticket){
+async function submitTicket(ticket) {
     console.log('in submitTicket')
     let response = await fetch('ticket', {
         method: 'POST',
@@ -95,43 +90,43 @@ async function submitTicket(ticket){
         },
         body: JSON.stringify(ticket)
     });
-    if(response.status == 200){
+    if (response.status == 200) {
         console.log('ticket submitted sucessfully')
         getTickets();
     }
-    else{
+    else {
         console.log(response.status);
     }
 }
 
-async function getTickets(){
+async function getTickets() {
     console.log('in getTickets()');
-    clearBody();  
+    clearBody();
     let response = await fetch('ticket', {
         method: 'GET',
         mode: 'cors',
         headers: {
-            'Authorization': localStorage.getItem('jwt')            
+            'Authorization': localStorage.getItem('jwt')
         }
-    });    
+    });
 
-    console.log('Headers has role: '+ response.headers.has('UserRole'));
-    console.log('Headers has id: '+ response.headers.has('UserId'));
+    console.log('Headers has role: ' + response.headers.has('UserRole'));
+    console.log('Headers has id: ' + response.headers.has('UserId'));
     let role = response.headers.get('UserRole');
     userId = response.headers.get('UserId');
     let body = await response.json();
-    loadTable(body, role, userId);   
+    loadTable(body, role, userId);
 }
 
 
-function loadTable(response, role, id){
+function loadTable(response, role, id) {
     console.log('in loadtable');
     // console.log(response);
-      
+
 
     //creates the table
-    document.getElementById('dashboardBody').innerHTML=
-    `<div class="table-responsive" id = "ticketTable">
+    document.getElementById('dashboardBody').innerHTML =
+        `<div class="table-responsive" id = "ticketTable">
     <h2>All Tickets</h2>
     <span>Filter:
     <select id="typeFilter">
@@ -167,16 +162,10 @@ function loadTable(response, role, id){
      </table>
    </div>`;
 
-//    let filteredResponse = [];
-//    for(let i=0; i < response.length; i++){
-//         if(response[i].type == document.getElementById('typeFilter').value){
-//             filteredResponse.push(response[i]);
-//         }
-//    }
-    for(let i=0; i < response.length; i++){
+    for (let i = 0; i < response.length; i++) {
         let newRow = document.createElement('tr');
         // newRow.setAttribute('id', `row${i}`);
-        newRow.setAttribute('name',`${response[i].type}`);
+        newRow.setAttribute('name', `${response[i].type}`);
         newRow.setAttribute('class', 'rows');
         newRow.setAttribute('data-status', response[i].status);
         newRow.innerHTML = `
@@ -189,66 +178,66 @@ function loadTable(response, role, id){
         <td>${response[i].timeResolved}</td>
         <td>${response[i].status}</td>`;
 
-        if(role === 'manager'){
-            
+        if (role === 'manager') {
+
             //checks that the response is pending and the logged in user did not make the ticket
-            
-            if(response[i].status == 'PENDING' && response[i].authorId != id){
+
+            if (response[i].status == 'PENDING' && response[i].authorId != id) {
                 newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
                 <td><button id="DenyButton${i}">Deny</button></td>`;
-            
+
             }
         }
-        
+
         document.getElementById('tablebody').appendChild(newRow);
     }
     //add event listener and style class to buttons
-    for(let i = 0; i < response.length; i++){
-        if(document.getElementById(`ApproveButton${i}`)){
+    for (let i = 0; i < response.length; i++) {
+        if (document.getElementById(`ApproveButton${i}`)) {
             document.getElementById(`ApproveButton${i}`).addEventListener('click', updateTicket);
-            document.getElementById(`ApproveButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
-            document.getElementById(`ApproveButton${i}`).setAttribute('value','APPROVED');
-            document.getElementById(`ApproveButton${i}`).setAttribute('name',response[i].reimbId);
+            document.getElementById(`ApproveButton${i}`).setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            document.getElementById(`ApproveButton${i}`).setAttribute('value', 'APPROVED');
+            document.getElementById(`ApproveButton${i}`).setAttribute('name', response[i].reimbId);
         }
-        if(document.getElementById(`DenyButton${i}`)){
+        if (document.getElementById(`DenyButton${i}`)) {
             document.getElementById(`DenyButton${i}`).addEventListener('click', updateTicket);
-            document.getElementById(`DenyButton${i}`).setAttribute('class','btn btn-sm btn-outline-secondary');
-            document.getElementById(`DenyButton${i}`).setAttribute('value','DENIED');
-            document.getElementById(`DenyButton${i}`).setAttribute('name',response[i].reimbId);
+            document.getElementById(`DenyButton${i}`).setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            document.getElementById(`DenyButton${i}`).setAttribute('value', 'DENIED');
+            document.getElementById(`DenyButton${i}`).setAttribute('name', response[i].reimbId);
         }
     }
     document.getElementById('typeFilter').addEventListener('change', tableFilter);
     document.getElementById('statusFilter').addEventListener('change', tableFilter);
 }
 
-function tableFilter(){
+function tableFilter() {
 
     let type = document.getElementById('typeFilter').value;
     let status = document.getElementById('statusFilter').value;
 
 
     let rows = document.getElementsByClassName('rows');
-    for(let i=0; i < rows.length; i++){
+    for (let i = 0; i < rows.length; i++) {
 
     }
-    for(let i=0; i < rows.length; i++){
+    for (let i = 0; i < rows.length; i++) {
         rows[i].hidden = false;
-        if(type && rows[i].getAttribute('name') != type){
+        if (type && rows[i].getAttribute('name') != type) {
             rows[i].hidden = true;
         }
-        if(status && rows[i].getAttribute('data-status') != status){
+        if (status && rows[i].getAttribute('data-status') != status) {
             rows[i].hidden = true;
         }
     }
 }
 
-async function updateTicket(e){
+async function updateTicket(e) {
     console.log('in updateTicket');
     let btns = document.getElementsByName(e.target.name);
-    for(let i = 0; i < btns.length; i++){
+    for (let i = 0; i < btns.length; i++) {
         btns[i].disabled = true;
     }
-    
+
     let ticketData = []
     ticketData.push('update');
     ticketData.push('0') //author is
@@ -257,23 +246,23 @@ async function updateTicket(e){
     ticketData.push(e.target.value); //status
     console.log(ticketData);
     //["update","2","3","42","APPROVED"]
-    
+
     let response = await fetch('ticket', {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'Authorization': localStorage.getItem('jwt')            
+            'Authorization': localStorage.getItem('jwt')
         },
         body: JSON.stringify(ticketData)
-    });  
-    if(response.status == 200){
+    });
+    if (response.status == 200) {
         getTickets();
     }
-    
+
 }
 
 /*** HELPER FUNCTIONS */
-function clearBody(){
+function clearBody() {
     while (document.getElementById('dashboardBody').firstChild) {
         document.getElementById('dashboardBody').removeChild(document.getElementById('dashboardBody').firstChild);
     }
