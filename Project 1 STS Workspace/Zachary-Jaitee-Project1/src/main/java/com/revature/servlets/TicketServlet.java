@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.exceptions.NegativeAmountException;
 import com.revature.models.Principal;
 import com.revature.models.Ticket;
 import com.revature.models.enums.ReimbursementStatus;
@@ -120,7 +121,11 @@ public class TicketServlet extends HttpServlet{
 
 			
 			
-		}catch(Exception e) {
+		} catch(NegativeAmountException nae) {
+			nae.printStackTrace();
+			log.error(nae.getMessage());
+			resp.setStatus(400);
+		} catch(Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
 			resp.setStatus(400);
