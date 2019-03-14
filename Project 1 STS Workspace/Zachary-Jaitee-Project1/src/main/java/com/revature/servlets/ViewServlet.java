@@ -1,7 +1,6 @@
 package com.revature.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,12 +27,7 @@ public class ViewServlet extends HttpServlet {
 		
 		if(nextView != null) {
 			try {
-				
-//				PrintWriter pw = resp.getWriter();
-//				mapper.writeValue(pw, usernames);
 				req.getRequestDispatcher(nextView).forward(req, resp);
-				
-				
 			} catch (Exception e) {
 				log.error(e.getMessage());
 				resp.setStatus(500);

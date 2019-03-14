@@ -16,7 +16,6 @@ import com.revature.service.UserService;
 
 @WebServlet("/users")
 public class UserServlet extends HttpServlet {
-
 	private static final long serialVersionUID = -2305426300254390114L;
 	private static UserService userService = new UserService();
 
