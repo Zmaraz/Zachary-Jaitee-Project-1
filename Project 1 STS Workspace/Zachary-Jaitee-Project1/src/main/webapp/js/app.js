@@ -161,7 +161,7 @@ async function register() {
             document.getElementsByClassName('alert-msg').item(0).hidden = false;
             console.log(response.headers.get('status'));
             if(response.headers.get('status') == 'username taken'){
-                document.getElementsByClassName('alert-msg').innerText = "Sorry, that username is taken. Try another one."
+                document.getElementsByClassName('alert-msg').item(0).innerText = "Sorry, that username is taken. Try another one."
                 document.getElementsByClassName('alert-msg').item(0).hidden = false;
             }
             badInput();
