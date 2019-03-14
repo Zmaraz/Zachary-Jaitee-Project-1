@@ -8,6 +8,8 @@ function configureDashboard() {
     document.getElementById('nav-dash-btn').addEventListener('click', mainDash);
     document.getElementById('nav-ticket-table-btn').addEventListener('click', getTickets);
     document.getElementById('nav-add-btn').addEventListener('click', createTicket);
+
+    document.getElementById('pageTitle').innerText = `Welcome, ${localStorage.getItem('username')}`;
 }
 
 function mainDash() {
@@ -163,7 +165,6 @@ function loadTable(response, role, id) {
        <tbody id="tablebody"></tbody>
      </table>
    </div>`;
-
     for (let i = 0; i < response.length; i++) {
         let newRow = document.createElement('tr');
         // newRow.setAttribute('id', `row${i}`);
