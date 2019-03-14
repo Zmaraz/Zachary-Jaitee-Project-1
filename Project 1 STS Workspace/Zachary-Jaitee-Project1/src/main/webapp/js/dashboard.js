@@ -184,8 +184,9 @@ function loadTable(response, role, id) {
         if (role === 'manager') {
 
             //checks that the response is pending and the logged in user did not make the ticket
-
-            if (response[i].status == 'PENDING' && response[i].authorId != id) {
+            if(response[i].authorId == id){
+                newRow.style.backgroundColor = '#ffffa6';
+            }else if (response[i].status == 'PENDING' && response[i].authorId != id) {
                 newRow.innerHTML += `<td><button id="ApproveButton${i}">Approve</button></td>
                 <td><button id="DenyButton${i}">Deny</button></td>`;
 

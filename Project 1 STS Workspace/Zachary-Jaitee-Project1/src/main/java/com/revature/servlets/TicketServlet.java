@@ -41,7 +41,7 @@ public class TicketServlet extends HttpServlet{
 			ArrayList<Ticket> tickets = null;
 			
 			if(principal.getRole().equalsIgnoreCase("manager")) {
-				
+				resp.setHeader("UserRole", "manager");
 				System.out.println("in manager ticket try for id: " + principal.getId());
 				tickets = service.getAll();
 				for(Ticket t : tickets) {
@@ -49,7 +49,7 @@ public class TicketServlet extends HttpServlet{
 				}
 								
 			}else if(principal.getRole().equalsIgnoreCase("employee")) {
-				
+				resp.setHeader("UserRole", "employee");
 				System.out.println("in employee ticket try for id: " + principal.getId());
 				tickets = service.getByAuthorId(Integer.parseInt(principal.getId()));
 				for(Ticket t : tickets) {
@@ -58,7 +58,6 @@ public class TicketServlet extends HttpServlet{
 		
 			}
 			resp.setHeader("Content-Type", "application/json");
-			resp.setHeader("UserRole", "manager");
 			resp.setHeader("UserId", principal.getId());
 			mapper.writeValue(pw, tickets);
 			log.info("tickets have been sent");

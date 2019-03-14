@@ -27,6 +27,7 @@ async function fetchView(uri) {
 function logout() {
     window.localStorage.removeItem('jwt');
     window.localStorage.removeItem('uid');
+    window.localStorage.removeItem('username');
     loadLogin();
 }
 //helper method that returns false if any elements are falsey
