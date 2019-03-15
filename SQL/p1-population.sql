@@ -101,7 +101,9 @@ BEGIN
     JOIN ers_users u
     ON reimb.reimb_author = u.ers_user_id
     LEFT OUTER JOIN ers_users ad
-    ON reimb.reimb_resolver = ad.ers_user_id;
+    ON reimb.reimb_resolver = ad.ers_user_id
+    
+    ORDER BY reimb_submitted DESC;
 END;
 /
 
@@ -131,6 +133,7 @@ BEGIN
                              LEFT OUTER JOIN ers_users      ad ON reimb.reimb_resolver = ad.ers_user_id
                          WHERE
                              reimb.reimb_id = ticket_id;
+                    
 
 END;
 /
