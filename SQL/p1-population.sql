@@ -80,7 +80,9 @@ BEGIN
             ON reimb.reimb_author = u.ers_user_id
             LEFT OUTER JOIN ers_users ad
             ON reimb.reimb_resolver = ad.ers_user_id
-        WHERE u.ers_user_id = user_id;
+        WHERE u.ers_user_id = user_id
+        
+        ORDER BY reimb_submitted DESC;
 END;
 /
 --get all reimbursements
